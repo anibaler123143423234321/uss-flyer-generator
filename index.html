@@ -955,14 +955,25 @@
           <input type="text" id="inputCurso" class="compact-input" value="AutoCAD 2D">
         </div>
 
-        <div class="form-row cols-pead">
+        <div class="form-row cols-2" style="margin-bottom: 4px;">
           <div class="form-item">
-            <label>PEAD- (Pt.2):</label>
-            <input type="text" id="inputPead" class="compact-input" value="a">
+            <label>Tipo de Curso:</label>
+            <select id="inputTipoCurso" class="compact-input">
+              <option value="regular" selected>regular</option>
+              <option value="super intensivo">super intensivo</option>
+              <option value="intensivo">intensivo</option>
+            </select>
           </div>
           <div class="form-item">
             <label>Semanas (Pt.3):</label>
             <input type="text" id="inputSemanas" class="compact-input" value="4 semanas">
+          </div>
+        </div>
+
+        <div class="form-row cols-2">
+          <div class="form-item">
+            <label>PEAD- (Pt.2):</label>
+            <input type="text" id="inputPead" class="compact-input" value="a">
           </div>
           <div class="form-item">
             <label>Ciclo:</label>
@@ -1075,7 +1086,7 @@
               </div>
 
               <p class="welcome-paragraph-1">
-                Desde el Centro de Informática te damos la cordial bienvenida. Este es un curso super intensivo con una duración de <strong id="viewSemanasText">4 semanas</strong>, que se desarrollará a través del <strong>Aula Virtual USS</strong>.
+                Desde el Centro de Informática te damos la cordial bienvenida. Este es un curso <span id="viewTipoCurso">regular</span> con una duración de <strong id="viewSemanasText">4 semanas</strong>, que se desarrollará a través del <strong>Aula Virtual USS</strong>.
               </p>
 
               <p class="welcome-paragraph-2">
@@ -1225,6 +1236,7 @@
     const inputDocenteNombre = document.getElementById('inputDocenteNombre');
     const inputPhotoUrl = document.getElementById('inputPhotoUrl');
     const inputCurso = document.getElementById('inputCurso');
+    const inputTipoCurso = document.getElementById('inputTipoCurso');
     const inputPead = document.getElementById('inputPead');
     const inputSemanas = document.getElementById('inputSemanas');
     const inputCiclo = document.getElementById('inputCiclo');
@@ -1245,6 +1257,7 @@
     // Nodos del Flyer
     const viewCursoTitulo = document.getElementById('viewCursoTitulo');
     const viewPeadBadge = document.getElementById('viewPeadBadge');
+    const viewTipoCurso = document.getElementById('viewTipoCurso');
     const viewSemanasText = document.getElementById('viewSemanasText');
     const viewDocenteNombre = document.getElementById('viewDocenteNombre');
     const viewTeacherAnnotation = document.getElementById('viewTeacherAnnotation');
@@ -1267,14 +1280,16 @@
     // Sincronización en vivo
     function updateFlyer() {
       const curso = inputCurso.value.trim() || 'AutoCAD 2D';
+      const tipoCurso = inputTipoCurso ? inputTipoCurso.value.trim() : 'regular';
       const pead = inputPead.value.trim() || 'a';
       const semanas = inputSemanas.value.trim() || '4 semanas';
       const ciclo = inputCiclo.value.trim() || '(2026-II)';
       const docenteNombre = inputDocenteNombre.value.trim() || 'Mgtr. Juan Pérez Gómez';
 
-      // 1. Título y Badge
+      // 1. Título, Badge y Tipo de Curso
       viewCursoTitulo.textContent = curso.endsWith('!') ? curso : curso + '!';
       viewPeadBadge.textContent = 'PEAD - ' + pead;
+      if (viewTipoCurso) viewTipoCurso.textContent = tipoCurso;
       viewSemanasText.textContent = semanas;
 
       // 2. Nombre del docente en la cinta (Adaptable con salto a 2da línea si es largo)
@@ -1383,7 +1398,7 @@
 
     // Listeners de inputs
     [
-      inputDocenteNombre, inputCurso, inputPead, inputSemanas, inputCiclo,
+      inputDocenteNombre, inputCurso, inputTipoCurso, inputPead, inputSemanas, inputCiclo,
       checkShowTeacherScript, inputModalidad, inputGrupo, inputTurno,
       inputDias, inputHoras, inputFechaInicio
     ].forEach(el => {

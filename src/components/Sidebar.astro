@@ -108,14 +108,25 @@
         <input type="text" id="inputCurso" class="compact-input" value="AutoCAD 2D">
       </div>
 
-      <div class="form-row cols-pead" style="margin-top: 8px;">
+      <div class="form-row cols-2" style="margin-top: 8px;">
         <div class="form-item">
-          <label for="inputPead">PEAD:</label>
-          <input type="text" id="inputPead" class="compact-input" value="a">
+          <label for="inputTipoCurso">Tipo de Curso:</label>
+          <select id="inputTipoCurso" class="compact-input">
+            <option value="regular" selected>regular</option>
+            <option value="super intensivo">super intensivo</option>
+            <option value="intensivo">intensivo</option>
+          </select>
         </div>
         <div class="form-item">
           <label for="inputSemanas">Semanas:</label>
           <input type="text" id="inputSemanas" class="compact-input" value="4 semanas">
+        </div>
+      </div>
+
+      <div class="form-row cols-2" style="margin-top: 8px;">
+        <div class="form-item">
+          <label for="inputPead">PEAD:</label>
+          <input type="text" id="inputPead" class="compact-input" value="a">
         </div>
         <div class="form-item">
           <label for="inputCiclo">Ciclo:</label>

@@ -225,6 +225,16 @@ html, body {
   box-shadow: 0 0 0 2px rgba(17, 172, 211, 0.3);
 }
 
+select.compact-input {
+  cursor: pointer;
+  appearance: auto;
+}
+
+select.compact-input option {
+  background: #0d1527;
+  color: #f8fafc;
+}
+
 /* Sección Foto */
 .photo-compact-row {
   display: flex;
