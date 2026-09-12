@@ -599,41 +599,37 @@ html, body {
   display: block;
 }
 
-/* Cinta con Nombre del Docente */
+/* Cinta con Nombre del Docente (Adaptable a 1 o 2 líneas) */
 .teacher-badge-ribbon {
   position: absolute;
-  bottom: -11px;
+  bottom: -13px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--uss-purple);
   color: #ffffff;
-  padding: 5px 16px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
-  box-shadow: 0 3px 8px rgba(86, 32, 143, 0.35);
+  padding: 5px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(86, 32, 143, 0.4);
   z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  max-width: 250px;
+  max-width: 195px;
   width: max-content;
+  min-width: 110px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .teacher-name-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 220px;
-  font-size: 11px;
-}
-
-.ribbon-rays {
-  font-size: 9.5px;
-  opacity: 0.85;
-  flex-shrink: 0;
+  display: block;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.22;
+  font-size: 10.5px;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .teacher-annotation-wrap {
@@ -688,6 +684,7 @@ html, body {
   font-weight: 800;
   color: var(--uss-green); /* VERDE #004e35 */
   letter-spacing: 0;
+  white-space: nowrap;
 }
 
 /* Tabla de Horarios */
