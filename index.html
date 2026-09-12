@@ -514,35 +514,34 @@
     /* Cinta con Nombre del Docente */
     .teacher-badge-ribbon {
       position: absolute;
-      bottom: -11px;
+      bottom: -13px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--uss-purple);
       color: #ffffff;
-      padding: 4.5px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-      box-shadow: 0 3px 8px rgba(86, 32, 143, 0.35);
+      padding: 5px 12px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(86, 32, 143, 0.4);
       z-index: 5;
       display: flex;
       align-items: center;
-      gap: 5px;
-      max-width: 205px;
+      justify-content: center;
+      max-width: 195px;
+      width: max-content;
+      min-width: 110px;
+      box-sizing: border-box;
+      text-align: center;
     }
 
     .teacher-name-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 165px;
-    }
-
-    .ribbon-rays {
-      font-size: 9.5px;
-      opacity: 0.85;
-      flex-shrink: 0;
+      display: block;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.22;
+      font-size: 10.5px;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: break-word;
     }
 
     .teacher-annotation-wrap {
@@ -596,7 +595,8 @@
       font-size: 13.5px;
       font-weight: 800;
       color: var(--uss-green); /* VERDE #004e35 */
-      letter-spacing: -0.2px;
+      letter-spacing: 0;
+      white-space: nowrap;
     }
 
     /* Tabla de Horarios */
@@ -1089,11 +1089,9 @@
                 <div class="teacher-photo-inner">
                   <img id="viewTeacherImg" class="teacher-photo-img" crossorigin="anonymous" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" alt="Docente">
                 </div>
-                <!-- Cinta inferior con NOMBRE DEL DOCENTE -->
-                <div class="teacher-badge-ribbon">
-                  <span class="ribbon-rays">ˏˋ</span>
+                <!-- Cinta inferior con NOMBRE DEL DOCENTE (Adaptable a 1 o 2 líneas) -->
+                <div class="teacher-badge-ribbon" id="teacherBadgeRibbon">
                   <span class="teacher-name-text" id="viewDocenteNombre">Mgtr. Juan Pérez Gómez</span>
-                  <span class="ribbon-rays">ˎˊ</span>
                 </div>
               </div>
 
@@ -1279,9 +1277,33 @@
       viewPeadBadge.textContent = 'PEAD - ' + pead;
       viewSemanasText.textContent = semanas;
 
-      // 2. Nombre del docente en la cinta y anotación
-      viewDocenteNombre.textContent = docenteNombre;
-      viewTeacherAnnotation.style.display = checkShowTeacherScript.checked ? 'flex' : 'none';
+      // 2. Nombre del docente en la cinta (Adaptable con salto a 2da línea si es largo)
+      if (viewDocenteNombre) {
+        viewDocenteNombre.textContent = docenteNombre;
+        const len = docenteNombre.length;
+        const ribbon = viewDocenteNombre.closest('.teacher-badge-ribbon');
+
+        if (len > 34) {
+          viewDocenteNombre.style.fontSize = '8.8px';
+          viewDocenteNombre.style.lineHeight = '1.14';
+          if (ribbon) ribbon.style.borderRadius = '9px';
+        } else if (len > 22) {
+          viewDocenteNombre.style.fontSize = '9.8px';
+          viewDocenteNombre.style.lineHeight = '1.18';
+          if (ribbon) ribbon.style.borderRadius = '11px';
+        } else if (len > 15) {
+          viewDocenteNombre.style.fontSize = '10.5px';
+          viewDocenteNombre.style.lineHeight = '1.22';
+          if (ribbon) ribbon.style.borderRadius = '13px';
+        } else {
+          viewDocenteNombre.style.fontSize = '11.2px';
+          viewDocenteNombre.style.lineHeight = '1.25';
+          if (ribbon) ribbon.style.borderRadius = '9999px';
+        }
+      }
+      if (viewTeacherAnnotation && checkShowTeacherScript) {
+        viewTeacherAnnotation.style.display = checkShowTeacherScript.checked ? 'flex' : 'none';
+      }
 
       // 3. Tabla de Horarios
       viewTableCurso.textContent = curso.toUpperCase() + ' - PEAD -' + pead + ' ' + ciclo;

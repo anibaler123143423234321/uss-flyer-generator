@@ -155,15 +155,28 @@ import '../styles/global.css';
       if (viewPeadBadge) viewPeadBadge.textContent = 'PEAD - ' + pead;
       if (viewSemanasText) viewSemanasText.textContent = semanas;
 
-      // 2. Nombre del docente en la cinta y anotación
+      // 2. Nombre del docente en la cinta (Adaptable con salto a 2da línea si es largo)
       if (viewDocenteNombre) {
         viewDocenteNombre.textContent = docenteNombre;
-        if (docenteNombre.length > 25) {
-          viewDocenteNombre.style.fontSize = '9.5px';
-        } else if (docenteNombre.length > 21) {
-          viewDocenteNombre.style.fontSize = '10.2px';
+        const len = docenteNombre.length;
+        const ribbon = viewDocenteNombre.closest('.teacher-badge-ribbon');
+
+        if (len > 34) {
+          viewDocenteNombre.style.fontSize = '8.8px';
+          viewDocenteNombre.style.lineHeight = '1.14';
+          if (ribbon) ribbon.style.borderRadius = '9px';
+        } else if (len > 22) {
+          viewDocenteNombre.style.fontSize = '9.8px';
+          viewDocenteNombre.style.lineHeight = '1.18';
+          if (ribbon) ribbon.style.borderRadius = '11px';
+        } else if (len > 15) {
+          viewDocenteNombre.style.fontSize = '10.5px';
+          viewDocenteNombre.style.lineHeight = '1.22';
+          if (ribbon) ribbon.style.borderRadius = '13px';
         } else {
-          viewDocenteNombre.style.fontSize = '11px';
+          viewDocenteNombre.style.fontSize = '11.2px';
+          viewDocenteNombre.style.lineHeight = '1.25';
+          if (ribbon) ribbon.style.borderRadius = '9999px';
         }
       }
       if (viewTeacherAnnotation && checkShowTeacherScript) {
