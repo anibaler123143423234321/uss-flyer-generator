@@ -1,0 +1,16 @@
+{
+  "name": "uss-flyer-generator",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.4.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "html2canvas": "^1.4.1"
+  }
+}

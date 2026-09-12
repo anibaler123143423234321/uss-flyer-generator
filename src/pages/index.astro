@@ -1,0 +1,433 @@
+---
+// src/pages/index.astro
+import Sidebar from '../components/Sidebar.astro';
+import FlyerCard from '../components/FlyerCard.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador Oficial de Flyer USS - Centro de Informática</title>
+  <meta name="description" content="Herramienta oficial del Centro de Informática USS para la generación y registro institucional de flyers para docentes." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo-uss.png" />
+
+  <!-- Fuentes Google: Montserrat, Poppins y Caveat (Manuscrito) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="app-root">
+
+    <!-- PANEL LATERAL DE EDICIÓN -->
+    <Sidebar />
+
+    <!-- ÁREA DE PREVISUALIZACIÓN CENTRAL (AUTO-AJUSTE SIN SCROLL) -->
+    <main class="preview-viewport" id="previewViewport">
+
+      <!-- Barra Flotante de Zoom Compacta -->
+      <div class="compact-float-bar">
+        <span id="zoomPercentText" style="color: #94a3b8; font-weight: 600;">100%</span>
+        <button class="btn-zoom-mini" id="btnZoomOut" type="button" title="Reducir">−</button>
+        <button class="btn-zoom-mini" id="btnZoomIn" type="button" title="Aumentar">+</button>
+        <button class="btn-zoom-mini" id="btnZoomFit" type="button" title="Auto-ajustar a pantalla" style="font-size: 10px; color: var(--uss-cyan);">Auto-ajustar</button>
+      </div>
+
+      <!-- Contenedor con Escala Dinámica -->
+      <div class="banner-wrapper" id="bannerWrapper">
+        <FlyerCard />
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Overlay de progreso al exportar -->
+  <div class="export-overlay" id="exportOverlay">
+    <div class="export-spinner"></div>
+    <p id="exportStatusText">Renderizando flyer en Alta Definición (HD)...</p>
+  </div>
+
+  <!-- Contenedor de Toasts de Notificación -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Lógica Interactiva del Cliente (Astro ESM) -->
+  <script>
+    import html2canvas from 'html2canvas';
+    import { registrarGeneracionFlyer } from '../lib/supabase.js';
+
+    // Variables de Estado
+    const defaultPhotoUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600";
+    let currentPhotoSrc = defaultPhotoUrl;
+    let currentZoom = 100;
+    let currentPosY = 0;
+    let currentScale = 1.0;
+
+    // Inputs del Formulario
+    const inputDocenteNombre = document.getElementById('inputDocenteNombre');
+    const inputPhotoUrl = document.getElementById('inputPhotoUrl');
+    const inputCurso = document.getElementById('inputCurso');
+    const inputPead = document.getElementById('inputPead');
+    const inputSemanas = document.getElementById('inputSemanas');
+    const inputCiclo = document.getElementById('inputCiclo');
+    const checkShowTeacherScript = document.getElementById('checkShowTeacherScript');
+
+    const inputModalidad = document.getElementById('inputModalidad');
+    const inputGrupo = document.getElementById('inputGrupo');
+    const inputTurno = document.getElementById('inputTurno');
+    const inputDias = document.getElementById('inputDias');
+    const inputHoras = document.getElementById('inputHoras');
+    const inputFechaInicio = document.getElementById('inputFechaInicio');
+
+    const sliderZoom = document.getElementById('sliderZoom');
+    const sliderPosY = document.getElementById('sliderPosY');
+    const zoomVal = document.getElementById('zoomVal');
+    const posVal = document.getElementById('posVal');
+
+    // Nodos del Flyer
+    const viewCursoTitulo = document.getElementById('viewCursoTitulo');
+    const viewPeadBadge = document.getElementById('viewPeadBadge');
+    const viewSemanasText = document.getElementById('viewSemanasText');
+    const viewDocenteNombre = document.getElementById('viewDocenteNombre');
+    const viewTeacherAnnotation = document.getElementById('viewTeacherAnnotation');
+    const viewTeacherImg = document.getElementById('viewTeacherImg');
+    const sidebarPhotoThumb = document.getElementById('sidebarPhotoThumb');
+
+    const viewTableCurso = document.getElementById('viewTableCurso');
+    const viewTableModalidad = document.getElementById('viewTableModalidad');
+    const viewTableGrupo = document.getElementById('viewTableGrupo');
+    const viewTableTurno = document.getElementById('viewTableTurno');
+    const viewTableDias = document.getElementById('viewTableDias');
+    const viewTableHoras = document.getElementById('viewTableHoras');
+    const viewFechaInicio = document.getElementById('viewFechaInicio');
+
+    const bannerWrapper = document.getElementById('bannerWrapper');
+    const zoomPercentText = document.getElementById('zoomPercentText');
+    const flyerCard = document.getElementById('flyerCard');
+    const previewViewport = document.getElementById('previewViewport');
+
+    // Toast de Notificación
+    function showToast(title, desc, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      
+      const iconSvg = type === 'success'
+        ? `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>`
+        : `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+
+      toast.innerHTML = `
+        ${iconSvg}
+        <div class="toast-content">
+          <span class="toast-title">${title}</span>
+          <span class="toast-desc">${desc}</span>
+        </div>
+      `;
+
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 20);
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 350);
+      }, 4500);
+    }
+
+    // Sincronización en vivo
+    function updateFlyer() {
+      const curso = inputCurso?.value?.trim() || 'AutoCAD 2D';
+      const pead = inputPead?.value?.trim() || 'a';
+      const semanas = inputSemanas?.value?.trim() || '4 semanas';
+      const ciclo = inputCiclo?.value?.trim() || '(2026-II)';
+      const docenteNombre = inputDocenteNombre?.value?.trim() || 'Mgtr. Juan Pérez Gómez';
+
+      // 1. Título y Badge
+      if (viewCursoTitulo) viewCursoTitulo.textContent = curso.endsWith('!') ? curso : curso + '!';
+      if (viewPeadBadge) viewPeadBadge.textContent = 'PEAD - ' + pead;
+      if (viewSemanasText) viewSemanasText.textContent = semanas;
+
+      // 2. Nombre del docente en la cinta y anotación
+      if (viewDocenteNombre) viewDocenteNombre.textContent = docenteNombre;
+      if (viewTeacherAnnotation && checkShowTeacherScript) {
+        viewTeacherAnnotation.style.display = checkShowTeacherScript.checked ? 'flex' : 'none';
+      }
+
+      // 3. Tabla de Horarios
+      if (viewTableCurso) viewTableCurso.textContent = curso.toUpperCase() + ' - PEAD -' + pead + ' ' + ciclo;
+      if (viewTableModalidad) viewTableModalidad.textContent = inputModalidad?.value?.trim() || 'Virtual';
+      if (viewTableGrupo) viewTableGrupo.textContent = inputGrupo?.value?.trim() || ('Pead - ' + pead);
+      if (viewTableTurno) viewTableTurno.textContent = (inputTurno?.value?.trim() || 'TARDE').toUpperCase();
+      if (viewTableDias) viewTableDias.textContent = (inputDias?.value?.trim() || 'MIÉ, JUE, VIE Y SÁB').toUpperCase();
+      
+      const horasRaw = inputHoras?.value?.trim() || '07:00 Pm - 11:00 pm';
+      if (viewTableHoras) {
+        if (horasRaw.includes('-')) {
+          const partes = horasRaw.split('-');
+          viewTableHoras.innerHTML = partes[0].trim() + '<br>' + partes[1].trim();
+        } else {
+          viewTableHoras.textContent = horasRaw;
+        }
+      }
+
+      // 4. Fecha de inicio
+      if (viewFechaInicio) viewFechaInicio.textContent = inputFechaInicio?.value?.trim() || 'miércoles 05 de agosto - 7pm';
+    }
+
+    // Transformación de foto
+    function updatePhotoTransform() {
+      if (!sliderZoom || !sliderPosY || !zoomVal || !posVal || !viewTeacherImg) return;
+      currentZoom = parseInt(sliderZoom.value);
+      currentPosY = parseInt(sliderPosY.value);
+      zoomVal.textContent = currentZoom + '%';
+      posVal.textContent = currentPosY + '%';
+      viewTeacherImg.style.transform = `scale(${currentZoom / 100}) translateY(${currentPosY * 0.45}px)`;
+    }
+
+    // Cargar foto desde URL
+    function loadPhotoFromUrl(url) {
+      if (!url) return;
+      currentPhotoSrc = url;
+      if (viewTeacherImg) viewTeacherImg.src = url;
+      if (sidebarPhotoThumb) sidebarPhotoThumb.src = url;
+      if (sliderZoom) sliderZoom.value = '100';
+      if (sliderPosY) sliderPosY.value = '0';
+      updatePhotoTransform();
+    }
+
+    inputPhotoUrl?.addEventListener('change', () => loadPhotoFromUrl(inputPhotoUrl.value.trim()));
+
+    // Cargar foto desde archivo local de la PC del docente
+    function handlePhotoFile(file) {
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentPhotoSrc = e.target?.result;
+        if (viewTeacherImg) viewTeacherImg.src = currentPhotoSrc;
+        if (sidebarPhotoThumb) sidebarPhotoThumb.src = currentPhotoSrc;
+        if (inputPhotoUrl) inputPhotoUrl.value = '(Foto local cargada)';
+        if (sliderZoom) sliderZoom.value = '100';
+        if (sliderPosY) sliderPosY.value = '0';
+        updatePhotoTransform();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    const photoInput = document.getElementById('photoInput');
+    const btnTriggerUpload = document.getElementById('btnTriggerUpload');
+    btnTriggerUpload?.addEventListener('click', () => photoInput?.click());
+
+    photoInput?.addEventListener('change', (e) => {
+      const files = e.target?.files;
+      if (files && files.length > 0) handlePhotoFile(files[0]);
+    });
+
+    document.getElementById('btnResetPhoto')?.addEventListener('click', () => {
+      currentPhotoSrc = defaultPhotoUrl;
+      if (viewTeacherImg) viewTeacherImg.src = defaultPhotoUrl;
+      if (sidebarPhotoThumb) sidebarPhotoThumb.src = defaultPhotoUrl;
+      if (inputPhotoUrl) inputPhotoUrl.value = defaultPhotoUrl;
+      if (sliderZoom) sliderZoom.value = '100';
+      if (sliderPosY) sliderPosY.value = '0';
+      updatePhotoTransform();
+    });
+
+    sliderZoom?.addEventListener('input', updatePhotoTransform);
+    sliderPosY?.addEventListener('input', updatePhotoTransform);
+
+    // Listeners de inputs reactivos
+    [
+      inputDocenteNombre, inputCurso, inputPead, inputSemanas, inputCiclo,
+      checkShowTeacherScript, inputModalidad, inputGrupo, inputTurno,
+      inputDias, inputHoras, inputFechaInicio
+    ].forEach(el => {
+      el?.addEventListener('input', updateFlyer);
+      el?.addEventListener('change', updateFlyer);
+    });
+
+    inputPead?.addEventListener('input', () => {
+      if (inputGrupo) inputGrupo.value = 'Pead - ' + inputPead.value;
+      updateFlyer();
+    });
+
+    // Presets Rápidos
+    const presets = {
+      autocad: {
+        curso: 'AutoCAD 2D', pead: 'a', semanas: '4 semanas',
+        fecha: 'miércoles 05 de agosto - 7pm', turno: 'TARDE',
+        dias: 'MIÉ, JUE, VIE Y SÁB', horas: '07:00 Pm - 11:00 pm'
+      },
+      excel: {
+        curso: 'Excel Financiero', pead: 'b', semanas: '6 semanas',
+        fecha: 'lunes 17 de agosto - 8pm', turno: 'NOCHE',
+        dias: 'LUN, MIÉ Y VIE', horas: '08:00 Pm - 10:30 pm'
+      },
+      powerbi: {
+        curso: 'Power BI Analytics', pead: 'c', semanas: '8 semanas',
+        fecha: 'sábado 22 de agosto - 3pm', turno: 'TARDE',
+        dias: 'SÁB Y DOM', horas: '03:00 Pm - 07:00 pm'
+      }
+    };
+
+    document.querySelectorAll('[data-preset]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-preset');
+        const p = presets[key];
+        if (p) {
+          if (inputCurso) inputCurso.value = p.curso;
+          if (inputPead) inputPead.value = p.pead;
+          if (inputSemanas) inputSemanas.value = p.semanas;
+          if (inputFechaInicio) inputFechaInicio.value = p.fecha;
+          if (inputTurno) inputTurno.value = p.turno;
+          if (inputDias) inputDias.value = p.dias;
+          if (inputHoras) inputHoras.value = p.horas;
+          if (inputGrupo) inputGrupo.value = 'Pead - ' + p.pead;
+          updateFlyer();
+        }
+      });
+    });
+
+    // ========================================================
+    // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL)
+    // ========================================================
+    function autoFitToScreen() {
+      if (!previewViewport || !flyerCard || !bannerWrapper) return;
+      const padX = 28;
+      const padY = 28;
+      const availW = previewViewport.clientWidth - padX;
+      const availH = previewViewport.clientHeight - padY;
+      
+      const cardW = flyerCard.offsetWidth || 680;
+      const cardH = flyerCard.offsetHeight || 880;
+
+      const scaleX = availW / cardW;
+      const scaleY = availH / cardH;
+      currentScale = Math.min(scaleX, scaleY);
+
+      currentScale = Math.max(0.35, Math.min(currentScale, 1.25));
+      bannerWrapper.style.transform = `scale(${currentScale})`;
+      if (zoomPercentText) zoomPercentText.textContent = Math.round(currentScale * 100) + '%';
+    }
+
+    function manualZoom(delta) {
+      if (!bannerWrapper) return;
+      currentScale = Math.max(0.35, Math.min(currentScale + delta, 1.6));
+      bannerWrapper.style.transform = `scale(${currentScale})`;
+      if (zoomPercentText) zoomPercentText.textContent = Math.round(currentScale * 100) + '%';
+    }
+
+    document.getElementById('btnZoomIn')?.addEventListener('click', () => manualZoom(0.08));
+    document.getElementById('btnZoomOut')?.addEventListener('click', () => manualZoom(-0.08));
+    document.getElementById('btnZoomFit')?.addEventListener('click', autoFitToScreen);
+
+    window.addEventListener('resize', autoFitToScreen);
+
+    // ========================================================
+    // EXPORTACIÓN EN ALTA RESOLUCIÓN PNG Y REGISTRO EN SUPABASE
+    // ========================================================
+    async function downloadFlyerPNG() {
+      const docenteNombre = inputDocenteNombre?.value?.trim() || '';
+      if (!docenteNombre) {
+        alert('Por favor ingrese el nombre del docente antes de generar el flyer.');
+        inputDocenteNombre?.focus();
+        return;
+      }
+
+      const overlay = document.getElementById('exportOverlay');
+      const statusText = document.getElementById('exportStatusText');
+      if (overlay) overlay.style.display = 'flex';
+      if (statusText) statusText.textContent = 'Renderizando flyer en Alta Definición (HD)...';
+
+      await new Promise(r => setTimeout(r, 150));
+
+      const card = document.getElementById('flyerCard');
+      if (!card) return;
+
+      try {
+        // 1. Renderizado con html2canvas
+        const canvas = await html2canvas(card, {
+          scale: 2.5,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          imageTimeout: 6000,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('flyerCard');
+            if (clonedCard) clonedCard.style.transform = 'none';
+          }
+        });
+
+        if (statusText) statusText.textContent = 'Descargando imagen PNG y registrando en base de datos...';
+
+        // 2. Descarga del archivo PNG
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        const link = document.createElement('a');
+        const cursoSanitized = (inputCurso?.value?.trim() || 'Curso').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const peadSanitized = (inputPead?.value?.trim() || 'a').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const docenteSanitized = docenteNombre.replace(/[^a-zA-Z0-9_-]/g, '_');
+        link.download = `Flyer_USS_${cursoSanitized}_${docenteSanitized}_PEAD_${peadSanitized}.png`;
+        link.href = imgData;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // 3. Registro en Supabase
+        const supabaseResult = await registrarGeneracionFlyer({
+          nombreDocente: docenteNombre,
+          curso: inputCurso?.value?.trim() || '',
+          pead: inputPead?.value?.trim() || '',
+          ciclo: inputCiclo?.value?.trim() || '',
+          turno: inputTurno?.value?.trim() || '',
+          modalidad: inputModalidad?.value?.trim() || '',
+          horarioDias: inputDias?.value?.trim() || '',
+          horarioHoras: inputHoras?.value?.trim() || '',
+          fechaInicio: inputFechaInicio?.value?.trim() || ''
+        });
+
+        if (statusText) statusText.textContent = '¡Completado!';
+        setTimeout(() => {
+          if (overlay) overlay.style.display = 'none';
+        }, 400);
+
+        if (supabaseResult.success) {
+          showToast(
+            '¡Flyer generado y registrado!',
+            `Docente "${docenteNombre}" guardado con éxito en la base de datos de Supabase.`,
+            'success'
+          );
+        } else {
+          showToast(
+            'Flyer PNG descargado',
+            `Aviso BD: ${supabaseResult.error || 'Recuerda crear la tabla tbl_docentes_flyers en Supabase.'}`,
+            'warning'
+          );
+        }
+
+      } catch (err) {
+        console.error('Error al exportar:', err);
+        alert('Error al generar la imagen: ' + (err?.message || err));
+        if (overlay) overlay.style.display = 'none';
+      }
+    }
+
+    document.getElementById('btnDownloadAction')?.addEventListener('click', downloadFlyerPNG);
+
+    // Inicialización al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      updateFlyer();
+      updatePhotoTransform();
+      autoFitToScreen();
+      setTimeout(autoFitToScreen, 150);
+    });
+  </script>
+
+</body>
+</html>

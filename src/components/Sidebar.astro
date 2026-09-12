@@ -1,0 +1,181 @@
+---
+// src/components/Sidebar.astro
+---
+<aside class="editor-sidebar">
+
+  <!-- Cabecera Institucional -->
+  <div class="sidebar-header">
+    <div class="brand-group">
+      <div class="brand-badge-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+      </div>
+      <div class="brand-title-wrap">
+        <h1>Centro de Informática USS</h1>
+        <span>Generador de Flyers Oficiales</span>
+      </div>
+    </div>
+    <div class="supabase-badge" title="Conexión activa con Supabase para registro de docentes">
+      <span class="supabase-dot"></span>
+      <span>BD Activa</span>
+    </div>
+  </div>
+
+  <!-- 1. Foto y Nombre del Docente -->
+  <div class="compact-card">
+    <div class="compact-card-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      1. Docente y Fotografía
+    </div>
+
+    <div class="photo-compact-row">
+      <img id="sidebarPhotoThumb" class="photo-thumb-mini" crossorigin="anonymous" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" alt="Foto">
+      <input type="file" id="photoInput" accept="image/*" style="display: none;">
+      <button class="btn-upload-mini" id="btnTriggerUpload" type="button">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        Subir Foto
+      </button>
+      <button class="btn-reset-mini" id="btnResetPhoto" type="button" title="Foto de ejemplo">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Opción URL de Imagen directa -->
+    <div class="form-item" style="margin-bottom: 4px;">
+      <label for="inputPhotoUrl">O pegar URL de foto online:</label>
+      <input type="url" id="inputPhotoUrl" class="compact-input" placeholder="https://..." value="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600">
+    </div>
+
+    <!-- Ajustes de Encuadre -->
+    <div class="form-row cols-2" style="margin-bottom: 4px;">
+      <div class="slider-row">
+        <span>Zoom:</span>
+        <input type="range" id="sliderZoom" min="80" max="230" value="100">
+        <span id="zoomVal" style="width: 26px;">100%</span>
+      </div>
+      <div class="slider-row">
+        <span>Pos Y:</span>
+        <input type="range" id="sliderPosY" min="0" max="100" value="0">
+        <span id="posVal" style="width: 22px;">0%</span>
+      </div>
+    </div>
+
+    <!-- Nombre del Docente -->
+    <div class="form-row cols-2" style="align-items: center;">
+      <div class="form-item">
+        <label for="inputDocenteNombre">Nombre del Docente (*):</label>
+        <input type="text" id="inputDocenteNombre" class="compact-input" value="Mgtr. Juan Pérez Gómez" placeholder="Ej: Ing. María Silva">
+      </div>
+      <div style="display: flex; align-items: center; gap: 5px; padding-top: 12px;">
+        <input type="checkbox" id="checkShowTeacherScript" checked style="accent-color: var(--uss-cyan); width: 14px; height: 14px; cursor: pointer;">
+        <label for="checkShowTeacherScript" style="font-size: 10px; color: #cbd5e1; cursor: pointer; white-space: nowrap;">"Tu docente"</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Información del Curso -->
+  <div class="compact-card">
+    <div class="compact-card-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      2. Datos del Curso
+    </div>
+
+    <div class="form-item" style="margin-bottom: 4px;">
+      <label for="inputCurso">Nombre del Curso (Punto 4):</label>
+      <input type="text" id="inputCurso" class="compact-input" value="AutoCAD 2D">
+    </div>
+
+    <div class="form-row cols-pead">
+      <div class="form-item">
+        <label for="inputPead">PEAD- (Pt.2):</label>
+        <input type="text" id="inputPead" class="compact-input" value="a">
+      </div>
+      <div class="form-item">
+        <label for="inputSemanas">Semanas (Pt.3):</label>
+        <input type="text" id="inputSemanas" class="compact-input" value="4 semanas">
+      </div>
+      <div class="form-item">
+        <label for="inputCiclo">Ciclo:</label>
+        <input type="text" id="inputCiclo" class="compact-input" value="(2026-II)">
+      </div>
+    </div>
+
+    <div class="chips-row">
+      <span style="font-size: 9px; color: #64748b; align-self: center;">Rápido:</span>
+      <button class="chip-mini" type="button" data-preset="autocad">AutoCAD</button>
+      <button class="chip-mini" type="button" data-preset="excel">Excel</button>
+      <button class="chip-mini" type="button" data-preset="powerbi">Power BI</button>
+    </div>
+  </div>
+
+  <!-- 3. Tabla y Horario -->
+  <div class="compact-card">
+    <div class="compact-card-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      3. Tabla de Horario (Punto 5)
+    </div>
+
+    <div class="form-row cols-3">
+      <div class="form-item">
+        <label for="inputModalidad">Modalidad:</label>
+        <input type="text" id="inputModalidad" class="compact-input" value="Virtual">
+      </div>
+      <div class="form-item">
+        <label for="inputGrupo">Grupo:</label>
+        <input type="text" id="inputGrupo" class="compact-input" value="Pead - a">
+      </div>
+      <div class="form-item">
+        <label for="inputTurno">Turno:</label>
+        <input type="text" id="inputTurno" class="compact-input" value="TARDE">
+      </div>
+    </div>
+
+    <div class="form-row cols-2">
+      <div class="form-item">
+        <label for="inputDias">Horario Días:</label>
+        <input type="text" id="inputDias" class="compact-input" value="MIÉ, JUE, VIE Y SÁB">
+      </div>
+      <div class="form-item">
+        <label for="inputHoras">Horas:</label>
+        <input type="text" id="inputHoras" class="compact-input" value="07:00 Pm - 11:00 pm">
+      </div>
+    </div>
+
+    <div class="form-item" style="margin-top: 3px;">
+      <label for="inputFechaInicio">Fecha de Inicio Destacada:</label>
+      <input type="text" id="inputFechaInicio" class="compact-input" value="miércoles 05 de agosto - 7pm">
+    </div>
+  </div>
+
+  <!-- Botón de Descarga Grande con Registro en BD -->
+  <button class="btn-download-action" id="btnDownloadAction" type="button">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Descargar Flyer en PNG (HD)
+  </button>
+
+</aside>

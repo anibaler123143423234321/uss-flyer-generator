@@ -1,0 +1,156 @@
+---
+// src/components/FlyerCard.astro
+---
+<div id="flyerCard">
+
+  <!-- Decoración geométrica superior derecha: CELESTE #11acd3 + MORADO #56208f -->
+  <svg class="flyer-corner-accent" viewBox="0 0 140 70" preserveAspectRatio="none">
+    <polygon points="50,0 140,0 140,70 100,70" fill="#56208f" />
+    <polygon points="110,70 140,70 140,40" fill="#11acd3" />
+    <line x1="45" y1="0" x2="95" y2="70" stroke="#11acd3" stroke-width="4" stroke-linecap="round" />
+  </svg>
+
+  <!-- 1. Cabecera con Logo Oficial USS -->
+  <div class="flyer-header">
+    <img class="flyer-logo" id="flyerLogo" src="/logo-uss.png" alt="USS Centro de Informática" />
+  </div>
+
+  <!-- 2. Sección Superior: Título + Párrafos + Foto -->
+  <div class="flyer-top-section">
+    
+    <div class="flyer-welcome-col">
+      <h2 class="welcome-lead">¡Bienvenido(a) al curso</h2>
+      <h1 class="welcome-course-name" id="viewCursoTitulo">AutoCAD 2D!</h1>
+
+      <div class="pead-pill-badge" id="viewPeadBadge">
+        PEAD - a
+      </div>
+
+      <p class="welcome-paragraph-1">
+        Desde el Centro de Informática te damos la cordial bienvenida. Este es un curso super intensivo con una duración de <strong id="viewSemanasText">4 semanas</strong>, que se desarrollará a través del <strong>Aula Virtual USS</strong>.
+      </p>
+
+      <p class="welcome-paragraph-2">
+        Te invitamos a organizar tu tiempo y comprometerte con tu aprendizaje, ya que tu participación es clave para tu progreso. Tendrás acceso a recursos digitales, talleres y material de apoyo que te ayudarán a reforzar lo aprendido; te recomendamos revisarlos con anticipación.
+      </p>
+    </div>
+
+    <!-- Columna de la Foto del Docente -->
+    <div class="flyer-photo-col">
+      <div class="teacher-photo-card">
+        <div class="teacher-photo-inner">
+          <img id="viewTeacherImg" class="teacher-photo-img" crossorigin="anonymous" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" alt="Docente">
+        </div>
+        <!-- Cinta inferior con NOMBRE DEL DOCENTE -->
+        <div class="teacher-badge-ribbon">
+          <span class="ribbon-rays">ˏˋ</span>
+          <span class="teacher-name-text" id="viewDocenteNombre">Mgtr. Juan Pérez Gómez</span>
+          <span class="ribbon-rays">ˎˊ</span>
+        </div>
+      </div>
+
+      <!-- Anotación manuscrita "Tu docente" y flecha -->
+      <div class="teacher-annotation-wrap" id="viewTeacherAnnotation">
+        <span class="teacher-script-text">Tu docente</span>
+        <svg class="teacher-arrow-svg" viewBox="0 0 60 60" fill="none">
+          <path d="M 12 48 Q 28 42 42 22 Q 46 16 48 10" stroke="#56208f" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+          <path d="M 38 10 L 48 10 L 49 20" stroke="#56208f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. Sección de Horarios y Tabla Oficial -->
+  <div class="schedule-section-wrap">
+    <div class="schedule-header">
+      <svg class="schedule-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+      </svg>
+      <span class="schedule-title">Las clases se realizarán en el siguiente horario:</span>
+    </div>
+
+    <!-- Tabla Oficial Verde USS #004e35 -->
+    <div class="schedule-table-card">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th style="width: 32%;">CURSO</th>
+            <th style="width: 17%;">MODALIDAD</th>
+            <th style="width: 16%;">GRUPO</th>
+            <th style="width: 15%;">TURNO</th>
+            <th style="width: 20%;">HORARIO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-curso" id="viewTableCurso">
+              AUTOCAD 2D - PEAD -a (2026-II)
+            </td>
+            <td class="td-modalidad" id="viewTableModalidad">
+              Virtual
+            </td>
+            <td class="td-grupo" id="viewTableGrupo">
+              Pead - a
+            </td>
+            <td class="td-turno" id="viewTableTurno">
+              TARDE
+            </td>
+            <td class="td-horario">
+              <div class="dias" id="viewTableDias">MIÉ, JUE, VIE Y SÁB</div>
+              <div class="horas" id="viewTableHoras">07:00 Pm<br>11:00 pm</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 4. Bloque Fecha de Inicio -->
+  <div class="start-date-block">
+    <svg class="start-icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM12 10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm.5 5.5H11V12h1.5v2.5h1.5v1h-1.5z"/>
+    </svg>
+    <div class="start-text-wrap">
+      <span class="start-label">Estamos iniciando desde este</span>
+      <span class="start-date-highlight" id="viewFechaInicio">miércoles 05 de agosto - 7pm</span>
+    </div>
+  </div>
+
+  <!-- 5. Caja de Recomendaciones (Laptop & Zoom) -->
+  <div class="virtual-tip-card">
+    <svg class="laptop-icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6zm6 2v6l5-3-5-3z"/>
+    </svg>
+    <div class="tip-divider"></div>
+    <div class="tip-text">
+      Te sugerimos revisar <strong>cronograma de Actividades</strong>, <strong>disposiciones para el estudiante</strong> y enlaces de cada sesión (en la sección <strong>Sala Zoom</strong>) y demás opciones en el aula virtual.
+    </div>
+  </div>
+
+  <!-- 6. Mensaje de Éxitos y Birrete -->
+  <div class="success-wish-block">
+    <div class="wish-row">
+      <svg class="cap-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+      </svg>
+      <span class="wish-text">¡Muchos éxitos en este nuevo inicio académico!</span>
+    </div>
+    <svg class="wish-underline-svg" viewBox="0 0 250 12" fill="none">
+      <path d="M 5 6 Q 130 11 245 4" stroke="#56208f" stroke-width="3" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- 7. Pie con Acuerdo de Directorio Oficial -->
+  <div class="official-notice-box">
+    <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <div class="notice-text">
+      Tener en cuenta que hay un acuerdo de directorio que indica: Oficio 0453-2013/SG-USS: “Aprobar que los alumnos continúen pagando el curso de computación, según la modalidad de pago programadas en su cuenta corriente, sin opción a reserva o retiro (inhabilitado), a excepción por motivos de salud debidamente justificados”. El cual se encuentra estipulado en el reglamento del CIS ratificado por RESOLUCIÓN DE DIRECTORIO Nº 272-2019/PD-USS, del 31 de diciembre del 2019.
+    </div>
+  </div>
+
+</div>
