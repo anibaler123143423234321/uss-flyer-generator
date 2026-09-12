@@ -59,6 +59,7 @@ import '../styles/global.css';
 
   <!-- Lógica Interactiva del Cliente (Astro ESM) -->
   <script>
+    import * as htmlToImage from 'html-to-image';
     import html2canvas from 'html2canvas';
     import { registrarGeneracionFlyer } from '../lib/supabase.js';
 
@@ -155,7 +156,16 @@ import '../styles/global.css';
       if (viewSemanasText) viewSemanasText.textContent = semanas;
 
       // 2. Nombre del docente en la cinta y anotación
-      if (viewDocenteNombre) viewDocenteNombre.textContent = docenteNombre;
+      if (viewDocenteNombre) {
+        viewDocenteNombre.textContent = docenteNombre;
+        if (docenteNombre.length > 25) {
+          viewDocenteNombre.style.fontSize = '9.5px';
+        } else if (docenteNombre.length > 21) {
+          viewDocenteNombre.style.fontSize = '10.2px';
+        } else {
+          viewDocenteNombre.style.fontSize = '11px';
+        }
+      }
       if (viewTeacherAnnotation && checkShowTeacherScript) {
         viewTeacherAnnotation.style.display = checkShowTeacherScript.checked ? 'flex' : 'none';
       }
@@ -351,24 +361,41 @@ import '../styles/global.css';
       if (!card) return;
 
       try {
-        // 1. Renderizado con html2canvas
-        const canvas = await html2canvas(card, {
-          scale: 2.5,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          logging: false,
-          imageTimeout: 6000,
-          onclone: (clonedDoc) => {
-            const clonedCard = clonedDoc.getElementById('flyerCard');
-            if (clonedCard) clonedCard.style.transform = 'none';
-          }
-        });
+        // Esperar fuentes web
+        if (document.fonts) {
+          await document.fonts.ready;
+        }
+
+        // Desactivar temporalmente la escala del visor para capturar a resolución 100% nativa
+        const prevTransform = bannerWrapper ? bannerWrapper.style.transform : '';
+        if (bannerWrapper) bannerWrapper.style.transform = 'none';
+
+        let imgData = '';
+        try {
+          imgData = await htmlToImage.toPng(card, {
+            pixelRatio: 2.5,
+            backgroundColor: '#ffffff',
+            cacheBust: true,
+            style: {
+              transform: 'none',
+              margin: '0'
+            }
+          });
+        } catch (engineErr) {
+          console.warn('[html-to-image fallback a html2canvas]:', engineErr);
+          const canvas = await html2canvas(card, {
+            scale: 2.5,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            logging: false
+          });
+          imgData = canvas.toDataURL('image/png', 1.0);
+        } finally {
+          if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
+        }
 
         if (statusText) statusText.textContent = 'Descargando imagen PNG y registrando en base de datos...';
-
-        // 2. Descarga del archivo PNG
-        const imgData = canvas.toDataURL('image/png', 1.0);
         const link = document.createElement('a');
         const cursoSanitized = (inputCurso?.value?.trim() || 'Curso').replace(/[^a-zA-Z0-9_-]/g, '_');
         const peadSanitized = (inputPead?.value?.trim() || 'a').replace(/[^a-zA-Z0-9_-]/g, '_');

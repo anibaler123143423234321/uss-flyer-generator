@@ -505,7 +505,7 @@ html, body {
   font-weight: 800;
   color: var(--uss-green); /* VERDE #004e35 */
   line-height: 1.15;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
 }
 
 .welcome-course-name {
@@ -515,7 +515,7 @@ html, body {
   color: var(--uss-purple); /* MORADO #56208f */
   line-height: 1.12;
   margin: 2px 0 8px 0;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
   word-break: break-word;
 }
 
@@ -536,11 +536,13 @@ html, body {
 
 .welcome-paragraph-1 {
   font-size: 11.8px;
-  line-height: 1.42;
+  line-height: 1.45;
   color: #2b3644;
   font-weight: 500;
   margin-bottom: 8px;
-  text-align: justify;
+  text-align: left;
+  letter-spacing: normal;
+  word-spacing: normal;
 }
 
 .welcome-paragraph-1 strong {
@@ -550,11 +552,13 @@ html, body {
 
 .welcome-paragraph-2 {
   font-size: 11.2px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: #3e4a5b;
   font-weight: 400;
-  text-align: justify;
+  text-align: left;
   margin: 0;
+  letter-spacing: normal;
+  word-spacing: normal;
 }
 
 /* Foto del Docente */
@@ -603,7 +607,7 @@ html, body {
   transform: translateX(-50%);
   background: var(--uss-purple);
   color: #ffffff;
-  padding: 4.5px 14px;
+  padding: 5px 16px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 700;
@@ -612,15 +616,18 @@ html, body {
   z-index: 5;
   display: flex;
   align-items: center;
-  gap: 5px;
-  max-width: 205px;
+  justify-content: center;
+  gap: 6px;
+  max-width: 250px;
+  width: max-content;
 }
 
 .teacher-name-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 165px;
+  max-width: 220px;
+  font-size: 11px;
 }
 
 .ribbon-rays {
@@ -680,7 +687,7 @@ html, body {
   font-size: 13.5px;
   font-weight: 800;
   color: var(--uss-green); /* VERDE #004e35 */
-  letter-spacing: -0.2px;
+  letter-spacing: 0;
 }
 
 /* Tabla de Horarios */
@@ -801,7 +808,7 @@ html, body {
   font-weight: 900;
   color: var(--uss-purple);
   line-height: 1.2;
-  letter-spacing: -0.3px;
+  letter-spacing: 0;
 }
 
 /* Tarjeta Recomendaciones Zoom */
@@ -834,6 +841,8 @@ html, body {
   line-height: 1.38;
   color: #37284b;
   font-weight: 500;
+  letter-spacing: normal;
+  word-spacing: normal;
 }
 
 .tip-text strong {
@@ -868,7 +877,7 @@ html, body {
   font-style: italic;
   font-weight: 800;
   color: var(--uss-green); /* VERDE #004e35 */
-  letter-spacing: -0.3px;
+  letter-spacing: 0;
 }
 
 .wish-underline-svg {
@@ -898,10 +907,12 @@ html, body {
 
 .notice-text {
   font-size: 8.2px;
-  line-height: 1.32;
+  line-height: 1.35;
   color: #f5f0ff;
-  text-align: justify;
+  text-align: left;
   font-weight: 400;
+  letter-spacing: normal;
+  word-spacing: normal;
 }
 
 /* Overlay de Descarga */
