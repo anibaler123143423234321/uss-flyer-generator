@@ -17,12 +17,14 @@ CREATE TABLE IF NOT EXISTS public.tbl_docentes_flyers (
     horario_horas TEXT,
     fecha_inicio TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    persona_id BIGINT REFERENCES public.tbl_personas(id) ON DELETE SET NULL,
     user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL
 );
 
 -- Comentarios explicativos en las columnas
 COMMENT ON TABLE public.tbl_docentes_flyers IS 'Registro de docentes que han generado su flyer oficial del Centro de Informática USS';
-COMMENT ON COLUMN public.tbl_docentes_flyers.nombre_docente IS 'Nombre del docente que generó el flyer';
+COMMENT ON COLUMN public.tbl_docentes_flyers.persona_id IS 'ID de la persona (docente) en tbl_personas (Patrón Persona)';
+COMMENT ON COLUMN public.tbl_docentes_flyers.nombre_docente IS 'Nombre histórico o renderizado del docente que generó el flyer';
 COMMENT ON COLUMN public.tbl_docentes_flyers.genero_imagen IS 'Indica si se dio clic en generar/descargar la imagen (true)';
 COMMENT ON COLUMN public.tbl_docentes_flyers.user_id IS 'ID de usuario autenticado si a futuro se integra con panel de autenticación';
 
@@ -48,3 +50,4 @@ USING (true);
 -- 5. Índice para consultas rápidas por docente y fecha
 CREATE INDEX IF NOT EXISTS idx_docentes_flyers_fecha ON public.tbl_docentes_flyers (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_docentes_flyers_nombre ON public.tbl_docentes_flyers (nombre_docente);
+CREATE INDEX IF NOT EXISTS idx_docentes_flyers_persona ON public.tbl_docentes_flyers (persona_id);

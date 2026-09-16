@@ -39,8 +39,54 @@ export async function registrarGeneracionFlyer({
   }
 
   try {
+    const rawNombre = nombreDocente?.trim() || 'Docente no especificado';
+    let personaId = null;
+
+    // 1. Normalización Relacional: Buscar o registrar en tbl_personas
+    try {
+      const { data: matchedPersonas } = await supabase
+        .from('tbl_personas')
+        .select('id, nombre_completo')
+        .or(`nombre_completo.ilike.%${rawNombre}%,nombres.ilike.%${rawNombre}%`)
+        .limit(1);
+
+      if (matchedPersonas && matchedPersonas.length > 0) {
+        personaId = matchedPersonas[0].id;
+      } else if (rawNombre !== 'Docente no especificado') {
+        const parts = rawNombre.split(' ');
+        const nombres = parts.length > 2 ? `${parts[0]} ${parts[1]}` : parts[0];
+        const apellidos = parts.length > 2 ? parts.slice(2).join(' ') : (parts[1] || '');
+
+        let inserted = null;
+        try {
+          const { data: newPersona, error: insErr } = await supabase
+            .from('tbl_personas')
+            .insert([{ nombres, apellidos, rol: 'FLYER' }])
+            .select('id')
+            .single();
+          if (newPersona?.id) inserted = newPersona;
+          else if (insErr && insErr.message?.includes('rol')) {
+            const { data: fallbackPersona } = await supabase
+              .from('tbl_personas')
+              .insert([{ nombres, apellidos }])
+              .select('id')
+              .single();
+            if (fallbackPersona?.id) inserted = fallbackPersona;
+          }
+        } catch {}
+
+        if (inserted?.id) {
+          personaId = inserted.id;
+        }
+      }
+    } catch (personaErr) {
+      console.warn('[Supabase] Aviso: tbl_personas no disponible aún para relación:', personaErr);
+    }
+
+    // 2. Guardar registro en tbl_docentes_flyers con su clave foránea persona_id
     const payload = {
-      nombre_docente: nombreDocente?.trim() || 'Docente no especificado',
+      nombre_docente: rawNombre,
+      persona_id: personaId,
       genero_imagen: true,
       curso: curso?.trim() || null,
       pead: pead?.trim() || null,
@@ -52,7 +98,7 @@ export async function registrarGeneracionFlyer({
       fecha_inicio: fechaInicio?.trim() || null
     };
 
-    console.log('[Supabase] Guardando registro de docente:', payload);
+    console.log('[Supabase] Guardando registro de docente normalizado:', payload);
 
     const { data, error } = await supabase
       .from('tbl_docentes_flyers')
