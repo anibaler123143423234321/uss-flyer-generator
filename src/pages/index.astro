@@ -1,216 +1,291 @@
 ---
 // src/pages/index.astro
-import Sidebar from '../components/Sidebar.astro';
-import FlyerCard from '../components/FlyerCard.astro';
-import FlyerParticipacionCard from '../components/FlyerParticipacionCard.astro';
-import '../styles/global.css';
+import Sidebar from "../components/Sidebar.astro";
+import FlyerCard from "../components/FlyerCard.astro";
+import FlyerParticipacionCard from "../components/FlyerParticipacionCard.astro";
+import "../styles/global.css";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Generador Oficial de Flyer USS - Centro de Informática</title>
-  <meta name="description" content="Herramienta oficial del Centro de Informática USS para la generación y registro institucional de flyers para docentes." />
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/logo-uss.png" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador Oficial de Flyer USS - Centro de Informática</title>
+    <meta
+      name="description"
+      content="Herramienta oficial del Centro de Informática USS para la generación y registro institucional de flyers para docentes."
+    />
 
-  <!-- Fuentes Google: Montserrat, Poppins y Caveat (Manuscrito) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" crossorigin="anonymous" />
-</head>
-<body>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logo-uss.png" />
 
-  <div class="app-root">
+    <!-- Fuentes Google: Montserrat, Poppins y Caveat (Manuscrito) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="app-root">
+      <!-- PANEL LATERAL DE EDICIÓN -->
+      <Sidebar />
 
-    <!-- PANEL LATERAL DE EDICIÓN -->
-    <Sidebar />
-
-    <!-- ÁREA DE PREVISUALIZACIÓN CENTRAL (AUTO-AJUSTE SIN SCROLL) -->
-    <main class="preview-viewport" id="previewViewport">
-
-      <!-- Barra Flotante de Zoom Compacta -->
-      <div class="compact-float-bar">
-        <span id="zoomPercentText" style="color: #94a3b8; font-weight: 600;">100%</span>
-        <button class="btn-zoom-mini" id="btnZoomOut" type="button" title="Reducir">−</button>
-        <button class="btn-zoom-mini" id="btnZoomIn" type="button" title="Aumentar">+</button>
-        <button class="btn-zoom-mini" id="btnZoomFit" type="button" title="Auto-ajustar a pantalla" style="font-size: 10px; color: var(--uss-cyan);">Auto-ajustar</button>
-      </div>
-
-      <!-- Contenedor con Escala Dinámica -->
-      <div class="banner-wrapper" id="bannerWrapper">
-        <!-- 1. Flyer de Participación en Clases (Por Defecto) -->
-        <FlyerParticipacionCard />
-
-        <!-- 2. Flyer de Bienvenida Docente (En Pestaña 2) -->
-        <div id="flyerDocenteContainer" style="display: none;">
-          <FlyerCard />
+      <!-- ÁREA DE PREVISUALIZACIÓN CENTRAL (AUTO-AJUSTE SIN SCROLL) -->
+      <main class="preview-viewport" id="previewViewport">
+        <!-- Barra Flotante de Zoom Compacta -->
+        <div class="compact-float-bar">
+          <span id="zoomPercentText" style="color: #94a3b8; font-weight: 600;"
+            >100%</span
+          >
+          <button
+            class="btn-zoom-mini"
+            id="btnZoomOut"
+            type="button"
+            title="Reducir">−</button
+          >
+          <button
+            class="btn-zoom-mini"
+            id="btnZoomIn"
+            type="button"
+            title="Aumentar">+</button
+          >
+          <button
+            class="btn-zoom-mini"
+            id="btnZoomFit"
+            type="button"
+            title="Auto-ajustar a pantalla"
+            style="font-size: 10px; color: var(--uss-cyan);"
+            >Auto-ajustar</button
+          >
         </div>
-      </div>
 
-    </main>
+        <!-- Contenedor con Escala Dinámica -->
+        <div class="banner-wrapper" id="bannerWrapper">
+          <!-- 1. Flyer de Participación en Clases (Por Defecto) -->
+          <FlyerParticipacionCard />
 
-  </div>
+          <!-- 2. Flyer de Bienvenida Docente (En Pestaña 2) -->
+          <div id="flyerDocenteContainer" style="display: none;">
+            <FlyerCard />
+          </div>
+        </div>
+      </main>
+    </div>
 
-  <!-- Overlay de progreso al exportar -->
-  <div class="export-overlay" id="exportOverlay">
-    <div class="export-spinner"></div>
-    <p id="exportStatusText">Renderizando flyer en Alta Definición (HD)...</p>
-  </div>
+    <!-- Overlay de progreso al exportar -->
+    <div class="export-overlay" id="exportOverlay">
+      <div class="export-spinner"></div>
+      <p id="exportStatusText">Renderizando flyer en Alta Definición (HD)...</p>
+    </div>
 
-  <!-- Contenedor de Toasts de Notificación -->
-  <div class="toast-container" id="toastContainer"></div>
+    <!-- Contenedor de Toasts de Notificación -->
+    <div class="toast-container" id="toastContainer"></div>
 
-  <!-- Lógica Interactiva del Cliente (Astro ESM) -->
-  <script>
-    import * as htmlToImage from 'html-to-image';
-    import html2canvas from 'html2canvas';
-    import { registrarGeneracionFlyer } from '../lib/supabase.js';
+    <!-- Lógica Interactiva del Cliente (Astro ESM) -->
+    <script>
+      import * as htmlToImage from "html-to-image";
+      import html2canvas from "html2canvas";
+      import { registrarGeneracionFlyer } from "../lib/supabase.js";
 
-    // ==========================================
-    // 1. ESTADO DE PESTAÑAS (TABS)
-    // ==========================================
-    let currentTab = 'participacion'; // Por defecto: Nuevo Flyer de Participación
+      // ==========================================
+      // 1. ESTADO DE PESTAÑAS (TABS)
+      // ==========================================
+      let currentTab = "participacion"; // Por defecto: Nuevo Flyer de Participación
 
-    // Elementos de Navegación de Pestañas
-    const tabBtnParticipacion = document.getElementById('tabBtnParticipacion');
-    const tabBtnBienvenida = document.getElementById('tabBtnBienvenida');
-    const tabPaneParticipacion = document.getElementById('tabPaneParticipacion');
-    const tabPaneBienvenida = document.getElementById('tabPaneBienvenida');
-    const flyerParticipacionCard = document.getElementById('flyerParticipacionCard');
-    const flyerDocenteContainer = document.getElementById('flyerDocenteContainer');
-    const btnDownloadLabel = document.getElementById('btnDownloadLabel');
+      // Elementos de Navegación de Pestañas
+      const tabBtnParticipacion = document.getElementById(
+        "tabBtnParticipacion",
+      );
+      const tabBtnBienvenida = document.getElementById("tabBtnBienvenida");
+      const tabPaneParticipacion = document.getElementById(
+        "tabPaneParticipacion",
+      );
+      const tabPaneBienvenida = document.getElementById("tabPaneBienvenida");
+      const flyerParticipacionCard = document.getElementById(
+        "flyerParticipacionCard",
+      );
+      const flyerDocenteContainer = document.getElementById(
+        "flyerDocenteContainer",
+      );
+      const btnDownloadLabel = document.getElementById("btnDownloadLabel");
 
-    // Elementos del Flyer de Participación
-    const inputPartCurso = document.getElementById('inputPartCurso');
-    const inputPartPead = document.getElementById('inputPartPead');
-    const viewPartCursoPead = document.getElementById('viewPartCursoPead');
+      // Elementos del Flyer de Participación
+      const inputPartCurso = document.getElementById("inputPartCurso");
+      const inputPartPead = document.getElementById("inputPartPead");
+      const viewPartCursoPead = document.getElementById("viewPartCursoPead");
 
-    // Variables de Estado de Bienvenida Docente
-    const defaultPhotoUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600";
-    let currentPhotoSrc = defaultPhotoUrl;
-    let currentZoom = 100;
-    let currentPosY = 0;
-    let currentScale = 1.0;
+      // Variables de Estado de Bienvenida Docente
+      const defaultPhotoUrl =
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600";
+      let currentPhotoSrc = defaultPhotoUrl;
+      let currentZoom = 100;
+      let currentPosY = 0;
+      let currentScale = 1.0;
 
-    // Inputs del Formulario Bienvenida Docente
-    const inputDocenteNombre = document.getElementById('inputDocenteNombre');
-    const inputPhotoUrl = document.getElementById('inputPhotoUrl');
-    const inputCurso = document.getElementById('inputCurso');
-    const inputTipoCurso = document.getElementById('inputTipoCurso');
-    const inputPead = document.getElementById('inputPead');
-    const inputSemanas = document.getElementById('inputSemanas');
-    const inputCiclo = document.getElementById('inputCiclo');
-    const checkShowTeacherScript = document.getElementById('checkShowTeacherScript');
+      // Inputs del Formulario Bienvenida Docente
+      const inputDocenteNombre = document.getElementById("inputDocenteNombre");
+      const inputPhotoUrl = document.getElementById("inputPhotoUrl");
+      const inputCurso = document.getElementById("inputCurso");
+      const inputTipoCurso = document.getElementById("inputTipoCurso");
+      const inputPead = document.getElementById("inputPead");
+      const inputSemanas = document.getElementById("inputSemanas");
+      const inputCiclo = document.getElementById("inputCiclo");
+      const checkShowTeacherScript = document.getElementById(
+        "checkShowTeacherScript",
+      );
 
-    const inputModalidad = document.getElementById('inputModalidad');
-    const inputGrupo = document.getElementById('inputGrupo');
-    const inputTurno = document.getElementById('inputTurno');
-    const inputDias = document.getElementById('inputDias');
-    const inputHoras = document.getElementById('inputHoras');
-    const inputFechaInicio = document.getElementById('inputFechaInicio');
+      const inputModalidad = document.getElementById("inputModalidad");
+      const inputGrupo = document.getElementById("inputGrupo");
+      const inputTurno = document.getElementById("inputTurno");
+      const inputDias = document.getElementById("inputDias");
+      const inputHoras = document.getElementById("inputHoras");
+      const inputFechaInicio = document.getElementById("inputFechaInicio");
 
-    const sliderZoom = document.getElementById('sliderZoom');
-    const sliderPosY = document.getElementById('sliderPosY');
-    const zoomVal = document.getElementById('zoomVal');
-    const posVal = document.getElementById('posVal');
+      const sliderZoom = document.getElementById("sliderZoom");
+      const sliderPosY = document.getElementById("sliderPosY");
+      const zoomVal = document.getElementById("zoomVal");
+      const posVal = document.getElementById("posVal");
 
-    // Nodos del Flyer de Bienvenida
-    const viewCursoTitulo = document.getElementById('viewCursoTitulo');
-    const viewPeadBadge = document.getElementById('viewPeadBadge');
-    const viewTipoCurso = document.getElementById('viewTipoCurso');
-    const viewSemanasText = document.getElementById('viewSemanasText');
-    const viewDocenteNombre = document.getElementById('viewDocenteNombre');
-    const viewTeacherAnnotation = document.getElementById('viewTeacherAnnotation');
-    const viewTeacherImg = document.getElementById('viewTeacherImg');
-    const sidebarPhotoThumb = document.getElementById('sidebarPhotoThumb');
+      // Nodos del Flyer de Bienvenida
+      const viewCursoTitulo = document.getElementById("viewCursoTitulo");
+      const viewPeadBadge = document.getElementById("viewPeadBadge");
+      const viewTipoCurso = document.getElementById("viewTipoCurso");
+      const viewSemanasText = document.getElementById("viewSemanasText");
+      const viewDocenteNombre = document.getElementById("viewDocenteNombre");
+      const viewTeacherAnnotation = document.getElementById(
+        "viewTeacherAnnotation",
+      );
+      const viewTeacherImg = document.getElementById("viewTeacherImg");
+      const sidebarPhotoThumb = document.getElementById("sidebarPhotoThumb");
 
-    const viewTableCurso = document.getElementById('viewTableCurso');
-    const viewTableModalidad = document.getElementById('viewTableModalidad');
-    const viewTableGrupo = document.getElementById('viewTableGrupo');
-    const viewTableTurno = document.getElementById('viewTableTurno');
-    const viewTableDias = document.getElementById('viewTableDias');
-    const viewTableHoras = document.getElementById('viewTableHoras');
-    const viewFechaInicio = document.getElementById('viewFechaInicio');
+      const viewTableCurso = document.getElementById("viewTableCurso");
+      const viewTableModalidad = document.getElementById("viewTableModalidad");
+      const viewTableGrupo = document.getElementById("viewTableGrupo");
+      const viewTableTurno = document.getElementById("viewTableTurno");
+      const viewTableDias = document.getElementById("viewTableDias");
+      const viewTableHoras = document.getElementById("viewTableHoras");
+      const viewFechaInicio = document.getElementById("viewFechaInicio");
 
-    const bannerWrapper = document.getElementById('bannerWrapper');
-    const zoomPercentText = document.getElementById('zoomPercentText');
-    const flyerCard = document.getElementById('flyerCard');
-    const previewViewport = document.getElementById('previewViewport');
+      const bannerWrapper = document.getElementById("bannerWrapper");
+      const zoomPercentText = document.getElementById("zoomPercentText");
+      const flyerCard = document.getElementById("flyerCard");
+      const previewViewport = document.getElementById("previewViewport");
 
-    // ==========================================
-    // 2. CAMBIO DE PESTAÑAS (SWITCH TABS)
-    // ==========================================
-    function switchTab(tab) {
-      currentTab = tab;
+      // ==========================================
+      // 2. CAMBIO DE PESTAÑAS (SWITCH TABS)
+      // ==========================================
+      function switchTab(tab) {
+        currentTab = tab;
 
-      if (tab === 'participacion') {
-        tabBtnParticipacion?.classList.add('active');
-        tabBtnBienvenida?.classList.remove('active');
-        if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'flex';
-        if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'none';
-        if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'flex';
-        if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'none';
-        if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Flyer Participación (HD)';
-      } else {
-        tabBtnParticipacion?.classList.remove('active');
-        tabBtnBienvenida?.classList.add('active');
-        if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'none';
-        if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'flex';
-        if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'none';
-        if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'block';
-        if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Flyer Docente (HD)';
+        if (tab === "participacion") {
+          tabBtnParticipacion?.classList.add("active");
+          tabBtnBienvenida?.classList.remove("active");
+          if (tabPaneParticipacion) tabPaneParticipacion.style.display = "flex";
+          if (tabPaneBienvenida) tabPaneBienvenida.style.display = "none";
+          if (flyerParticipacionCard)
+            flyerParticipacionCard.style.display = "block";
+          if (flyerDocenteContainer)
+            flyerDocenteContainer.style.display = "none";
+          if (btnDownloadLabel)
+            btnDownloadLabel.textContent = "Descargar Flyer Participación (HD)";
+        } else {
+          tabBtnParticipacion?.classList.remove("active");
+          tabBtnBienvenida?.classList.add("active");
+          if (tabPaneParticipacion) tabPaneParticipacion.style.display = "none";
+          if (tabPaneBienvenida) tabPaneBienvenida.style.display = "flex";
+          if (flyerParticipacionCard)
+            flyerParticipacionCard.style.display = "none";
+          if (flyerDocenteContainer)
+            flyerDocenteContainer.style.display = "block";
+          if (btnDownloadLabel)
+            btnDownloadLabel.textContent = "Descargar Flyer Docente (HD)";
+        }
+
+        autoFitToScreen();
       }
 
-      autoFitToScreen();
-    }
+      tabBtnParticipacion?.addEventListener("click", () =>
+        switchTab("participacion"),
+      );
+      tabBtnBienvenida?.addEventListener("click", () =>
+        switchTab("bienvenida"),
+      );
 
-    tabBtnParticipacion?.addEventListener('click', () => switchTab('participacion'));
-    tabBtnBienvenida?.addEventListener('click', () => switchTab('bienvenida'));
+      // ==========================================
+      // 3. SINCRONIZACIÓN FLYER DE PARTICIPACIÓN
+      // ==========================================
+      function updatePartFlyer() {
+        const curso = inputPartCurso?.value?.trim() || "";
+        const pead = inputPartPead?.value?.trim() || "";
+        if (viewPartCursoPead) {
+          if (!curso && !pead) {
+            viewPartCursoPead.textContent = "";
+          } else if (curso && pead) {
+            viewPartCursoPead.textContent = `${curso.toUpperCase()} - ${pead.toUpperCase()}`;
+          } else {
+            viewPartCursoPead.textContent = (curso || pead).toUpperCase();
+          }
 
-    // ==========================================
-    // 3. SINCRONIZACIÓN FLYER DE PARTICIPACIÓN
-    // ==========================================
-    function updatePartFlyer() {
-      const curso = inputPartCurso?.value?.trim() || 'COMPUTACIÓN I';
-      const pead = inputPartPead?.value?.trim() || 'PEAD 2026-I';
-      if (viewPartCursoPead) {
-        viewPartCursoPead.textContent = `${curso.toUpperCase()} - ${pead.toUpperCase()}`;
+          const len = viewPartCursoPead.textContent.length;
+          if (len > 36) {
+            viewPartCursoPead.style.fontSize = "14.5px";
+          } else if (len > 28) {
+            viewPartCursoPead.style.fontSize = "17px";
+          } else if (len > 22) {
+            viewPartCursoPead.style.fontSize = "18.5px";
+          } else {
+            viewPartCursoPead.style.fontSize = "20px";
+          }
+        }
       }
-    }
 
-    inputPartCurso?.addEventListener('input', updatePartFlyer);
-    inputPartPead?.addEventListener('input', updatePartFlyer);
-    inputPartCurso?.addEventListener('change', updatePartFlyer);
-    inputPartPead?.addEventListener('change', updatePartFlyer);
+      inputPartCurso?.addEventListener("input", updatePartFlyer);
+      inputPartPead?.addEventListener("input", updatePartFlyer);
+      inputPartCurso?.addEventListener("change", updatePartFlyer);
+      inputPartPead?.addEventListener("change", updatePartFlyer);
 
-    // Atajos rápidos para Participación
-    document.querySelectorAll('.chip-part').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const c = btn.getAttribute('data-part-curso');
-        const p = btn.getAttribute('data-part-pead');
-        if (c && inputPartCurso) inputPartCurso.value = c;
-        if (p && inputPartPead) inputPartPead.value = p;
-        updatePartFlyer();
+      // Permite también editar directamente en el flyer haciendo clic sobre la píldora
+      viewPartCursoPead?.addEventListener("input", () => {
+        const text = viewPartCursoPead.textContent.trim();
+        if (text.includes("-")) {
+          const parts = text.split("-");
+          if (inputPartCurso) inputPartCurso.value = parts[0].trim();
+          if (inputPartPead)
+            inputPartPead.value = parts.slice(1).join("-").trim();
+        } else {
+          if (inputPartCurso) inputPartCurso.value = text;
+        }
       });
-    });
 
-    // Toast de Notificación
-    function showToast(title, desc, type = 'success') {
-      const container = document.getElementById('toastContainer');
-      if (!container) return;
+      // Atajos rápidos para Participación
+      document.querySelectorAll(".chip-part").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const c = btn.getAttribute("data-part-curso");
+          const p = btn.getAttribute("data-part-pead");
+          if (c && inputPartCurso) inputPartCurso.value = c;
+          if (p && inputPartPead) inputPartPead.value = p;
+          updatePartFlyer();
+        });
+      });
 
-      const toast = document.createElement('div');
-      toast.className = `toast toast-${type}`;
-      
-      const iconSvg = type === 'success'
-        ? `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>`
-        : `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+      // Toast de Notificación
+      function showToast(title, desc, type = "success") {
+        const container = document.getElementById("toastContainer");
+        if (!container) return;
 
-      toast.innerHTML = `
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+
+        const iconSvg =
+          type === "success"
+            ? `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>`
+            : `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+
+        toast.innerHTML = `
         ${iconSvg}
         <div class="toast-content">
           <span class="toast-title">${title}</span>
@@ -218,446 +293,541 @@ import '../styles/global.css';
         </div>
       `;
 
-      container.appendChild(toast);
-      setTimeout(() => toast.classList.add('show'), 20);
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.add("show"), 20);
 
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 350);
-      }, 4500);
-    }
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 350);
+        }, 4500);
+      }
 
-    // ==========================================
-    // 4. SINCRONIZACIÓN FLYER DE BIENVENIDA
-    // ==========================================
-    function updateFlyer() {
-      const curso = inputCurso?.value?.trim() || 'AutoCAD 2D';
-      const tipoCurso = inputTipoCurso?.value?.trim() || 'regular';
-      const pead = inputPead?.value?.trim() || 'a';
-      const semanas = inputSemanas?.value?.trim() || '4 semanas';
-      const ciclo = inputCiclo?.value?.trim() || '(2026-II)';
-      const docenteNombre = inputDocenteNombre?.value?.trim() || 'Mgtr. Juan Pérez Gómez';
+      // ==========================================
+      // 4. SINCRONIZACIÓN FLYER DE BIENVENIDA
+      // ==========================================
+      function updateFlyer() {
+        const curso = inputCurso?.value?.trim() || "AutoCAD 2D";
+        const tipoCurso = inputTipoCurso?.value?.trim() || "regular";
+        const pead = inputPead?.value?.trim() || "a";
+        const semanas = inputSemanas?.value?.trim() || "4 semanas";
+        const ciclo = inputCiclo?.value?.trim() || "(2026-II)";
+        const docenteNombre =
+          inputDocenteNombre?.value?.trim() || "Mgtr. Juan Pérez Gómez";
 
-      // 1. Título, Badge y Tipo de Curso
-      if (viewCursoTitulo) viewCursoTitulo.textContent = curso.endsWith('!') ? curso : curso + '!';
-      if (viewPeadBadge) viewPeadBadge.textContent = 'PEAD - ' + pead;
-      if (viewTipoCurso) viewTipoCurso.textContent = tipoCurso;
-      if (viewSemanasText) viewSemanasText.textContent = semanas;
+        // 1. Título, Badge y Tipo de Curso
+        if (viewCursoTitulo)
+          viewCursoTitulo.textContent = curso.endsWith("!")
+            ? curso
+            : curso + "!";
+        if (viewPeadBadge) viewPeadBadge.textContent = "PEAD - " + pead;
+        if (viewTipoCurso) viewTipoCurso.textContent = tipoCurso;
+        if (viewSemanasText) viewSemanasText.textContent = semanas;
 
-      // 2. Nombre del docente en la cinta (Adaptable con salto a 2da línea si es largo)
-      if (viewDocenteNombre) {
-        viewDocenteNombre.textContent = docenteNombre;
-        const len = docenteNombre.length;
-        const ribbon = viewDocenteNombre.closest('.teacher-badge-ribbon');
+        // 2. Nombre del docente en la cinta (Adaptable con salto a 2da línea si es largo)
+        if (viewDocenteNombre) {
+          viewDocenteNombre.textContent = docenteNombre;
+          const len = docenteNombre.length;
+          const ribbon = viewDocenteNombre.closest(".teacher-badge-ribbon");
 
-        if (len > 34) {
-          viewDocenteNombre.style.fontSize = '8.8px';
-          viewDocenteNombre.style.lineHeight = '1.14';
-          if (ribbon) ribbon.style.borderRadius = '9px';
-        } else if (len > 22) {
-          viewDocenteNombre.style.fontSize = '9.8px';
-          viewDocenteNombre.style.lineHeight = '1.18';
-          if (ribbon) ribbon.style.borderRadius = '11px';
-        } else if (len > 15) {
-          viewDocenteNombre.style.fontSize = '10.5px';
-          viewDocenteNombre.style.lineHeight = '1.22';
-          if (ribbon) ribbon.style.borderRadius = '13px';
-        } else {
-          viewDocenteNombre.style.fontSize = '11.2px';
-          viewDocenteNombre.style.lineHeight = '1.25';
-          if (ribbon) ribbon.style.borderRadius = '9999px';
+          if (len > 34) {
+            viewDocenteNombre.style.fontSize = "8.8px";
+            viewDocenteNombre.style.lineHeight = "1.14";
+            if (ribbon) ribbon.style.borderRadius = "9px";
+          } else if (len > 22) {
+            viewDocenteNombre.style.fontSize = "9.8px";
+            viewDocenteNombre.style.lineHeight = "1.18";
+            if (ribbon) ribbon.style.borderRadius = "11px";
+          } else if (len > 15) {
+            viewDocenteNombre.style.fontSize = "10.5px";
+            viewDocenteNombre.style.lineHeight = "1.22";
+            if (ribbon) ribbon.style.borderRadius = "13px";
+          } else {
+            viewDocenteNombre.style.fontSize = "11.2px";
+            viewDocenteNombre.style.lineHeight = "1.25";
+            if (ribbon) ribbon.style.borderRadius = "9999px";
+          }
         }
-      }
-      if (viewTeacherAnnotation && checkShowTeacherScript) {
-        viewTeacherAnnotation.style.display = checkShowTeacherScript.checked ? 'flex' : 'none';
-      }
-
-      // 3. Tabla de Horarios
-      if (viewTableCurso) viewTableCurso.textContent = curso.toUpperCase() + ' - PEAD -' + pead + ' ' + ciclo;
-      if (viewTableModalidad) viewTableModalidad.textContent = inputModalidad?.value?.trim() || 'Virtual';
-      if (viewTableGrupo) viewTableGrupo.textContent = inputGrupo?.value?.trim() || ('Pead - ' + pead);
-      if (viewTableTurno) viewTableTurno.textContent = (inputTurno?.value?.trim() || 'TARDE').toUpperCase();
-      if (viewTableDias) viewTableDias.textContent = (inputDias?.value?.trim() || 'MIÉ, JUE, VIE Y SÁB').toUpperCase();
-      
-      const horasRaw = inputHoras?.value?.trim() || '07:00 Pm - 11:00 pm';
-      if (viewTableHoras) {
-        if (horasRaw.includes('-')) {
-          const partes = horasRaw.split('-');
-          viewTableHoras.innerHTML = partes[0].trim() + '<br>' + partes[1].trim();
-        } else {
-          viewTableHoras.textContent = horasRaw;
+        if (viewTeacherAnnotation && checkShowTeacherScript) {
+          viewTeacherAnnotation.style.display = checkShowTeacherScript.checked
+            ? "flex"
+            : "none";
         }
+
+        // 3. Tabla de Horarios
+        if (viewTableCurso)
+          viewTableCurso.textContent =
+            curso.toUpperCase() + " - PEAD -" + pead + " " + ciclo;
+        if (viewTableModalidad)
+          viewTableModalidad.textContent =
+            inputModalidad?.value?.trim() || "Virtual";
+        if (viewTableGrupo)
+          viewTableGrupo.textContent =
+            inputGrupo?.value?.trim() || "Pead - " + pead;
+        if (viewTableTurno)
+          viewTableTurno.textContent = (
+            inputTurno?.value?.trim() || "TARDE"
+          ).toUpperCase();
+        if (viewTableDias)
+          viewTableDias.textContent = (
+            inputDias?.value?.trim() || "MIÉ, JUE, VIE Y SÁB"
+          ).toUpperCase();
+
+        const horasRaw = inputHoras?.value?.trim() || "07:00 Pm - 11:00 pm";
+        if (viewTableHoras) {
+          if (horasRaw.includes("-")) {
+            const partes = horasRaw.split("-");
+            viewTableHoras.innerHTML =
+              partes[0].trim() + "<br>" + partes[1].trim();
+          } else {
+            viewTableHoras.textContent = horasRaw;
+          }
+        }
+
+        // 4. Fecha de inicio
+        if (viewFechaInicio)
+          viewFechaInicio.textContent =
+            inputFechaInicio?.value?.trim() || "miércoles 05 de agosto - 7pm";
       }
 
-      // 4. Fecha de inicio
-      if (viewFechaInicio) viewFechaInicio.textContent = inputFechaInicio?.value?.trim() || 'miércoles 05 de agosto - 7pm';
-    }
+      // Transformación de foto
+      function updatePhotoTransform() {
+        if (
+          !sliderZoom ||
+          !sliderPosY ||
+          !zoomVal ||
+          !posVal ||
+          !viewTeacherImg
+        )
+          return;
+        currentZoom = parseInt(sliderZoom.value);
+        currentPosY = parseInt(sliderPosY.value);
+        zoomVal.textContent = currentZoom + "%";
+        posVal.textContent = currentPosY + "%";
+        viewTeacherImg.style.transform = `scale(${currentZoom / 100}) translateY(${currentPosY * 0.45}px)`;
+      }
 
-    // Transformación de foto
-    function updatePhotoTransform() {
-      if (!sliderZoom || !sliderPosY || !zoomVal || !posVal || !viewTeacherImg) return;
-      currentZoom = parseInt(sliderZoom.value);
-      currentPosY = parseInt(sliderPosY.value);
-      zoomVal.textContent = currentZoom + '%';
-      posVal.textContent = currentPosY + '%';
-      viewTeacherImg.style.transform = `scale(${currentZoom / 100}) translateY(${currentPosY * 0.45}px)`;
-    }
-
-    // Cargar foto desde URL
-    function loadPhotoFromUrl(url) {
-      if (!url) return;
-      currentPhotoSrc = url;
-      if (viewTeacherImg) viewTeacherImg.src = url;
-      if (sidebarPhotoThumb) sidebarPhotoThumb.src = url;
-      if (sliderZoom) sliderZoom.value = '100';
-      if (sliderPosY) sliderPosY.value = '0';
-      updatePhotoTransform();
-    }
-
-    inputPhotoUrl?.addEventListener('change', () => loadPhotoFromUrl(inputPhotoUrl.value.trim()));
-
-    // Cargar foto desde archivo local de la PC del docente
-    function handlePhotoFile(file) {
-      if (!file || !file.type.startsWith('image/')) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        currentPhotoSrc = e.target?.result;
-        if (viewTeacherImg) viewTeacherImg.src = currentPhotoSrc;
-        if (sidebarPhotoThumb) sidebarPhotoThumb.src = currentPhotoSrc;
-        if (inputPhotoUrl) inputPhotoUrl.value = '(Foto local cargada)';
-        if (sliderZoom) sliderZoom.value = '100';
-        if (sliderPosY) sliderPosY.value = '0';
+      // Cargar foto desde URL
+      function loadPhotoFromUrl(url) {
+        if (!url) return;
+        currentPhotoSrc = url;
+        if (viewTeacherImg) viewTeacherImg.src = url;
+        if (sidebarPhotoThumb) sidebarPhotoThumb.src = url;
+        if (sliderZoom) sliderZoom.value = "100";
+        if (sliderPosY) sliderPosY.value = "0";
         updatePhotoTransform();
-      };
-      reader.readAsDataURL(file);
-    }
-
-    const photoInput = document.getElementById('photoInput');
-    const btnTriggerUpload = document.getElementById('btnTriggerUpload');
-    btnTriggerUpload?.addEventListener('click', () => photoInput?.click());
-
-    photoInput?.addEventListener('change', (e) => {
-      const files = e.target?.files;
-      if (files && files.length > 0) handlePhotoFile(files[0]);
-    });
-
-    document.getElementById('btnResetPhoto')?.addEventListener('click', () => {
-      currentPhotoSrc = defaultPhotoUrl;
-      if (viewTeacherImg) viewTeacherImg.src = defaultPhotoUrl;
-      if (sidebarPhotoThumb) sidebarPhotoThumb.src = defaultPhotoUrl;
-      if (inputPhotoUrl) inputPhotoUrl.value = defaultPhotoUrl;
-      if (sliderZoom) sliderZoom.value = '100';
-      if (sliderPosY) sliderPosY.value = '0';
-      updatePhotoTransform();
-    });
-
-    sliderZoom?.addEventListener('input', updatePhotoTransform);
-    sliderPosY?.addEventListener('input', updatePhotoTransform);
-
-    // Listeners de inputs reactivos
-    [
-      inputDocenteNombre, inputCurso, inputTipoCurso, inputPead, inputSemanas, inputCiclo,
-      checkShowTeacherScript, inputModalidad, inputGrupo, inputTurno,
-      inputDias, inputHoras, inputFechaInicio
-    ].forEach(el => {
-      el?.addEventListener('input', updateFlyer);
-      el?.addEventListener('change', updateFlyer);
-    });
-
-    inputPead?.addEventListener('input', () => {
-      if (inputGrupo) inputGrupo.value = 'Pead - ' + inputPead.value;
-      updateFlyer();
-    });
-
-    // Presets Rápidos
-    const presets = {
-      autocad: {
-        curso: 'AutoCAD 2D', tipoCurso: 'regular', pead: 'a', semanas: '4 semanas',
-        fecha: 'miércoles 05 de agosto - 7pm', turno: 'TARDE',
-        dias: 'MIÉ, JUE, VIE Y SÁB', horas: '07:00 Pm - 11:00 pm'
-      },
-      excel: {
-        curso: 'Excel Financiero', tipoCurso: 'regular', pead: 'b', semanas: '6 semanas',
-        fecha: 'lunes 17 de agosto - 8pm', turno: 'NOCHE',
-        dias: 'LUN, MIÉ Y VIE', horas: '08:00 Pm - 10:30 pm'
-      },
-      powerbi: {
-        curso: 'Power BI Analytics', tipoCurso: 'regular', pead: 'c', semanas: '8 semanas',
-        fecha: 'sábado 22 de agosto - 3pm', turno: 'TARDE',
-        dias: 'SÁB Y DOM', horas: '03:00 Pm - 07:00 pm'
       }
-    };
 
-    document.querySelectorAll('[data-preset]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-preset');
-        const p = presets[key];
-        if (p) {
-          if (inputCurso) inputCurso.value = p.curso;
-          if (inputTipoCurso) inputTipoCurso.value = p.tipoCurso || 'regular';
-          if (inputPead) inputPead.value = p.pead;
-          if (inputSemanas) inputSemanas.value = p.semanas;
-          if (inputFechaInicio) inputFechaInicio.value = p.fecha;
-          if (inputTurno) inputTurno.value = p.turno;
-          if (inputDias) inputDias.value = p.dias;
-          if (inputHoras) inputHoras.value = p.horas;
-          if (inputGrupo) inputGrupo.value = 'Pead - ' + p.pead;
-          updateFlyer();
-        }
+      inputPhotoUrl?.addEventListener("change", () =>
+        loadPhotoFromUrl(inputPhotoUrl.value.trim()),
+      );
+
+      // Cargar foto desde archivo local de la PC del docente
+      function handlePhotoFile(file) {
+        if (!file || !file.type.startsWith("image/")) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          currentPhotoSrc = e.target?.result;
+          if (viewTeacherImg) viewTeacherImg.src = currentPhotoSrc;
+          if (sidebarPhotoThumb) sidebarPhotoThumb.src = currentPhotoSrc;
+          if (inputPhotoUrl) inputPhotoUrl.value = "(Foto local cargada)";
+          if (sliderZoom) sliderZoom.value = "100";
+          if (sliderPosY) sliderPosY.value = "0";
+          updatePhotoTransform();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      const photoInput = document.getElementById("photoInput");
+      const btnTriggerUpload = document.getElementById("btnTriggerUpload");
+      btnTriggerUpload?.addEventListener("click", () => photoInput?.click());
+
+      photoInput?.addEventListener("change", (e) => {
+        const files = e.target?.files;
+        if (files && files.length > 0) handlePhotoFile(files[0]);
       });
-    });
 
-    // ========================================================
-    // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL)
-    // ========================================================
-    function autoFitToScreen() {
-      if (!previewViewport || !bannerWrapper) return;
-      const activeCard = currentTab === 'participacion' 
-        ? document.getElementById('flyerParticipacionCard') 
-        : document.getElementById('flyerCard');
-      if (!activeCard) return;
+      document
+        .getElementById("btnResetPhoto")
+        ?.addEventListener("click", () => {
+          currentPhotoSrc = defaultPhotoUrl;
+          if (viewTeacherImg) viewTeacherImg.src = defaultPhotoUrl;
+          if (sidebarPhotoThumb) sidebarPhotoThumb.src = defaultPhotoUrl;
+          if (inputPhotoUrl) inputPhotoUrl.value = defaultPhotoUrl;
+          if (sliderZoom) sliderZoom.value = "100";
+          if (sliderPosY) sliderPosY.value = "0";
+          updatePhotoTransform();
+        });
 
-      const padX = 28;
-      const padY = 28;
-      const availW = previewViewport.clientWidth - padX;
-      const availH = previewViewport.clientHeight - padY;
-      
-      const cardW = activeCard.offsetWidth || 680;
-      const cardH = activeCard.offsetHeight || (currentTab === 'participacion' ? 920 : 880);
+      sliderZoom?.addEventListener("input", updatePhotoTransform);
+      sliderPosY?.addEventListener("input", updatePhotoTransform);
 
-      const scaleX = availW / cardW;
-      const scaleY = availH / cardH;
-      currentScale = Math.min(scaleX, scaleY);
+      // Listeners de inputs reactivos
+      [
+        inputDocenteNombre,
+        inputCurso,
+        inputTipoCurso,
+        inputPead,
+        inputSemanas,
+        inputCiclo,
+        checkShowTeacherScript,
+        inputModalidad,
+        inputGrupo,
+        inputTurno,
+        inputDias,
+        inputHoras,
+        inputFechaInicio,
+      ].forEach((el) => {
+        el?.addEventListener("input", updateFlyer);
+        el?.addEventListener("change", updateFlyer);
+      });
 
-      currentScale = Math.max(0.35, Math.min(currentScale, 1.25));
-      bannerWrapper.style.transform = `scale(${currentScale})`;
-      if (zoomPercentText) zoomPercentText.textContent = Math.round(currentScale * 100) + '%';
-    }
+      inputPead?.addEventListener("input", () => {
+        if (inputGrupo) inputGrupo.value = "Pead - " + inputPead.value;
+        updateFlyer();
+      });
 
-    function manualZoom(delta) {
-      if (!bannerWrapper) return;
-      currentScale = Math.max(0.35, Math.min(currentScale + delta, 1.6));
-      bannerWrapper.style.transform = `scale(${currentScale})`;
-      if (zoomPercentText) zoomPercentText.textContent = Math.round(currentScale * 100) + '%';
-    }
+      // Presets Rápidos
+      const presets = {
+        autocad: {
+          curso: "AutoCAD 2D",
+          tipoCurso: "regular",
+          pead: "a",
+          semanas: "4 semanas",
+          fecha: "miércoles 05 de agosto - 7pm",
+          turno: "TARDE",
+          dias: "MIÉ, JUE, VIE Y SÁB",
+          horas: "07:00 Pm - 11:00 pm",
+        },
+        excel: {
+          curso: "Excel Financiero",
+          tipoCurso: "regular",
+          pead: "b",
+          semanas: "6 semanas",
+          fecha: "lunes 17 de agosto - 8pm",
+          turno: "NOCHE",
+          dias: "LUN, MIÉ Y VIE",
+          horas: "08:00 Pm - 10:30 pm",
+        },
+        powerbi: {
+          curso: "Power BI Analytics",
+          tipoCurso: "regular",
+          pead: "c",
+          semanas: "8 semanas",
+          fecha: "sábado 22 de agosto - 3pm",
+          turno: "TARDE",
+          dias: "SÁB Y DOM",
+          horas: "03:00 Pm - 07:00 pm",
+        },
+      };
 
-    document.getElementById('btnZoomIn')?.addEventListener('click', () => manualZoom(0.08));
-    document.getElementById('btnZoomOut')?.addEventListener('click', () => manualZoom(-0.08));
-    document.getElementById('btnZoomFit')?.addEventListener('click', autoFitToScreen);
+      document.querySelectorAll("[data-preset]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.getAttribute("data-preset");
+          const p = presets[key];
+          if (p) {
+            if (inputCurso) inputCurso.value = p.curso;
+            if (inputTipoCurso) inputTipoCurso.value = p.tipoCurso || "regular";
+            if (inputPead) inputPead.value = p.pead;
+            if (inputSemanas) inputSemanas.value = p.semanas;
+            if (inputFechaInicio) inputFechaInicio.value = p.fecha;
+            if (inputTurno) inputTurno.value = p.turno;
+            if (inputDias) inputDias.value = p.dias;
+            if (inputHoras) inputHoras.value = p.horas;
+            if (inputGrupo) inputGrupo.value = "Pead - " + p.pead;
+            updateFlyer();
+          }
+        });
+      });
 
-    window.addEventListener('resize', autoFitToScreen);
+      // ========================================================
+      // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL)
+      // ========================================================
+      function autoFitToScreen() {
+        if (!previewViewport || !bannerWrapper) return;
+        const activeCard =
+          currentTab === "participacion"
+            ? document.getElementById("flyerParticipacionCard")
+            : document.getElementById("flyerCard");
+        if (!activeCard) return;
 
-    // ========================================================
-    // EXPORTACIÓN EN ALTA RESOLUCIÓN PNG Y REGISTRO EN SUPABASE
-    // ========================================================
-    async function downloadFlyerPNG() {
-      const overlay = document.getElementById('exportOverlay');
-      const statusText = document.getElementById('exportStatusText');
+        const padX = 28;
+        const padY = 28;
+        const availW = previewViewport.clientWidth - padX;
+        const availH = previewViewport.clientHeight - padY;
 
-      // ----------------------------------------------------
-      // CASO 1: FLYER DE PARTICIPACIÓN EN CLASES
-      // ----------------------------------------------------
-      if (currentTab === 'participacion') {
-        const curso = inputPartCurso?.value?.trim() || 'COMPUTACIÓN I';
-        const pead = inputPartPead?.value?.trim() || 'PEAD 2026-I';
-        const card = document.getElementById('flyerParticipacionCard');
+        const cardW =
+          activeCard.offsetWidth ||
+          (currentTab === "participacion" ? 896 : 680);
+        const cardH =
+          activeCard.offsetHeight ||
+          (currentTab === "participacion" ? 1200 : 880);
+
+        const scaleX = availW / cardW;
+        const scaleY = availH / cardH;
+        currentScale = Math.min(scaleX, scaleY);
+
+        currentScale = Math.max(0.35, Math.min(currentScale, 1.25));
+        bannerWrapper.style.transform = `scale(${currentScale})`;
+        if (zoomPercentText)
+          zoomPercentText.textContent = Math.round(currentScale * 100) + "%";
+      }
+
+      function manualZoom(delta) {
+        if (!bannerWrapper) return;
+        currentScale = Math.max(0.35, Math.min(currentScale + delta, 1.6));
+        bannerWrapper.style.transform = `scale(${currentScale})`;
+        if (zoomPercentText)
+          zoomPercentText.textContent = Math.round(currentScale * 100) + "%";
+      }
+
+      document
+        .getElementById("btnZoomIn")
+        ?.addEventListener("click", () => manualZoom(0.08));
+      document
+        .getElementById("btnZoomOut")
+        ?.addEventListener("click", () => manualZoom(-0.08));
+      document
+        .getElementById("btnZoomFit")
+        ?.addEventListener("click", autoFitToScreen);
+
+      window.addEventListener("resize", autoFitToScreen);
+
+      // ========================================================
+      // EXPORTACIÓN EN ALTA RESOLUCIÓN PNG Y REGISTRO EN SUPABASE
+      // ========================================================
+      async function downloadFlyerPNG() {
+        const overlay = document.getElementById("exportOverlay");
+        const statusText = document.getElementById("exportStatusText");
+
+        // ----------------------------------------------------
+        // CASO 1: FLYER DE PARTICIPACIÓN EN CLASES
+        // ----------------------------------------------------
+        if (currentTab === "participacion") {
+          const curso = inputPartCurso?.value?.trim() || "DISEÑO WEB";
+          const pead = inputPartPead?.value?.trim() || "PEAD B";
+          const card = document.getElementById("flyerParticipacionCard");
+          if (!card) return;
+
+          if (overlay) overlay.style.display = "flex";
+          if (statusText)
+            statusText.textContent =
+              "Renderizando flyer de Participación en Alta Definición (HD)...";
+
+          await new Promise((r) => setTimeout(r, 150));
+
+          try {
+            if (document.fonts) await document.fonts.ready;
+
+            const prevTransform = bannerWrapper
+              ? bannerWrapper.style.transform
+              : "";
+            if (bannerWrapper) bannerWrapper.style.transform = "none";
+
+            let imgData = "";
+            try {
+              imgData = await htmlToImage.toPng(card, {
+                pixelRatio: 2.5,
+                backgroundColor: "#ffffff",
+                cacheBust: true,
+                style: {
+                  transform: "none",
+                  margin: "0",
+                },
+              });
+            } catch (engineErr) {
+              console.warn(
+                "[html-to-image fallback a html2canvas]:",
+                engineErr,
+              );
+              const canvas = await html2canvas(card, {
+                scale: 2.5,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: "#ffffff",
+                logging: false,
+              });
+              imgData = canvas.toDataURL("image/png", 1.0);
+            } finally {
+              if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
+            }
+
+            if (statusText)
+              statusText.textContent = "Descargando imagen PNG oficial...";
+            const link = document.createElement("a");
+            const cursoSanitized = curso.replace(/[^a-zA-Z0-9_-]/g, "_");
+            const peadSanitized = pead.replace(/[^a-zA-Z0-9_-]/g, "_");
+            link.download = `Flyer_Participacion_USS_${cursoSanitized}_${peadSanitized}.png`;
+            link.href = imgData;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Registro en Supabase
+            try {
+              await registrarGeneracionFlyer({
+                nombreDocente: "PARTICIPACIÓN EN CLASES",
+                curso: curso,
+                pead: pead,
+                ciclo: pead,
+                turno: "VIRTUAL",
+                modalidad: "Virtual",
+                horarioDias: "OFICIAL",
+                horarioHoras: "OFICIAL",
+                fechaInicio: "INICIO DE CLASES",
+              });
+            } catch (dbErr) {
+              console.warn("Registro en BD omitido:", dbErr);
+            }
+
+            if (statusText) statusText.textContent = "¡Completado!";
+            setTimeout(() => {
+              if (overlay) overlay.style.display = "none";
+            }, 400);
+
+            showToast(
+              "¡Flyer generado con éxito!",
+              `Flyer de Participación para "${curso} - ${pead}" descargado en HD.`,
+              "success",
+            );
+          } catch (err) {
+            console.error("Error al exportar:", err);
+            alert("Error al generar la imagen: " + (err?.message || err));
+            if (overlay) overlay.style.display = "none";
+          }
+          return;
+        }
+
+        // ----------------------------------------------------
+        // CASO 2: FLYER ORIGINAL DE BIENVENIDA DOCENTE
+        // ----------------------------------------------------
+        const docenteNombre = inputDocenteNombre?.value?.trim() || "";
+        if (!docenteNombre) {
+          alert(
+            "Por favor ingrese el nombre del docente antes de generar el flyer.",
+          );
+          inputDocenteNombre?.focus();
+          return;
+        }
+
+        if (overlay) overlay.style.display = "flex";
+        if (statusText)
+          statusText.textContent =
+            "Renderizando flyer en Alta Definición (HD)...";
+
+        await new Promise((r) => setTimeout(r, 150));
+
+        const card = document.getElementById("flyerCard");
         if (!card) return;
 
-        if (overlay) overlay.style.display = 'flex';
-        if (statusText) statusText.textContent = 'Renderizando flyer de Participación en Alta Definición (HD)...';
-
-        await new Promise(r => setTimeout(r, 150));
-
         try {
-          if (document.fonts) await document.fonts.ready;
+          // Esperar fuentes web
+          if (document.fonts) {
+            await document.fonts.ready;
+          }
 
-          const prevTransform = bannerWrapper ? bannerWrapper.style.transform : '';
-          if (bannerWrapper) bannerWrapper.style.transform = 'none';
+          // Desactivar temporalmente la escala del visor para capturar a resolución 100% nativa
+          const prevTransform = bannerWrapper
+            ? bannerWrapper.style.transform
+            : "";
+          if (bannerWrapper) bannerWrapper.style.transform = "none";
 
-          let imgData = '';
+          let imgData = "";
           try {
             imgData = await htmlToImage.toPng(card, {
               pixelRatio: 2.5,
-              backgroundColor: '#ffffff',
+              backgroundColor: "#ffffff",
               cacheBust: true,
               style: {
-                transform: 'none',
-                margin: '0'
-              }
+                transform: "none",
+                margin: "0",
+              },
             });
           } catch (engineErr) {
-            console.warn('[html-to-image fallback a html2canvas]:', engineErr);
+            console.warn("[html-to-image fallback a html2canvas]:", engineErr);
             const canvas = await html2canvas(card, {
               scale: 2.5,
               useCORS: true,
               allowTaint: true,
-              backgroundColor: '#ffffff',
-              logging: false
+              backgroundColor: "#ffffff",
+              logging: false,
             });
-            imgData = canvas.toDataURL('image/png', 1.0);
+            imgData = canvas.toDataURL("image/png", 1.0);
           } finally {
             if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
           }
 
-          if (statusText) statusText.textContent = 'Descargando imagen PNG oficial...';
-          const link = document.createElement('a');
-          const cursoSanitized = curso.replace(/[^a-zA-Z0-9_-]/g, '_');
-          const peadSanitized = pead.replace(/[^a-zA-Z0-9_-]/g, '_');
-          link.download = `Flyer_Participacion_USS_${cursoSanitized}_${peadSanitized}.png`;
+          if (statusText)
+            statusText.textContent =
+              "Descargando imagen PNG y registrando en base de datos...";
+          const link = document.createElement("a");
+          const cursoSanitized = (inputCurso?.value?.trim() || "Curso").replace(
+            /[^a-zA-Z0-9_-]/g,
+            "_",
+          );
+          const peadSanitized = (inputPead?.value?.trim() || "a").replace(
+            /[^a-zA-Z0-9_-]/g,
+            "_",
+          );
+          const docenteSanitized = docenteNombre.replace(
+            /[^a-zA-Z0-9_-]/g,
+            "_",
+          );
+          link.download = `Flyer_USS_${cursoSanitized}_${docenteSanitized}_PEAD_${peadSanitized}.png`;
           link.href = imgData;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
 
-          // Registro en Supabase (Comunicado Oficial)
-          try {
-            await registrarGeneracionFlyer({
-              nombreDocente: 'COMUNICADO OFICIAL',
-              curso: curso,
-              pead: pead,
-              ciclo: pead,
-              turno: 'VIRTUAL',
-              modalidad: 'Virtual',
-              horarioDias: 'OFICIAL',
-              horarioHoras: 'OFICIAL',
-              fechaInicio: 'INICIO DE CLASES'
-            });
-          } catch (dbErr) {
-            console.warn('Registro en BD omitido:', dbErr);
-          }
+          // 3. Registro en Supabase
+          const supabaseResult = await registrarGeneracionFlyer({
+            nombreDocente: docenteNombre,
+            curso: inputCurso?.value?.trim() || "",
+            pead: inputPead?.value?.trim() || "",
+            ciclo: inputCiclo?.value?.trim() || "",
+            turno: inputTurno?.value?.trim() || "",
+            modalidad: inputModalidad?.value?.trim() || "",
+            horarioDias: inputDias?.value?.trim() || "",
+            horarioHoras: inputHoras?.value?.trim() || "",
+            fechaInicio: inputFechaInicio?.value?.trim() || "",
+          });
 
-          if (statusText) statusText.textContent = '¡Completado!';
+          if (statusText) statusText.textContent = "¡Completado!";
           setTimeout(() => {
-            if (overlay) overlay.style.display = 'none';
+            if (overlay) overlay.style.display = "none";
           }, 400);
 
-          showToast(
-            '¡Flyer generado con éxito!',
-            `Flyer de Participación para "${curso} - ${pead}" descargado en HD.`,
-            'success'
-          );
+          if (supabaseResult.success) {
+            showToast(
+              "¡Flyer generado y registrado!",
+              `Docente "${docenteNombre}" guardado con éxito en la base de datos de Supabase.`,
+              "success",
+            );
+          } else {
+            showToast(
+              "Flyer PNG descargado",
+              `Aviso BD: ${supabaseResult.error || "Recuerda crear la tabla tbl_docentes_flyers en Supabase."}`,
+              "warning",
+            );
+          }
         } catch (err) {
-          console.error('Error al exportar:', err);
-          alert('Error al generar la imagen: ' + (err?.message || err));
-          if (overlay) overlay.style.display = 'none';
+          console.error("Error al exportar:", err);
+          alert("Error al generar la imagen: " + (err?.message || err));
+          if (overlay) overlay.style.display = "none";
         }
-        return;
       }
 
-      // ----------------------------------------------------
-      // CASO 2: FLYER ORIGINAL DE BIENVENIDA DOCENTE
-      // ----------------------------------------------------
-      const docenteNombre = inputDocenteNombre?.value?.trim() || '';
-      if (!docenteNombre) {
-        alert('Por favor ingrese el nombre del docente antes de generar el flyer.');
-        inputDocenteNombre?.focus();
-        return;
-      }
+      document
+        .getElementById("btnDownloadAction")
+        ?.addEventListener("click", downloadFlyerPNG);
 
-      if (overlay) overlay.style.display = 'flex';
-      if (statusText) statusText.textContent = 'Renderizando flyer en Alta Definición (HD)...';
-
-      await new Promise(r => setTimeout(r, 150));
-
-      const card = document.getElementById('flyerCard');
-      if (!card) return;
-
-      try {
-        // Esperar fuentes web
-        if (document.fonts) {
-          await document.fonts.ready;
-        }
-
-        // Desactivar temporalmente la escala del visor para capturar a resolución 100% nativa
-        const prevTransform = bannerWrapper ? bannerWrapper.style.transform : '';
-        if (bannerWrapper) bannerWrapper.style.transform = 'none';
-
-        let imgData = '';
-        try {
-          imgData = await htmlToImage.toPng(card, {
-            pixelRatio: 2.5,
-            backgroundColor: '#ffffff',
-            cacheBust: true,
-            style: {
-              transform: 'none',
-              margin: '0'
-            }
-          });
-        } catch (engineErr) {
-          console.warn('[html-to-image fallback a html2canvas]:', engineErr);
-          const canvas = await html2canvas(card, {
-            scale: 2.5,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            logging: false
-          });
-          imgData = canvas.toDataURL('image/png', 1.0);
-        } finally {
-          if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
-        }
-
-        if (statusText) statusText.textContent = 'Descargando imagen PNG y registrando en base de datos...';
-        const link = document.createElement('a');
-        const cursoSanitized = (inputCurso?.value?.trim() || 'Curso').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const peadSanitized = (inputPead?.value?.trim() || 'a').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const docenteSanitized = docenteNombre.replace(/[^a-zA-Z0-9_-]/g, '_');
-        link.download = `Flyer_USS_${cursoSanitized}_${docenteSanitized}_PEAD_${peadSanitized}.png`;
-        link.href = imgData;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // 3. Registro en Supabase
-        const supabaseResult = await registrarGeneracionFlyer({
-          nombreDocente: docenteNombre,
-          curso: inputCurso?.value?.trim() || '',
-          pead: inputPead?.value?.trim() || '',
-          ciclo: inputCiclo?.value?.trim() || '',
-          turno: inputTurno?.value?.trim() || '',
-          modalidad: inputModalidad?.value?.trim() || '',
-          horarioDias: inputDias?.value?.trim() || '',
-          horarioHoras: inputHoras?.value?.trim() || '',
-          fechaInicio: inputFechaInicio?.value?.trim() || ''
-        });
-
-        if (statusText) statusText.textContent = '¡Completado!';
-        setTimeout(() => {
-          if (overlay) overlay.style.display = 'none';
-        }, 400);
-
-        if (supabaseResult.success) {
-          showToast(
-            '¡Flyer generado y registrado!',
-            `Docente "${docenteNombre}" guardado con éxito en la base de datos de Supabase.`,
-            'success'
-          );
-        } else {
-          showToast(
-            'Flyer PNG descargado',
-            `Aviso BD: ${supabaseResult.error || 'Recuerda crear la tabla tbl_docentes_flyers en Supabase.'}`,
-            'warning'
-          );
-        }
-
-      } catch (err) {
-        console.error('Error al exportar:', err);
-        alert('Error al generar la imagen: ' + (err?.message || err));
-        if (overlay) overlay.style.display = 'none';
-      }
-    }
-
-    document.getElementById('btnDownloadAction')?.addEventListener('click', downloadFlyerPNG);
-
-    // Inicialización al cargar la página
-    window.addEventListener('DOMContentLoaded', () => {
-      updatePartFlyer();
-      updateFlyer();
-      updatePhotoTransform();
-      autoFitToScreen();
-      setTimeout(autoFitToScreen, 150);
-    });
-  </script>
-
-</body>
+      // Inicialización al cargar la página
+      window.addEventListener("DOMContentLoaded", () => {
+        updatePartFlyer();
+        updateFlyer();
+        updatePhotoTransform();
+        autoFitToScreen();
+        setTimeout(autoFitToScreen, 150);
+      });
+    </script>
+  </body>
 </html>
