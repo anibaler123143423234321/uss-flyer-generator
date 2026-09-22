@@ -2,6 +2,7 @@
 // src/pages/index.astro
 import Sidebar from '../components/Sidebar.astro';
 import FlyerCard from '../components/FlyerCard.astro';
+import FlyerParticipacionCard from '../components/FlyerParticipacionCard.astro';
 import '../styles/global.css';
 ---
 
@@ -41,7 +42,13 @@ import '../styles/global.css';
 
       <!-- Contenedor con Escala Dinámica -->
       <div class="banner-wrapper" id="bannerWrapper">
-        <FlyerCard />
+        <!-- 1. Flyer de Participación en Clases (Por Defecto) -->
+        <FlyerParticipacionCard />
+
+        <!-- 2. Flyer de Bienvenida Docente (En Pestaña 2) -->
+        <div id="flyerDocenteContainer" style="display: none;">
+          <FlyerCard />
+        </div>
       </div>
 
     </main>
@@ -63,14 +70,33 @@ import '../styles/global.css';
     import html2canvas from 'html2canvas';
     import { registrarGeneracionFlyer } from '../lib/supabase.js';
 
-    // Variables de Estado
+    // ==========================================
+    // 1. ESTADO DE PESTAÑAS (TABS)
+    // ==========================================
+    let currentTab = 'participacion'; // Por defecto: Nuevo Flyer de Participación
+
+    // Elementos de Navegación de Pestañas
+    const tabBtnParticipacion = document.getElementById('tabBtnParticipacion');
+    const tabBtnBienvenida = document.getElementById('tabBtnBienvenida');
+    const tabPaneParticipacion = document.getElementById('tabPaneParticipacion');
+    const tabPaneBienvenida = document.getElementById('tabPaneBienvenida');
+    const flyerParticipacionCard = document.getElementById('flyerParticipacionCard');
+    const flyerDocenteContainer = document.getElementById('flyerDocenteContainer');
+    const btnDownloadLabel = document.getElementById('btnDownloadLabel');
+
+    // Elementos del Flyer de Participación
+    const inputPartCurso = document.getElementById('inputPartCurso');
+    const inputPartPead = document.getElementById('inputPartPead');
+    const viewPartCursoPead = document.getElementById('viewPartCursoPead');
+
+    // Variables de Estado de Bienvenida Docente
     const defaultPhotoUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600";
     let currentPhotoSrc = defaultPhotoUrl;
     let currentZoom = 100;
     let currentPosY = 0;
     let currentScale = 1.0;
 
-    // Inputs del Formulario
+    // Inputs del Formulario Bienvenida Docente
     const inputDocenteNombre = document.getElementById('inputDocenteNombre');
     const inputPhotoUrl = document.getElementById('inputPhotoUrl');
     const inputCurso = document.getElementById('inputCurso');
@@ -92,7 +118,7 @@ import '../styles/global.css';
     const zoomVal = document.getElementById('zoomVal');
     const posVal = document.getElementById('posVal');
 
-    // Nodos del Flyer
+    // Nodos del Flyer de Bienvenida
     const viewCursoTitulo = document.getElementById('viewCursoTitulo');
     const viewPeadBadge = document.getElementById('viewPeadBadge');
     const viewTipoCurso = document.getElementById('viewTipoCurso');
@@ -114,6 +140,63 @@ import '../styles/global.css';
     const zoomPercentText = document.getElementById('zoomPercentText');
     const flyerCard = document.getElementById('flyerCard');
     const previewViewport = document.getElementById('previewViewport');
+
+    // ==========================================
+    // 2. CAMBIO DE PESTAÑAS (SWITCH TABS)
+    // ==========================================
+    function switchTab(tab) {
+      currentTab = tab;
+
+      if (tab === 'participacion') {
+        tabBtnParticipacion?.classList.add('active');
+        tabBtnBienvenida?.classList.remove('active');
+        if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'flex';
+        if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'none';
+        if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'flex';
+        if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'none';
+        if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Flyer Participación (HD)';
+      } else {
+        tabBtnParticipacion?.classList.remove('active');
+        tabBtnBienvenida?.classList.add('active');
+        if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'none';
+        if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'flex';
+        if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'none';
+        if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'block';
+        if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Flyer Docente (HD)';
+      }
+
+      autoFitToScreen();
+    }
+
+    tabBtnParticipacion?.addEventListener('click', () => switchTab('participacion'));
+    tabBtnBienvenida?.addEventListener('click', () => switchTab('bienvenida'));
+
+    // ==========================================
+    // 3. SINCRONIZACIÓN FLYER DE PARTICIPACIÓN
+    // ==========================================
+    function updatePartFlyer() {
+      const curso = inputPartCurso?.value?.trim() || 'COMPUTACIÓN I';
+      const pead = inputPartPead?.value?.trim() || 'PEAD 2026-I';
+      if (viewPartCursoPead) {
+        viewPartCursoPead.textContent = `${curso.toUpperCase()} - ${pead.toUpperCase()}`;
+      }
+    }
+
+    inputPartCurso?.addEventListener('input', updatePartFlyer);
+    inputPartPead?.addEventListener('input', updatePartFlyer);
+    inputPartCurso?.addEventListener('change', updatePartFlyer);
+    inputPartPead?.addEventListener('change', updatePartFlyer);
+
+    // Atajos rápidos para Participación
+    document.querySelectorAll('.chip-part').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const c = btn.getAttribute('data-part-curso');
+        const p = btn.getAttribute('data-part-pead');
+        if (c && inputPartCurso) inputPartCurso.value = c;
+        if (p && inputPartPead) inputPartPead.value = p;
+        updatePartFlyer();
+      });
+    });
 
     // Toast de Notificación
     function showToast(title, desc, type = 'success') {
@@ -144,7 +227,9 @@ import '../styles/global.css';
       }, 4500);
     }
 
-    // Sincronización en vivo
+    // ==========================================
+    // 4. SINCRONIZACIÓN FLYER DE BIENVENIDA
+    // ==========================================
     function updateFlyer() {
       const curso = inputCurso?.value?.trim() || 'AutoCAD 2D';
       const tipoCurso = inputTipoCurso?.value?.trim() || 'regular';
@@ -326,14 +411,19 @@ import '../styles/global.css';
     // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL)
     // ========================================================
     function autoFitToScreen() {
-      if (!previewViewport || !flyerCard || !bannerWrapper) return;
+      if (!previewViewport || !bannerWrapper) return;
+      const activeCard = currentTab === 'participacion' 
+        ? document.getElementById('flyerParticipacionCard') 
+        : document.getElementById('flyerCard');
+      if (!activeCard) return;
+
       const padX = 28;
       const padY = 28;
       const availW = previewViewport.clientWidth - padX;
       const availH = previewViewport.clientHeight - padY;
       
-      const cardW = flyerCard.offsetWidth || 680;
-      const cardH = flyerCard.offsetHeight || 880;
+      const cardW = activeCard.offsetWidth || 680;
+      const cardH = activeCard.offsetHeight || (currentTab === 'participacion' ? 920 : 880);
 
       const scaleX = availW / cardW;
       const scaleY = availH / cardH;
@@ -361,6 +451,102 @@ import '../styles/global.css';
     // EXPORTACIÓN EN ALTA RESOLUCIÓN PNG Y REGISTRO EN SUPABASE
     // ========================================================
     async function downloadFlyerPNG() {
+      const overlay = document.getElementById('exportOverlay');
+      const statusText = document.getElementById('exportStatusText');
+
+      // ----------------------------------------------------
+      // CASO 1: FLYER DE PARTICIPACIÓN EN CLASES
+      // ----------------------------------------------------
+      if (currentTab === 'participacion') {
+        const curso = inputPartCurso?.value?.trim() || 'COMPUTACIÓN I';
+        const pead = inputPartPead?.value?.trim() || 'PEAD 2026-I';
+        const card = document.getElementById('flyerParticipacionCard');
+        if (!card) return;
+
+        if (overlay) overlay.style.display = 'flex';
+        if (statusText) statusText.textContent = 'Renderizando flyer de Participación en Alta Definición (HD)...';
+
+        await new Promise(r => setTimeout(r, 150));
+
+        try {
+          if (document.fonts) await document.fonts.ready;
+
+          const prevTransform = bannerWrapper ? bannerWrapper.style.transform : '';
+          if (bannerWrapper) bannerWrapper.style.transform = 'none';
+
+          let imgData = '';
+          try {
+            imgData = await htmlToImage.toPng(card, {
+              pixelRatio: 2.5,
+              backgroundColor: '#ffffff',
+              cacheBust: true,
+              style: {
+                transform: 'none',
+                margin: '0'
+              }
+            });
+          } catch (engineErr) {
+            console.warn('[html-to-image fallback a html2canvas]:', engineErr);
+            const canvas = await html2canvas(card, {
+              scale: 2.5,
+              useCORS: true,
+              allowTaint: true,
+              backgroundColor: '#ffffff',
+              logging: false
+            });
+            imgData = canvas.toDataURL('image/png', 1.0);
+          } finally {
+            if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
+          }
+
+          if (statusText) statusText.textContent = 'Descargando imagen PNG oficial...';
+          const link = document.createElement('a');
+          const cursoSanitized = curso.replace(/[^a-zA-Z0-9_-]/g, '_');
+          const peadSanitized = pead.replace(/[^a-zA-Z0-9_-]/g, '_');
+          link.download = `Flyer_Participacion_USS_${cursoSanitized}_${peadSanitized}.png`;
+          link.href = imgData;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          // Registro en Supabase (Comunicado Oficial)
+          try {
+            await registrarGeneracionFlyer({
+              nombreDocente: 'COMUNICADO OFICIAL',
+              curso: curso,
+              pead: pead,
+              ciclo: pead,
+              turno: 'VIRTUAL',
+              modalidad: 'Virtual',
+              horarioDias: 'OFICIAL',
+              horarioHoras: 'OFICIAL',
+              fechaInicio: 'INICIO DE CLASES'
+            });
+          } catch (dbErr) {
+            console.warn('Registro en BD omitido:', dbErr);
+          }
+
+          if (statusText) statusText.textContent = '¡Completado!';
+          setTimeout(() => {
+            if (overlay) overlay.style.display = 'none';
+          }, 400);
+
+          showToast(
+            '¡Flyer generado con éxito!',
+            `Flyer de Participación para "${curso} - ${pead}" descargado en HD.`,
+            'success'
+          );
+        } catch (err) {
+          console.error('Error al exportar:', err);
+          alert('Error al generar la imagen: ' + (err?.message || err));
+          if (overlay) overlay.style.display = 'none';
+        }
+        return;
+      }
+
+      // ----------------------------------------------------
+      // CASO 2: FLYER ORIGINAL DE BIENVENIDA DOCENTE
+      // ----------------------------------------------------
       const docenteNombre = inputDocenteNombre?.value?.trim() || '';
       if (!docenteNombre) {
         alert('Por favor ingrese el nombre del docente antes de generar el flyer.');
@@ -368,8 +554,6 @@ import '../styles/global.css';
         return;
       }
 
-      const overlay = document.getElementById('exportOverlay');
-      const statusText = document.getElementById('exportStatusText');
       if (overlay) overlay.style.display = 'flex';
       if (statusText) statusText.textContent = 'Renderizando flyer en Alta Definición (HD)...';
 
@@ -467,6 +651,7 @@ import '../styles/global.css';
 
     // Inicialización al cargar la página
     window.addEventListener('DOMContentLoaded', () => {
+      updatePartFlyer();
       updateFlyer();
       updatePhotoTransform();
       autoFitToScreen();
