@@ -20,14 +20,23 @@ import "../styles/global.css";
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/logo-uss.png" />
 
-    <!-- Fuentes Google: Montserrat, Poppins y Caveat (Manuscrito) -->
+    <!-- Fuentes Google: Inter (UI), Montserrat y Caveat (Flyer) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800&display=swap"
       rel="stylesheet"
       crossorigin="anonymous"
     />
+
+    <!-- Inicialización del tema sin parpadeo (Blanco por defecto) -->
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem("uss_theme");
+        const theme = saved === "dark" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
   </head>
   <body>
     <div class="app-root">
@@ -38,9 +47,7 @@ import "../styles/global.css";
       <main class="preview-viewport" id="previewViewport">
         <!-- Barra Flotante de Zoom Compacta -->
         <div class="compact-float-bar">
-          <span id="zoomPercentText" style="color: #94a3b8; font-weight: 600;"
-            >100%</span
-          >
+          <span id="zoomPercentText" style="font-weight: 600;">100%</span>
           <button
             class="btn-zoom-mini"
             id="btnZoomOut"
@@ -58,19 +65,54 @@ import "../styles/global.css";
             id="btnZoomFit"
             type="button"
             title="Auto-ajustar a pantalla"
-            style="font-size: 10px; color: var(--uss-cyan);"
+            style="font-size: 10px; color: var(--uss-cyan-text);"
             >Auto-ajustar</button
           >
+          <span class="float-bar-divider"></span>
+          <!-- Botón de Modo Oscuro en Barra Flotante -->
+          <button
+            class="btn-zoom-mini btn-theme-float"
+            id="btnThemeToggleFloat"
+            type="button"
+            title="Cambiar Modo Oscuro / Claro"
+            aria-label="Alternar tema"
+          >
+            <svg class="icon-moon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg class="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
         </div>
 
-        <!-- Contenedor con Escala Dinámica -->
-        <div class="banner-wrapper" id="bannerWrapper">
-          <!-- 1. Flyer de Participación en Clases (Por Defecto) -->
-          <FlyerParticipacionCard />
+        <!-- Botón visible en pantallas móviles para regresar al formulario -->
+        <button class="btn-mobile-jump-edit" id="btnMobileJumpToEditor" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+          <span>↑ Subir a Editar Formulario</span>
+        </button>
 
-          <!-- 2. Flyer de Bienvenida Docente (En Pestaña 2) -->
-          <div id="flyerDocenteContainer" style="display: none;">
-            <FlyerCard />
+        <!-- Contenedor exterior para calibración responsiva en móviles -->
+        <div class="banner-wrapper-outer" id="bannerWrapperOuter">
+          <!-- Contenedor con Escala Dinámica -->
+          <div class="banner-wrapper" id="bannerWrapper">
+            <!-- 1. Flyer de Participación en Clases (Por Defecto) -->
+            <FlyerParticipacionCard />
+
+            <!-- 2. Flyer de Bienvenida Docente (En Pestaña 2) -->
+            <div id="flyerDocenteContainer" style="display: none;">
+              <FlyerCard />
+            </div>
           </div>
         </div>
       </main>
@@ -84,6 +126,21 @@ import "../styles/global.css";
 
     <!-- Contenedor de Toasts de Notificación -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Botón Flotante Rápido para Móviles (Floating Action Pill) -->
+    <div class="mobile-float-pill" id="mobileFloatPill">
+      <button type="button" class="btn-float-pill" id="btnFloatPill" aria-label="Navegar entre formulario y flyer">
+        <svg id="pillIconEye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <svg id="pillIconEdit" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        <span id="pillText">Ver Flyer</span>
+      </button>
+    </div>
 
     <!-- Lógica Interactiva del Cliente (Astro ESM) -->
     <script>
@@ -114,8 +171,12 @@ import "../styles/global.css";
       const btnDownloadLabel = document.getElementById("btnDownloadLabel");
 
       // Elementos del Flyer de Participación
-      const inputPartCurso = document.getElementById("inputPartCurso");
-      const inputPartPead = document.getElementById("inputPartPead");
+      const inputPartCurso = document.getElementById(
+        "inputPartCurso",
+      ) as HTMLInputElement | null;
+      const inputPartPead = document.getElementById(
+        "inputPartPead",
+      ) as HTMLInputElement | null;
       const viewPartCursoPead = document.getElementById("viewPartCursoPead");
 
       // Variables de Estado de Bienvenida Docente
@@ -127,26 +188,56 @@ import "../styles/global.css";
       let currentScale = 1.0;
 
       // Inputs del Formulario Bienvenida Docente
-      const inputDocenteNombre = document.getElementById("inputDocenteNombre");
-      const inputPhotoUrl = document.getElementById("inputPhotoUrl");
-      const inputCurso = document.getElementById("inputCurso");
-      const inputTipoCurso = document.getElementById("inputTipoCurso");
-      const inputPead = document.getElementById("inputPead");
-      const inputSemanas = document.getElementById("inputSemanas");
-      const inputCiclo = document.getElementById("inputCiclo");
+      const inputDocenteNombre = document.getElementById(
+        "inputDocenteNombre",
+      ) as HTMLInputElement | null;
+      const inputPhotoUrl = document.getElementById(
+        "inputPhotoUrl",
+      ) as HTMLInputElement | null;
+      const inputCurso = document.getElementById(
+        "inputCurso",
+      ) as HTMLInputElement | null;
+      const inputTipoCurso = document.getElementById(
+        "inputTipoCurso",
+      ) as HTMLSelectElement | null;
+      const inputPead = document.getElementById(
+        "inputPead",
+      ) as HTMLInputElement | null;
+      const inputSemanas = document.getElementById(
+        "inputSemanas",
+      ) as HTMLInputElement | null;
+      const inputCiclo = document.getElementById(
+        "inputCiclo",
+      ) as HTMLInputElement | null;
       const checkShowTeacherScript = document.getElementById(
         "checkShowTeacherScript",
-      );
+      ) as HTMLInputElement | null;
 
-      const inputModalidad = document.getElementById("inputModalidad");
-      const inputGrupo = document.getElementById("inputGrupo");
-      const inputTurno = document.getElementById("inputTurno");
-      const inputDias = document.getElementById("inputDias");
-      const inputHoras = document.getElementById("inputHoras");
-      const inputFechaInicio = document.getElementById("inputFechaInicio");
+      const inputModalidad = document.getElementById(
+        "inputModalidad",
+      ) as HTMLInputElement | null;
+      const inputGrupo = document.getElementById(
+        "inputGrupo",
+      ) as HTMLInputElement | null;
+      const inputTurno = document.getElementById(
+        "inputTurno",
+      ) as HTMLInputElement | null;
+      const inputDias = document.getElementById(
+        "inputDias",
+      ) as HTMLInputElement | null;
+      const inputHoras = document.getElementById(
+        "inputHoras",
+      ) as HTMLInputElement | null;
+      const inputFechaInicio = document.getElementById(
+        "inputFechaInicio",
+      ) as HTMLInputElement | null;
 
-      const sliderZoom = document.getElementById("sliderZoom");
-      const sliderPosY = document.getElementById("sliderPosY");
+      const sliderZoom = document.getElementById(
+        "sliderZoom",
+      ) as HTMLInputElement | null;
+      const sliderPosY = document.getElementById(
+        "sliderPosY",
+      ) as HTMLInputElement | null;
       const zoomVal = document.getElementById("zoomVal");
       const posVal = document.getElementById("posVal");
 
@@ -159,8 +250,12 @@ import "../styles/global.css";
       const viewTeacherAnnotation = document.getElementById(
         "viewTeacherAnnotation",
       );
-      const viewTeacherImg = document.getElementById("viewTeacherImg");
-      const sidebarPhotoThumb = document.getElementById("sidebarPhotoThumb");
+      const viewTeacherImg = document.getElementById(
+        "viewTeacherImg",
+      ) as HTMLImageElement | null;
+      const sidebarPhotoThumb = document.getElementById(
+        "sidebarPhotoThumb",
+      ) as HTMLImageElement | null;
 
       const viewTableCurso = document.getElementById("viewTableCurso");
       const viewTableModalidad = document.getElementById("viewTableModalidad");
@@ -178,7 +273,7 @@ import "../styles/global.css";
       // ==========================================
       // 2. CAMBIO DE PESTAÑAS (SWITCH TABS)
       // ==========================================
-      function switchTab(tab) {
+      function switchTab(tab: string) {
         currentTab = tab;
 
         if (tab === "participacion") {
@@ -250,7 +345,7 @@ import "../styles/global.css";
 
       // Permite también editar directamente en el flyer haciendo clic sobre la píldora
       viewPartCursoPead?.addEventListener("input", () => {
-        const text = viewPartCursoPead.textContent.trim();
+        const text = viewPartCursoPead.textContent?.trim() || "";
         if (text.includes("-")) {
           const parts = text.split("-");
           if (inputPartCurso) inputPartCurso.value = parts[0].trim();
@@ -273,7 +368,11 @@ import "../styles/global.css";
       });
 
       // Toast de Notificación
-      function showToast(title, desc, type = "success") {
+      function showToast(
+        title: string,
+        desc: string,
+        type: "success" | "warning" | "error" = "success",
+      ) {
         const container = document.getElementById("toastContainer");
         if (!container) return;
 
@@ -327,7 +426,9 @@ import "../styles/global.css";
         if (viewDocenteNombre) {
           viewDocenteNombre.textContent = docenteNombre;
           const len = docenteNombre.length;
-          const ribbon = viewDocenteNombre.closest(".teacher-badge-ribbon");
+          const ribbon = viewDocenteNombre.closest(
+            ".teacher-badge-ribbon",
+          ) as HTMLElement | null;
 
           if (len > 34) {
             viewDocenteNombre.style.fontSize = "8.8px";
@@ -407,7 +508,7 @@ import "../styles/global.css";
       }
 
       // Cargar foto desde URL
-      function loadPhotoFromUrl(url) {
+      function loadPhotoFromUrl(url: string) {
         if (!url) return;
         currentPhotoSrc = url;
         if (viewTeacherImg) viewTeacherImg.src = url;
@@ -422,27 +523,33 @@ import "../styles/global.css";
       );
 
       // Cargar foto desde archivo local de la PC del docente
-      function handlePhotoFile(file) {
+      function handlePhotoFile(file: File) {
         if (!file || !file.type.startsWith("image/")) return;
         const reader = new FileReader();
         reader.onload = function (e) {
-          currentPhotoSrc = e.target?.result;
-          if (viewTeacherImg) viewTeacherImg.src = currentPhotoSrc;
-          if (sidebarPhotoThumb) sidebarPhotoThumb.src = currentPhotoSrc;
-          if (inputPhotoUrl) inputPhotoUrl.value = "(Foto local cargada)";
-          if (sliderZoom) sliderZoom.value = "100";
-          if (sliderPosY) sliderPosY.value = "0";
-          updatePhotoTransform();
+          const res = e.target?.result;
+          if (typeof res === "string") {
+            currentPhotoSrc = res;
+            if (viewTeacherImg) viewTeacherImg.src = currentPhotoSrc;
+            if (sidebarPhotoThumb) sidebarPhotoThumb.src = currentPhotoSrc;
+            if (inputPhotoUrl) inputPhotoUrl.value = "(Foto local cargada)";
+            if (sliderZoom) sliderZoom.value = "100";
+            if (sliderPosY) sliderPosY.value = "0";
+            updatePhotoTransform();
+          }
         };
         reader.readAsDataURL(file);
       }
 
-      const photoInput = document.getElementById("photoInput");
+      const photoInput = document.getElementById(
+        "photoInput",
+      ) as HTMLInputElement | null;
       const btnTriggerUpload = document.getElementById("btnTriggerUpload");
       btnTriggerUpload?.addEventListener("click", () => photoInput?.click());
 
       photoInput?.addEventListener("change", (e) => {
-        const files = e.target?.files;
+        const target = e.target as HTMLInputElement | null;
+        const files = target?.files;
         if (files && files.length > 0) handlePhotoFile(files[0]);
       });
 
@@ -522,9 +629,9 @@ import "../styles/global.css";
 
       document.querySelectorAll("[data-preset]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const key = btn.getAttribute("data-preset");
-          const p = presets[key];
-          if (p) {
+          const key = btn.getAttribute("data-preset") as keyof typeof presets | null;
+          if (key && presets[key]) {
+            const p = presets[key];
             if (inputCurso) inputCurso.value = p.curso;
             if (inputTipoCurso) inputTipoCurso.value = p.tipoCurso || "regular";
             if (inputPead) inputPead.value = p.pead;
@@ -540,7 +647,8 @@ import "../styles/global.css";
       });
 
       // ========================================================
-      // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL)
+      // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL EN ESCRITORIO,
+      // ESCALADO PERFECTO Y FLUIDO EN MÓVILES)
       // ========================================================
       function autoFitToScreen() {
         if (!previewViewport || !bannerWrapper) return;
@@ -550,11 +658,7 @@ import "../styles/global.css";
             : document.getElementById("flyerCard");
         if (!activeCard) return;
 
-        const padX = 28;
-        const padY = 28;
-        const availW = previewViewport.clientWidth - padX;
-        const availH = previewViewport.clientHeight - padY;
-
+        const isMobile = window.innerWidth <= 950;
         const cardW =
           activeCard.offsetWidth ||
           (currentTab === "participacion" ? 896 : 680);
@@ -562,20 +666,75 @@ import "../styles/global.css";
           activeCard.offsetHeight ||
           (currentTab === "participacion" ? 1200 : 880);
 
-        const scaleX = availW / cardW;
-        const scaleY = availH / cardH;
-        currentScale = Math.min(scaleX, scaleY);
+        if (isMobile) {
+          // En móviles, el factor restrictivo es el ancho de pantalla
+          const padX = 22;
+          const containerWidth =
+            previewViewport.clientWidth || window.innerWidth;
+          const availW = Math.max(260, containerWidth - padX);
+          const scaleX = availW / cardW;
 
-        currentScale = Math.max(0.35, Math.min(currentScale, 1.25));
-        bannerWrapper.style.transform = `scale(${currentScale})`;
+          currentScale = Math.max(0.20, Math.min(scaleX, 1.15));
+          bannerWrapper.style.transformOrigin = "top center";
+          bannerWrapper.style.transform = `scale(${currentScale})`;
+
+          const scaledW = Math.round(cardW * currentScale);
+          const scaledH = Math.round(cardH * currentScale);
+          const wrapperOuter = document.getElementById("bannerWrapperOuter");
+          if (wrapperOuter) {
+            wrapperOuter.style.width = `${scaledW}px`;
+            wrapperOuter.style.height = `${scaledH + 16}px`;
+          }
+        } else {
+          // En escritorio, encaje exacto a 100vh sin scroll
+          const padX = 28;
+          const padY = 28;
+          const availW = previewViewport.clientWidth - padX;
+          const availH = previewViewport.clientHeight - padY;
+
+          const scaleX = availW / cardW;
+          const scaleY = availH / cardH;
+          currentScale = Math.min(scaleX, scaleY);
+          currentScale = Math.max(0.35, Math.min(currentScale, 1.25));
+
+          bannerWrapper.style.transformOrigin = "center center";
+          bannerWrapper.style.transform = `scale(${currentScale})`;
+
+          const wrapperOuter = document.getElementById("bannerWrapperOuter");
+          if (wrapperOuter) {
+            wrapperOuter.style.width = "";
+            wrapperOuter.style.height = "";
+          }
+        }
+
         if (zoomPercentText)
           zoomPercentText.textContent = Math.round(currentScale * 100) + "%";
       }
 
-      function manualZoom(delta) {
+      function manualZoom(delta: number) {
         if (!bannerWrapper) return;
-        currentScale = Math.max(0.35, Math.min(currentScale + delta, 1.6));
+        const isMobile = window.innerWidth <= 950;
+        currentScale = Math.max(0.20, Math.min(currentScale + delta, 1.6));
         bannerWrapper.style.transform = `scale(${currentScale})`;
+
+        if (isMobile) {
+          const activeCard =
+            currentTab === "participacion"
+              ? document.getElementById("flyerParticipacionCard")
+              : document.getElementById("flyerCard");
+          const cardW =
+            activeCard?.offsetWidth ||
+            (currentTab === "participacion" ? 896 : 680);
+          const cardH =
+            activeCard?.offsetHeight ||
+            (currentTab === "participacion" ? 1200 : 880);
+          const wrapperOuter = document.getElementById("bannerWrapperOuter");
+          if (wrapperOuter) {
+            wrapperOuter.style.width = `${Math.round(cardW * currentScale)}px`;
+            wrapperOuter.style.height = `${Math.round(cardH * currentScale + 16)}px`;
+          }
+        }
+
         if (zoomPercentText)
           zoomPercentText.textContent = Math.round(currentScale * 100) + "%";
       }
@@ -591,6 +750,71 @@ import "../styles/global.css";
         ?.addEventListener("click", autoFitToScreen);
 
       window.addEventListener("resize", autoFitToScreen);
+      window.addEventListener("orientationchange", () =>
+        setTimeout(autoFitToScreen, 150),
+      );
+
+      // ========================================================
+      // NAVEGACIÓN Y SALTOS FLUIDOS EN MÓVILES (FORMULARIO ↔ FLYER)
+      // ========================================================
+      const btnMobileJumpToPreview = document.getElementById(
+        "btnMobileJumpToPreview",
+      );
+      const btnMobileJumpToEditor = document.getElementById(
+        "btnMobileJumpToEditor",
+      );
+      const btnFloatPill = document.getElementById("btnFloatPill");
+      const pillIconEye = document.getElementById("pillIconEye");
+      const pillIconEdit = document.getElementById("pillIconEdit");
+      const pillText = document.getElementById("pillText");
+
+      function scrollToPreview() {
+        if (previewViewport) {
+          previewViewport.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }
+
+      function scrollToEditor() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      btnMobileJumpToPreview?.addEventListener("click", scrollToPreview);
+      btnMobileJumpToEditor?.addEventListener("click", scrollToEditor);
+
+      let isPreviewInView = false;
+      function updateMobilePillState() {
+        if (!previewViewport) return;
+        const rect = previewViewport.getBoundingClientRect();
+        // Cuando el visor del flyer está en pantalla
+        const inView = rect.top < window.innerHeight * 0.55;
+        if (inView !== isPreviewInView) {
+          isPreviewInView = inView;
+          if (isPreviewInView) {
+            if (pillIconEye) pillIconEye.style.display = "none";
+            if (pillIconEdit) pillIconEdit.style.display = "inline-block";
+            if (pillText) pillText.textContent = "Editar";
+          } else {
+            if (pillIconEye) pillIconEye.style.display = "inline-block";
+            if (pillIconEdit) pillIconEdit.style.display = "none";
+            if (pillText) pillText.textContent = "Ver Flyer";
+          }
+        }
+      }
+
+      window.addEventListener("scroll", updateMobilePillState, {
+        passive: true,
+      });
+
+      btnFloatPill?.addEventListener("click", () => {
+        if (isPreviewInView) {
+          scrollToEditor();
+        } else {
+          scrollToPreview();
+        }
+      });
 
       // ========================================================
       // EXPORTACIÓN EN ALTA RESOLUCIÓN PNG Y REGISTRO EN SUPABASE
@@ -820,8 +1044,56 @@ import "../styles/global.css";
         .getElementById("btnDownloadAction")
         ?.addEventListener("click", downloadFlyerPNG);
 
+      // ==========================================
+      // GESTIÓN DE TEMA CLARO / OSCURO (BLANCO POR DEFECTO)
+      // ==========================================
+      function getInitialTheme() {
+        const saved = localStorage.getItem("uss_theme");
+        return saved === "dark" ? "dark" : "light";
+      }
+
+      function updateThemeUI(theme: string) {
+        document.documentElement.setAttribute("data-theme", theme);
+        const themeToggleText = document.getElementById("themeToggleText");
+        const themeToggleBtn = document.getElementById("themeToggleBtn");
+        const btnThemeToggleFloat = document.getElementById("btnThemeToggleFloat");
+
+        if (theme === "dark") {
+          if (themeToggleText) themeToggleText.textContent = "Modo Claro";
+          if (themeToggleBtn) {
+            themeToggleBtn.setAttribute("title", "Cambiar a Modo Claro (Blanco)");
+            themeToggleBtn.setAttribute("aria-label", "Cambiar a Modo Claro (Blanco)");
+          }
+          if (btnThemeToggleFloat) {
+            btnThemeToggleFloat.setAttribute("title", "Cambiar a Modo Claro (Blanco)");
+            btnThemeToggleFloat.setAttribute("aria-label", "Cambiar a Modo Claro (Blanco)");
+          }
+        } else {
+          if (themeToggleText) themeToggleText.textContent = "Modo Oscuro";
+          if (themeToggleBtn) {
+            themeToggleBtn.setAttribute("title", "Cambiar a Modo Oscuro");
+            themeToggleBtn.setAttribute("aria-label", "Cambiar a Modo Oscuro");
+          }
+          if (btnThemeToggleFloat) {
+            btnThemeToggleFloat.setAttribute("title", "Cambiar a Modo Oscuro");
+            btnThemeToggleFloat.setAttribute("aria-label", "Cambiar a Modo Oscuro");
+          }
+        }
+      }
+
+      function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        localStorage.setItem("uss_theme", newTheme);
+        updateThemeUI(newTheme);
+      }
+
+      document.getElementById("themeToggleBtn")?.addEventListener("click", toggleTheme);
+      document.getElementById("btnThemeToggleFloat")?.addEventListener("click", toggleTheme);
+
       // Inicialización al cargar la página
       window.addEventListener("DOMContentLoaded", () => {
+        updateThemeUI(getInitialTheme());
         updatePartFlyer();
         updateFlyer();
         updatePhotoTransform();
