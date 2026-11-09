@@ -47,19 +47,28 @@
 
   <!-- SELECTOR DE PESTAÑAS (TABS) -->
   <div class="tabs-nav-container">
-    <button type="button" class="tab-nav-btn active" id="tabBtnParticipacion" data-tab="participacion">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button type="button" class="tab-nav-btn active" id="tabBtnParticipacion" data-tab="participacion" title="Flyer de Participación en Clases">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 20h9"/>
         <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
       </svg>
-      <span>1. Participación (Nuevo)</span>
+      <span>1. Participación</span>
     </button>
-    <button type="button" class="tab-nav-btn" id="tabBtnBienvenida" data-tab="bienvenida">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button type="button" class="tab-nav-btn" id="tabBtnBienvenida" data-tab="bienvenida" title="Flyer Individual de Bienvenida Docente">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
       </svg>
-      <span>2. Bienvenida Docente</span>
+      <span>2. Bienvenida</span>
+    </button>
+    <button type="button" class="tab-nav-btn" id="tabBtnInicioCurso" data-tab="inicio-curso" title="Post FB e Instagram para foto con estudiantes">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span>3. Inicio Curso (FB/IG)</span>
     </button>
   </div>
 
@@ -256,6 +265,141 @@
         <div class="form-item" style="margin-top: 5px;">
           <label for="inputFechaInicio">Fecha de Inicio:</label>
           <input type="text" id="inputFechaInicio" class="compact-input" value="miércoles 05 de agosto - 7pm">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: FORMULARIO INICIO DE CURSO (POST)   -->
+    <!-- ========================================== -->
+    <div id="tabPaneInicioCurso" class="tab-pane" style="display: none;">
+
+      <!-- Card 1: Foto con Estudiantes y Formato -->
+      <div class="compact-card">
+        <div class="compact-card-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>1. Foto Docente/Alumnos y Formato</span>
+        </div>
+
+        <div class="photo-uploader-compact">
+          <div class="photo-avatar-wrap" style="width: 52px; height: 48px; border-radius: 7px; flex-shrink: 0;" id="btnTriggerUploadInicio" title="Subir foto con estudiantes (Zoom o Campus)">
+            <img id="sidebarInicioPhotoThumb" class="photo-thumb-img" src="/laptop-zoom.jpg" alt="Miniatura Clase">
+            <input type="file" id="inicioPhotoInput" accept="image/*" style="display:none;">
+            <div class="photo-avatar-btn-overlay">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              <span>Subir</span>
+            </div>
+          </div>
+
+          <div class="photo-sliders-wrap">
+            <div class="slider-mini-box">
+              <span class="slider-mini-title">Zoom</span>
+              <input type="range" id="sliderInicioZoom" min="50" max="250" value="100">
+              <span id="zoomInicioVal" class="slider-mini-val">100%</span>
+              <button class="btn-reset-icon" id="btnResetInicioPhoto" type="button" title="Restablecer posición de foto">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="slider-dual-row">
+              <div class="slider-mini-box slider-dual-box">
+                <span class="slider-mini-title">X</span>
+                <input type="range" id="sliderInicioPosX" min="-150" max="150" value="0">
+                <span id="posInicioXVal" class="slider-mini-val">0%</span>
+              </div>
+              <div class="slider-mini-box slider-dual-box">
+                <span class="slider-mini-title">Y</span>
+                <input type="range" id="sliderInicioPosY" min="-150" max="150" value="0">
+                <span id="posInicioYVal" class="slider-mini-val">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row cols-2" style="margin-top: 5px; align-items: flex-end;">
+          <div class="form-item">
+            <label for="inputInicioDocenteNombre">Docente (*):</label>
+            <input type="text" id="inputInicioDocenteNombre" class="compact-input" value="Mgtr. Juan Pérez Gómez" placeholder="Docente">
+          </div>
+          <div class="form-item">
+            <label>Formato Post:</label>
+            <div class="format-mini-toggle-group">
+              <button type="button" class="btn-format-mini active" id="btnFormatSquare" data-format="1:1" title="Cuadrado 1080x1080 (FB/IG)">
+                <span class="format-icon square"></span> 1:1 Cuadrado
+              </button>
+              <button type="button" class="btn-format-mini" id="btnFormatPortrait" data-format="4:5" title="Vertical 1080x1350 (IG)">
+                <span class="format-icon portrait"></span> 4:5 Vertical
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Datos de la Sesión y Curso -->
+      <div class="compact-card">
+        <div class="compact-card-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>2. Datos del Curso</span>
+        </div>
+
+        <div class="form-item">
+          <label for="inputInicioCurso">Curso:</label>
+          <input type="text" id="inputInicioCurso" class="compact-input font-bold" value="AutoCAD 2D" placeholder="Nombre del curso">
+        </div>
+
+        <div class="form-row cols-3" style="margin-top: 5px;">
+          <div class="form-item">
+            <label for="inputInicioPead">PEAD:</label>
+            <input type="text" id="inputInicioPead" class="compact-input uppercase" value="a" placeholder="a">
+          </div>
+          <div class="form-item">
+            <label for="inputInicioCiclo">Ciclo:</label>
+            <input type="text" id="inputInicioCiclo" class="compact-input" value="(2026-II)" placeholder="(2026-II)">
+          </div>
+          <div class="form-item">
+            <label for="inputInicioTurno">Turno:</label>
+            <input type="text" id="inputInicioTurno" class="compact-input uppercase" value="TARDE" placeholder="TARDE">
+          </div>
+        </div>
+
+        <div class="form-row cols-2" style="margin-top: 5px;">
+          <div class="form-item">
+            <label for="inputInicioModalidad">Modalidad:</label>
+            <select id="inputInicioModalidad" class="compact-input">
+              <option value="Virtual" selected>Virtual (Zoom)</option>
+              <option value="Presencial">Presencial (Campus)</option>
+              <option value="Semipresencial">Semipresencial</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label for="inputInicioFecha">Fecha Inicio:</label>
+            <input type="text" id="inputInicioFecha" class="compact-input" value="Miércoles 05 de agosto" placeholder="Fecha">
+          </div>
+        </div>
+
+        <div class="form-item" style="margin-top: 5px;">
+          <label for="inputInicioMensaje">Mensaje Motivacional:</label>
+          <input type="text" id="inputInicioMensaje" class="compact-input" value="¡Muchos éxitos a nuestros estudiantes y docentes en este nuevo inicio académico!" placeholder="Mensaje motivacional">
+        </div>
+
+        <div class="chips-row" style="margin-top: 5px;">
+          <span class="chips-label">Atajos:</span>
+          <button class="chip-mini" type="button" data-preset-inicio="autocad">AutoCAD 2D</button>
+          <button class="chip-mini" type="button" data-preset-inicio="excel">Excel Fin.</button>
+          <button class="chip-mini" type="button" data-preset-inicio="powerbi">Power BI</button>
         </div>
       </div>
 

@@ -1264,27 +1264,28 @@
     /* TABS */
     .tabs-nav-container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
       background: var(--tabs-bg);
       border: 1px solid var(--tabs-border);
-      padding: 4px;
-      border-radius: 10px;
+      padding: 3px;
+      border-radius: var(--radius-md);
       margin-bottom: 6px;
+      flex-shrink: 0;
       transition: background-color 0.25s ease, border-color 0.25s ease;
     }
     .tab-nav-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 7px 8px;
-      font-size: 10.5px;
+      gap: 4px;
+      padding: 6px 4px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--tab-btn-text);
       background: transparent;
       border: none;
-      border-radius: 7px;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -1358,6 +1359,422 @@
     }
     .part-pill-text-overlay:hover {
       background: rgba(0, 78, 53, 0.03);
+    }
+
+    /* ========================================================
+       SELECTOR DE FORMATO DE RED SOCIAL (FB / INSTAGRAM)
+       ======================================================== */
+    .format-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn-format-toggle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 8px 6px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-main);
+    }
+
+    .btn-format-toggle:hover {
+      border-color: var(--uss-cyan);
+      background: var(--accent);
+    }
+
+    .btn-format-toggle.active {
+      background: rgba(0, 78, 53, 0.08);
+      border-color: var(--uss-green);
+      color: var(--uss-green);
+      font-weight: 700;
+      box-shadow: 0 0 0 1px var(--uss-green);
+    }
+
+    .format-icon {
+      display: inline-block;
+      border: 2px solid currentColor;
+      border-radius: 3px;
+      margin-bottom: 2px;
+    }
+
+    .format-icon.square {
+      width: 17px;
+      height: 17px;
+    }
+
+    .format-icon.portrait {
+      width: 15px;
+      height: 20px;
+    }
+
+    .format-name {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .format-res {
+      font-size: 9px;
+      opacity: 0.75;
+    }
+
+    /* ========================================================
+       ESTILOS OFICIALES: POST INICIO DE CLASES CON ESTUDIANTES
+       (MEDIDAS OFICIALES FACEBOOK E INSTAGRAM)
+       ======================================================== */
+    .flyer-inicio-curso-wrapper {
+      position: relative;
+      width: 1080px;
+      background-color: #ffffff;
+      color: #0f172a;
+      font-family: 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      box-sizing: border-box;
+      padding: 34px 44px 28px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+      border-radius: 16px;
+      user-select: none;
+      flex-shrink: 0;
+      transition: height 0.25s ease;
+    }
+
+    .flyer-inicio-curso-wrapper.format-square {
+      height: 1080px;
+    }
+
+    .flyer-inicio-curso-wrapper.format-portrait {
+      height: 1350px;
+    }
+
+    /* Decoración geométrica institucional superior */
+    .inicio-corner-accent {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 220px;
+      height: 110px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* 1. Cabecera */
+    .inicio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .inicio-logo-img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .inicio-header-badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 6;
+    }
+
+    .inicio-badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(0, 78, 53, 0.08);
+      border: 1.5px solid rgba(0, 78, 53, 0.32);
+      color: #004e35;
+      font-weight: 800;
+      font-size: 13px;
+      border-radius: 9999px;
+      padding: 5px 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .live-dot-ping {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    }
+
+    .inicio-ciclo-pill {
+      background: #56208f;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 5px 13px;
+      border-radius: 9999px;
+    }
+
+    /* 2. Titular y Curso */
+    .inicio-headline-section {
+      margin: 10px 0 12px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .inicio-overline-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .inicio-overline-text {
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #004e35;
+      letter-spacing: 0.8px;
+    }
+
+    .inicio-overline-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, #004e35 0%, transparent 100%);
+    }
+
+    .inicio-course-name {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #0f172a;
+      text-transform: uppercase;
+      margin: 4px 0 10px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .inicio-chips-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .inicio-chip {
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13.5px;
+      letter-spacing: 0.3px;
+    }
+
+    .inicio-chip.chip-pead {
+      background: #004e35;
+      color: #ffffff;
+    }
+
+    .inicio-chip.chip-modalidad {
+      background: #e0f2fe;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+    }
+
+    .inicio-chip.chip-turno {
+      background: #f3e8ff;
+      color: #56208f;
+      border: 1px solid #e9d5ff;
+    }
+
+    /* 3. Marco de Fotografía */
+    .inicio-photo-frame {
+      position: relative;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+      border: 3px solid #ffffff;
+      outline: 3px solid rgba(0, 78, 53, 0.22);
+      background: #0f172a;
+    }
+
+    .format-square .inicio-photo-frame {
+      height: 510px;
+    }
+
+    .format-portrait .inicio-photo-frame {
+      height: 720px;
+    }
+
+    .inicio-photo-viewport {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .inicio-photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform-origin: center center;
+      transition: transform 0.15s ease;
+    }
+
+    .photo-overlay-tag {
+      position: absolute;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+
+    .photo-overlay-tag.top-left {
+      top: 14px;
+      left: 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .photo-overlay-tag.bottom-left.teacher-tag {
+      bottom: 14px;
+      left: 14px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .tag-teacher-name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+    }
+
+    .photo-overlay-tag.bottom-right.brand-tag {
+      bottom: 14px;
+      right: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #cbd5e1;
+    }
+
+    /* 4. Barra de Datos Clave */
+    .inicio-info-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .strip-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 9px 12px;
+    }
+
+    .strip-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .strip-icon-wrap.icon-date {
+      background: rgba(0, 78, 53, 0.1);
+      color: #004e35;
+    }
+
+    .strip-icon-wrap.icon-users {
+      background: rgba(17, 172, 211, 0.1);
+      color: #0284c7;
+    }
+
+    .strip-icon-wrap.icon-cert {
+      background: rgba(86, 32, 143, 0.1);
+      color: #56208f;
+    }
+
+    .strip-text-wrap {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .strip-label {
+      font-size: 10.5px;
+      color: #64748b;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .strip-value {
+      font-size: 13.5px;
+      color: #0f172a;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 5. Pie y Redes */
+    .inicio-footer-section {
+      margin-top: 10px;
+    }
+
+    .inicio-quote-box {
+      background: linear-gradient(135deg, rgba(0, 78, 53, 0.05) 0%, rgba(17, 172, 211, 0.05) 100%);
+      border-left: 4px solid #004e35;
+      padding: 9px 14px;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .inicio-quote-text {
+      font-size: 13px;
+      font-style: italic;
+      color: #334155;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .inicio-social-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 9px;
+      padding-top: 8px;
+      border-top: 1.5px solid #e2e8f0;
+      font-size: 11.5px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .social-tags span {
+      color: #004e35;
+      font-weight: 700;
+      margin-right: 8px;
     }
 
     /* =======================================================
@@ -1604,19 +2021,28 @@
 
       <!-- SELECTOR DE PESTAÑAS (TABS) -->
       <div class="tabs-nav-container">
-        <button type="button" class="tab-nav-btn active" id="tabBtnParticipacion" data-tab="participacion">
+        <button type="button" class="tab-nav-btn active" id="tabBtnParticipacion" data-tab="participacion" title="Flyer de Participación en Clases">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 20h9"/>
             <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
           </svg>
-          <span>1. Participación (Nuevo)</span>
+          <span>1. Participación</span>
         </button>
-        <button type="button" class="tab-nav-btn" id="tabBtnBienvenida" data-tab="bienvenida">
+        <button type="button" class="tab-nav-btn" id="tabBtnBienvenida" data-tab="bienvenida" title="Flyer Individual de Bienvenida Docente">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
           </svg>
-          <span>2. Bienvenida Docente</span>
+          <span>2. Bienvenida</span>
+        </button>
+        <button type="button" class="tab-nav-btn" id="tabBtnInicioCurso" data-tab="inicio-curso" title="Post FB e Instagram para foto con estudiantes">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>3. Inicio Curso (FB/IG)</span>
         </button>
       </div>
 
@@ -1807,6 +2233,141 @@
         </div>
       </div>
       </div> <!-- FIN TAB 2: BIENVENIDA -->
+
+      <!-- ========================================== -->
+      <!-- TAB 3: FORMULARIO INICIO DE CURSO (POST)   -->
+      <!-- ========================================== -->
+      <div id="tabPaneInicioCurso" class="tab-pane" style="display: none;">
+
+        <!-- Card 1: Foto con Estudiantes y Formato -->
+        <div class="compact-card">
+          <div class="compact-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <span>1. Foto Docente/Alumnos y Formato</span>
+          </div>
+
+          <div class="photo-uploader-compact">
+            <div class="photo-avatar-wrap" style="width: 52px; height: 48px; border-radius: 7px; flex-shrink: 0;" id="btnTriggerUploadInicio" title="Subir foto con estudiantes (Zoom o Campus)">
+              <img id="sidebarInicioPhotoThumb" class="photo-thumb-img" src="/laptop-zoom.jpg" alt="Miniatura Clase">
+              <input type="file" id="inicioPhotoInput" accept="image/*" style="display:none;">
+              <div class="photo-avatar-btn-overlay">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+                <span>Subir</span>
+              </div>
+            </div>
+
+            <div class="photo-sliders-wrap">
+              <div class="slider-mini-box">
+                <span class="slider-mini-title">Zoom</span>
+                <input type="range" id="sliderInicioZoom" min="50" max="250" value="100">
+                <span id="zoomInicioVal" class="slider-mini-val">100%</span>
+                <button class="btn-reset-icon" id="btnResetInicioPhoto" type="button" title="Restablecer posición de foto">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="slider-dual-row">
+                <div class="slider-mini-box slider-dual-box">
+                  <span class="slider-mini-title">X</span>
+                  <input type="range" id="sliderInicioPosX" min="-150" max="150" value="0">
+                  <span id="posInicioXVal" class="slider-mini-val">0%</span>
+                </div>
+                <div class="slider-mini-box slider-dual-box">
+                  <span class="slider-mini-title">Y</span>
+                  <input type="range" id="sliderInicioPosY" min="-150" max="150" value="0">
+                  <span id="posInicioYVal" class="slider-mini-val">0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row cols-2" style="margin-top: 5px; align-items: flex-end;">
+            <div class="form-item">
+              <label for="inputInicioDocenteNombre">Docente (*):</label>
+              <input type="text" id="inputInicioDocenteNombre" class="compact-input" value="Mgtr. Juan Pérez Gómez" placeholder="Docente">
+            </div>
+            <div class="form-item">
+              <label>Formato Post:</label>
+              <div class="format-mini-toggle-group">
+                <button type="button" class="btn-format-mini active" id="btnFormatSquare" data-format="1:1" title="Cuadrado 1080x1080 (FB/IG)">
+                  <span class="format-icon square"></span> 1:1 Cuadrado
+                </button>
+                <button type="button" class="btn-format-mini" id="btnFormatPortrait" data-format="4:5" title="Vertical 1080x1350 (IG)">
+                  <span class="format-icon portrait"></span> 4:5 Vertical
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Datos de la Sesión y Curso -->
+        <div class="compact-card">
+          <div class="compact-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span>2. Datos del Curso</span>
+          </div>
+
+          <div class="form-item">
+            <label for="inputInicioCurso">Curso:</label>
+            <input type="text" id="inputInicioCurso" class="compact-input font-bold" value="AutoCAD 2D" placeholder="Nombre del curso">
+          </div>
+
+          <div class="form-row cols-3" style="margin-top: 5px;">
+            <div class="form-item">
+              <label for="inputInicioPead">PEAD:</label>
+              <input type="text" id="inputInicioPead" class="compact-input uppercase" value="a" placeholder="a">
+            </div>
+            <div class="form-item">
+              <label for="inputInicioCiclo">Ciclo:</label>
+              <input type="text" id="inputInicioCiclo" class="compact-input" value="(2026-II)" placeholder="(2026-II)">
+            </div>
+            <div class="form-item">
+              <label for="inputInicioTurno">Turno:</label>
+              <input type="text" id="inputInicioTurno" class="compact-input uppercase" value="TARDE" placeholder="TARDE">
+            </div>
+          </div>
+
+          <div class="form-row cols-2" style="margin-top: 5px;">
+            <div class="form-item">
+              <label for="inputInicioModalidad">Modalidad:</label>
+              <select id="inputInicioModalidad" class="compact-input">
+                <option value="Virtual" selected>Virtual (Zoom)</option>
+                <option value="Presencial">Presencial (Campus)</option>
+                <option value="Semipresencial">Semipresencial</option>
+              </select>
+            </div>
+            <div class="form-item">
+              <label for="inputInicioFecha">Fecha Inicio:</label>
+              <input type="text" id="inputInicioFecha" class="compact-input" value="Miércoles 05 de agosto" placeholder="Fecha">
+            </div>
+          </div>
+
+          <div class="form-item" style="margin-top: 5px;">
+            <label for="inputInicioMensaje">Mensaje Motivacional:</label>
+            <input type="text" id="inputInicioMensaje" class="compact-input" value="¡Muchos éxitos a nuestros estudiantes y docentes en este nuevo inicio académico!" placeholder="Mensaje motivacional">
+          </div>
+
+          <div class="chips-row" style="margin-top: 5px;">
+            <span class="chips-label">Atajos:</span>
+            <button class="chip-mini" type="button" data-preset-inicio="autocad">AutoCAD 2D</button>
+            <button class="chip-mini" type="button" data-preset-inicio="excel">Excel Fin.</button>
+            <button class="chip-mini" type="button" data-preset-inicio="powerbi">Power BI</button>
+          </div>
+        </div>
+
+      </div>
 
       <!-- Botón de Descarga Fijo y Navegación Móvil -->
       <div class="sidebar-footer">
@@ -2056,6 +2617,127 @@
         <!-- FIN LIENZO PRINCIPAL -->
         </div> <!-- FIN FLYER DOCENTE CONTAINER -->
 
+        <!-- 3. POST INICIO DE CLASES CON ESTUDIANTES (EN PESTAÑA 3 - FB / IG) -->
+        <div id="flyerInicioCursoContainer" style="display: none;">
+          <div id="flyerInicioCursoCard" class="flyer-inicio-curso-wrapper format-square">
+            <!-- Acento decorativo geométrico superior derecho: VERDE USS #004e35, CELESTE #11acd3, MORADO #56208f -->
+            <svg class="inicio-corner-accent" viewBox="0 0 220 110" preserveAspectRatio="none">
+              <polygon points="60,0 220,0 220,110 150,110" fill="#004e35" />
+              <polygon points="150,0 220,0 220,70" fill="#11acd3" />
+              <polygon points="185,110 220,110 220,75" fill="#56208f" />
+              <line x1="50" y1="0" x2="140" y2="110" stroke="#11acd3" stroke-width="4.5" stroke-linecap="round" />
+            </svg>
+
+            <!-- 1. Cabecera Institucional Oficial -->
+            <div class="inicio-header">
+              <div class="inicio-logo-wrap">
+                <img src="/logo-uss.png" alt="USS Centro de Informática" class="inicio-logo-img" />
+              </div>
+              <div class="inicio-header-badges">
+                <div class="inicio-badge-live">
+                  <span class="live-dot-ping"></span>
+                  <span class="live-text" id="viewInicioBadgeSesion">PRIMERA CLASE OFICIAL</span>
+                </div>
+                <div class="inicio-ciclo-pill" id="viewInicioCiclo">CICLO (2026-II)</div>
+              </div>
+            </div>
+
+            <!-- 2. Titular y Nombre del Curso (Tipografía de Alto Impacto) -->
+            <div class="inicio-headline-section">
+              <div class="inicio-overline-wrap">
+                <span class="inicio-overline-text" id="viewInicioTitular">¡Iniciamos con éxito nuestras clases!</span>
+                <span class="inicio-overline-line"></span>
+              </div>
+              <h1 class="inicio-course-name" id="viewInicioCursoNombre">AutoCAD 2D!</h1>
+              <div class="inicio-chips-row">
+                <div class="inicio-chip chip-pead" id="viewInicioChipPead">PEAD - a</div>
+                <div class="inicio-chip chip-modalidad" id="viewInicioChipModalidad">💻 MODALIDAD VIRTUAL</div>
+                <div class="inicio-chip chip-turno" id="viewInicioChipTurno">⏰ TURNO TARDE</div>
+              </div>
+            </div>
+
+            <!-- 3. MARCO DE FOTOGRAFÍA CON ESTUDIANTES (EL CENTRO DEL POST) -->
+            <div class="inicio-photo-frame" id="inicioPhotoFrame">
+              <div class="inicio-photo-viewport" id="inicioPhotoViewport">
+                <img 
+                  id="viewInicioPhotoImg" 
+                  class="inicio-photo-img" 
+                  crossorigin="anonymous" 
+                  src="/laptop-zoom.jpg" 
+                  alt="Fotografía con Estudiantes - Inicio de Curso USS" 
+                />
+              </div>
+
+            </div>
+
+            <!-- 4. Barra de Datos Clave de la Sesión -->
+            <div class="inicio-info-strip">
+              <div class="strip-item">
+                <div class="strip-icon-wrap icon-date">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="strip-text-wrap">
+                  <span class="strip-label">Fecha de Inicio</span>
+                  <span class="strip-value" id="viewInicioFechaText">Miércoles 05 de agosto</span>
+                </div>
+              </div>
+
+              <div class="strip-item">
+                <div class="strip-icon-wrap icon-users">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+                <div class="strip-text-wrap">
+                  <span class="strip-label">Docente</span>
+                  <span class="strip-value" id="viewInicioDocenteNombre">Mgtr. Juan Pérez Gómez</span>
+                </div>
+              </div>
+
+              <div class="strip-item">
+                <div class="strip-icon-wrap icon-cert">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <div class="strip-text-wrap">
+                  <span class="strip-label">Acreditación</span>
+                  <span class="strip-value">Oficial Universitaria USS</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Mensaje Motivacional y Pie de Redes Sociales Oficiales -->
+            <div class="inicio-footer-section">
+              <div class="inicio-quote-box">
+                <p class="inicio-quote-text" id="viewInicioMensaje">
+                  “¡Muchos éxitos a nuestros estudiantes y docentes en este nuevo inicio académico! Formando profesionales con excelencia tecnológica y visión de futuro.”
+                </p>
+              </div>
+
+              <div class="inicio-social-bar">
+                <div class="social-tags">
+                  <span>#CINFUSS</span>
+                  <span>#ComunidadUSS</span>
+                  <span>#InicioDeClases</span>
+                  <span>#OrgulloUSS</span>
+                </div>
+                <div class="social-channels">
+                  <span>📱 Redes Oficiales: <strong>@CINFUSS</strong></span>
+                  <span>🌐 <strong>www.uss.edu.pe</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       </div> <!-- FIN BANNER WRAPPER OUTER -->
     </main>
@@ -2091,10 +2773,14 @@
 
     const tabBtnParticipacion = document.getElementById('tabBtnParticipacion');
     const tabBtnBienvenida = document.getElementById('tabBtnBienvenida');
+    const tabBtnInicioCurso = document.getElementById('tabBtnInicioCurso');
     const tabPaneParticipacion = document.getElementById('tabPaneParticipacion');
     const tabPaneBienvenida = document.getElementById('tabPaneBienvenida');
+    const tabPaneInicioCurso = document.getElementById('tabPaneInicioCurso');
     const flyerParticipacionCard = document.getElementById('flyerParticipacionCard');
     const flyerDocenteContainer = document.getElementById('flyerDocenteContainer');
+    const flyerInicioCursoContainer = document.getElementById('flyerInicioCursoContainer');
+    const flyerInicioCursoCard = document.getElementById('flyerInicioCursoCard');
     const btnDownloadLabel = document.getElementById('btnDownloadLabel');
 
     // Flyer Participación
@@ -2105,27 +2791,45 @@
     function switchTab(tab) {
       currentTab = tab;
       if (tab === 'participacion') {
-        tabBtnParticipacion.classList.add('active');
-        tabBtnBienvenida.classList.remove('active');
+        tabBtnParticipacion?.classList.add('active');
+        tabBtnBienvenida?.classList.remove('active');
+        tabBtnInicioCurso?.classList.remove('active');
         if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'flex';
         if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'none';
+        if (tabPaneInicioCurso) tabPaneInicioCurso.style.display = 'none';
         if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'block';
         if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'none';
+        if (flyerInicioCursoContainer) flyerInicioCursoContainer.style.display = 'none';
         if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Flyer Participación (HD)';
-      } else {
-        tabBtnParticipacion.classList.remove('active');
-        tabBtnBienvenida.classList.add('active');
+      } else if (tab === 'bienvenida') {
+        tabBtnParticipacion?.classList.remove('active');
+        tabBtnBienvenida?.classList.add('active');
+        tabBtnInicioCurso?.classList.remove('active');
         if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'none';
         if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'flex';
+        if (tabPaneInicioCurso) tabPaneInicioCurso.style.display = 'none';
         if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'none';
         if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'block';
+        if (flyerInicioCursoContainer) flyerInicioCursoContainer.style.display = 'none';
         if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Flyer Docente (HD)';
+      } else if (tab === 'inicio-curso') {
+        tabBtnParticipacion?.classList.remove('active');
+        tabBtnBienvenida?.classList.remove('active');
+        tabBtnInicioCurso?.classList.add('active');
+        if (tabPaneParticipacion) tabPaneParticipacion.style.display = 'none';
+        if (tabPaneBienvenida) tabPaneBienvenida.style.display = 'none';
+        if (tabPaneInicioCurso) tabPaneInicioCurso.style.display = 'flex';
+        if (flyerParticipacionCard) flyerParticipacionCard.style.display = 'none';
+        if (flyerDocenteContainer) flyerDocenteContainer.style.display = 'none';
+        if (flyerInicioCursoContainer) flyerInicioCursoContainer.style.display = 'block';
+        if (btnDownloadLabel) btnDownloadLabel.textContent = 'Descargar Post Inicio de Clases (HD)';
       }
       autoFitToScreen();
     }
 
     tabBtnParticipacion?.addEventListener('click', () => switchTab('participacion'));
     tabBtnBienvenida?.addEventListener('click', () => switchTab('bienvenida'));
+    tabBtnInicioCurso?.addEventListener('click', () => switchTab('inicio-curso'));
 
     // Sincronización Participación
     function updatePartFlyer() {
@@ -2233,6 +2937,56 @@
     const zoomPercentText = document.getElementById('zoomPercentText');
     const flyerCard = document.getElementById('flyerCard');
     const previewViewport = document.getElementById('previewViewport');
+
+    // ==========================================
+    // 3. VARIABLES DE TAB 3 (INICIO DE CURSO / FB & IG)
+    // ==========================================
+    let currentInicioFormat = '1:1';
+    const defaultInicioPhotoUrl = "/laptop-zoom.jpg";
+    let currentInicioPhotoSrc = defaultInicioPhotoUrl;
+    let currentInicioZoom = 100;
+    let currentInicioPosY = 0;
+    let currentInicioPosX = 0;
+
+    const sidebarInicioPhotoThumb = document.getElementById('sidebarInicioPhotoThumb');
+    const inicioPhotoInput = document.getElementById('inicioPhotoInput');
+    const btnTriggerUploadInicio = document.getElementById('btnTriggerUploadInicio');
+    const btnResetInicioPhoto = document.getElementById('btnResetInicioPhoto');
+    const sliderInicioZoom = document.getElementById('sliderInicioZoom');
+    const sliderInicioPosY = document.getElementById('sliderInicioPosY');
+    const sliderInicioPosX = document.getElementById('sliderInicioPosX');
+    const zoomInicioVal = document.getElementById('zoomInicioVal');
+    const posInicioYVal = document.getElementById('posInicioYVal');
+    const posInicioXVal = document.getElementById('posInicioXVal');
+    const inputInicioDocenteNombre = document.getElementById('inputInicioDocenteNombre');
+    const checkShowInicioTeacher = document.getElementById('checkShowInicioTeacher');
+
+    const btnFormatSquare = document.getElementById('btnFormatSquare');
+    const btnFormatPortrait = document.getElementById('btnFormatPortrait');
+
+    const inputInicioCurso = document.getElementById('inputInicioCurso');
+    const inputInicioPead = document.getElementById('inputInicioPead');
+    const inputInicioCiclo = document.getElementById('inputInicioCiclo');
+    const inputInicioModalidad = document.getElementById('inputInicioModalidad');
+    const inputInicioTurno = document.getElementById('inputInicioTurno');
+    const inputInicioFecha = document.getElementById('inputInicioFecha');
+    const inputInicioMensaje = document.getElementById('inputInicioMensaje');
+
+    // Nodos visuales Tab 3
+    const viewInicioPhotoImg = document.getElementById('viewInicioPhotoImg');
+    const viewInicioBadgeSesion = document.getElementById('viewInicioBadgeSesion');
+    const viewInicioCiclo = document.getElementById('viewInicioCiclo');
+    const viewInicioTitular = document.getElementById('viewInicioTitular');
+    const viewInicioCursoNombre = document.getElementById('viewInicioCursoNombre');
+    const viewInicioChipPead = document.getElementById('viewInicioChipPead');
+    const viewInicioChipModalidad = document.getElementById('viewInicioChipModalidad');
+    const viewInicioChipTurno = document.getElementById('viewInicioChipTurno');
+    const viewInicioPlataformaTag = document.getElementById('viewInicioPlataformaTag');
+    const viewInicioTeacherTag = document.getElementById('viewInicioTeacherTag');
+    const viewInicioDocenteNombre = document.getElementById('viewInicioDocenteNombre');
+    const viewInicioFechaText = document.getElementById('viewInicioFechaText');
+    const viewInicioComunidadText = document.getElementById('viewInicioComunidadText');
+    const viewInicioMensaje = document.getElementById('viewInicioMensaje');
 
     // Sincronización en vivo
     function updateFlyer() {
@@ -2384,20 +3138,189 @@
       updateFlyer();
     };
 
+    // ==========================================
+    // 5. SINCRONIZACIÓN Y LÓGICA: TAB 3 (INICIO DE CURSO / POST FB & IG)
+    // ==========================================
+    function updateInicioFlyer() {
+      const curso = inputInicioCurso?.value?.trim() || "AutoCAD 2D";
+      const pead = inputInicioPead?.value?.trim() || "a";
+      const ciclo = inputInicioCiclo?.value?.trim() || "(2026-II)";
+      const modalidad = inputInicioModalidad?.value?.trim() || "Virtual";
+      const turno = inputInicioTurno?.value?.trim() || "TARDE";
+      const docenteNombre = inputInicioDocenteNombre?.value?.trim() || "Mgtr. Juan Pérez Gómez";
+      const fecha = inputInicioFecha?.value?.trim() || "Miércoles 05 de agosto";
+      const mensaje = inputInicioMensaje?.value?.trim() || "";
+
+      if (viewInicioCursoNombre) {
+        viewInicioCursoNombre.textContent = curso.endsWith("!") ? curso : curso + "!";
+      }
+      if (viewInicioChipPead) {
+        viewInicioChipPead.textContent = "PEAD - " + pead.toUpperCase();
+      }
+      if (viewInicioChipModalidad) {
+        const modIcon = modalidad.toLowerCase().includes("virtual") ? "💻" : "🏫";
+        viewInicioChipModalidad.textContent = `${modIcon} MODALIDAD ${modalidad.toUpperCase()}`;
+      }
+      if (viewInicioChipTurno) {
+        viewInicioChipTurno.textContent = `⏰ TURNO ${turno.toUpperCase()}`;
+      }
+      if (viewInicioCiclo) {
+        viewInicioCiclo.textContent = `CICLO ${ciclo.toUpperCase()}`;
+      }
+      if (viewInicioPlataformaTag) {
+        if (modalidad.toLowerCase().includes("virtual")) {
+          viewInicioPlataformaTag.textContent = "Aula Virtual USS • Sala Zoom";
+        } else {
+          viewInicioPlataformaTag.textContent = "Campus Universitario USS • Laboratorio";
+        }
+      }
+      if (viewInicioDocenteNombre) {
+        viewInicioDocenteNombre.textContent = docenteNombre;
+      }
+      if (viewInicioTeacherTag && checkShowInicioTeacher) {
+        viewInicioTeacherTag.style.display = checkShowInicioTeacher.checked ? "flex" : "none";
+      }
+      if (viewInicioFechaText) {
+        viewInicioFechaText.textContent = fecha;
+      }
+      if (viewInicioMensaje) {
+        viewInicioMensaje.textContent = mensaje ? `“${mensaje}”` : "";
+      }
+    }
+
+    function updateInicioPhotoTransform() {
+      if (sliderInicioZoom) {
+        currentInicioZoom = parseInt(sliderInicioZoom.value, 10);
+        if (zoomInicioVal) zoomInicioVal.textContent = currentInicioZoom + "%";
+      }
+      if (sliderInicioPosY) {
+        currentInicioPosY = parseInt(sliderInicioPosY.value, 10);
+        if (posInicioYVal) posInicioYVal.textContent = currentInicioPosY + "%";
+      }
+      if (sliderInicioPosX) {
+        currentInicioPosX = parseInt(sliderInicioPosX.value, 10);
+        if (posInicioXVal) posInicioXVal.textContent = currentInicioPosX + "%";
+      }
+      if (viewInicioPhotoImg) {
+        viewInicioPhotoImg.style.transform = `scale(${currentInicioZoom / 100}) translate(${currentInicioPosX}%, ${currentInicioPosY}%)`;
+      }
+    }
+
+    sliderInicioZoom?.addEventListener("input", updateInicioPhotoTransform);
+    sliderInicioPosY?.addEventListener("input", updateInicioPhotoTransform);
+    sliderInicioPosX?.addEventListener("input", updateInicioPhotoTransform);
+
+    function handleInicioPhotoFile(file) {
+      if (!file || !file.type.startsWith("image/")) {
+        alert("Por favor sube una imagen PNG, JPG o WebP.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const res = e.target?.result;
+        if (typeof res === "string") {
+          currentInicioPhotoSrc = res;
+          if (viewInicioPhotoImg) viewInicioPhotoImg.src = res;
+          if (sidebarInicioPhotoThumb) sidebarInicioPhotoThumb.src = res;
+          if (sliderInicioZoom) sliderInicioZoom.value = "100";
+          if (sliderInicioPosY) sliderInicioPosY.value = "0";
+          if (sliderInicioPosX) sliderInicioPosX.value = "0";
+          updateInicioPhotoTransform();
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    btnTriggerUploadInicio?.addEventListener("click", () => inicioPhotoInput?.click());
+    inicioPhotoInput?.addEventListener("change", (e) => {
+      const target = e.target;
+      if (target?.files && target.files.length > 0) handleInicioPhotoFile(target.files[0]);
+    });
+
+    btnResetInicioPhoto?.addEventListener("click", () => {
+      currentInicioPhotoSrc = defaultInicioPhotoUrl;
+      if (viewInicioPhotoImg) viewInicioPhotoImg.src = defaultInicioPhotoUrl;
+      if (sidebarInicioPhotoThumb) sidebarInicioPhotoThumb.src = defaultInicioPhotoUrl;
+      if (sliderInicioZoom) sliderInicioZoom.value = "100";
+      if (sliderInicioPosY) sliderInicioPosY.value = "0";
+      if (sliderInicioPosX) sliderInicioPosX.value = "0";
+      updateInicioPhotoTransform();
+    });
+
+    function setInicioFormat(format) {
+      currentInicioFormat = format;
+      if (format === "1:1") {
+        btnFormatSquare?.classList.add("active");
+        btnFormatPortrait?.classList.remove("active");
+        flyerInicioCursoCard?.classList.add("format-square");
+        flyerInicioCursoCard?.classList.remove("format-portrait");
+      } else {
+        btnFormatSquare?.classList.remove("active");
+        btnFormatPortrait?.classList.add("active");
+        flyerInicioCursoCard?.classList.remove("format-square");
+        flyerInicioCursoCard?.classList.add("format-portrait");
+      }
+      autoFitToScreen();
+    }
+
+    btnFormatSquare?.addEventListener("click", () => setInicioFormat("1:1"));
+    btnFormatPortrait?.addEventListener("click", () => setInicioFormat("4:5"));
+
+    // Listeners reactivos para Tab 3
+    [
+      inputInicioDocenteNombre,
+      checkShowInicioTeacher,
+      inputInicioCurso,
+      inputInicioPead,
+      inputInicioCiclo,
+      inputInicioModalidad,
+      inputInicioTurno,
+      inputInicioFecha,
+      inputInicioMensaje,
+    ].forEach((el) => {
+      el?.addEventListener("input", updateInicioFlyer);
+      el?.addEventListener("change", updateInicioFlyer);
+    });
+
+    document.querySelectorAll("[data-preset-inicio]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-preset-inicio");
+        if (key === "autocad") {
+          if (inputInicioCurso) inputInicioCurso.value = "AutoCAD 2D";
+          if (inputInicioPead) inputInicioPead.value = "a";
+          if (inputInicioTurno) inputInicioTurno.value = "TARDE";
+        } else if (key === "excel") {
+          if (inputInicioCurso) inputInicioCurso.value = "Excel Financiero";
+          if (inputInicioPead) inputInicioPead.value = "b";
+          if (inputInicioTurno) inputInicioTurno.value = "NOCHE";
+        } else if (key === "powerbi") {
+          if (inputInicioCurso) inputInicioCurso.value = "Power BI";
+          if (inputInicioPead) inputInicioPead.value = "a";
+          if (inputInicioTurno) inputInicioTurno.value = "MAÑANA";
+        }
+        updateInicioFlyer();
+      });
+    });
+
     // ========================================================
     // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL EN ESCRITORIO,
     // ESCALADO PERFECTO Y FLUIDO EN MÓVILES)
     // ========================================================
     function autoFitToScreen() {
       if (!previewViewport || !bannerWrapper) return;
-      const activeCard = currentTab === 'participacion' 
-        ? document.getElementById('flyerParticipacionCard') 
-        : flyerCard;
+      let activeCard = null;
+      if (currentTab === 'participacion') {
+        activeCard = document.getElementById('flyerParticipacionCard');
+      } else if (currentTab === 'bienvenida') {
+        activeCard = flyerCard;
+      } else {
+        activeCard = document.getElementById('flyerInicioCursoCard');
+      }
       if (!activeCard) return;
 
       const isMobile = window.innerWidth <= 950;
-      const cardW = activeCard.offsetWidth || (currentTab === 'participacion' ? 896 : 680);
-      const cardH = activeCard.offsetHeight || (currentTab === 'participacion' ? 1200 : 880);
+      const cardW = activeCard.offsetWidth || (currentTab === 'participacion' ? 896 : (currentTab === 'bienvenida' ? 680 : 1080));
+      const cardH = activeCard.offsetHeight || (currentTab === 'participacion' ? 1200 : (currentTab === 'bienvenida' ? 880 : (currentInicioFormat === '4:5' ? 1350 : 1080)));
 
       if (isMobile) {
         // En móviles, el factor restrictivo es el ancho disponible
@@ -2449,11 +3372,16 @@
       bannerWrapper.style.transform = `scale(${currentScale})`;
 
       if (isMobile) {
-        const activeCard = currentTab === 'participacion' 
-          ? document.getElementById('flyerParticipacionCard') 
-          : flyerCard;
-        const cardW = activeCard?.offsetWidth || (currentTab === 'participacion' ? 896 : 680);
-        const cardH = activeCard?.offsetHeight || (currentTab === 'participacion' ? 1200 : 880);
+        let activeCard = null;
+        if (currentTab === 'participacion') {
+          activeCard = document.getElementById('flyerParticipacionCard');
+        } else if (currentTab === 'bienvenida') {
+          activeCard = flyerCard;
+        } else {
+          activeCard = document.getElementById('flyerInicioCursoCard');
+        }
+        const cardW = activeCard?.offsetWidth || (currentTab === 'participacion' ? 896 : (currentTab === 'bienvenida' ? 680 : 1080));
+        const cardH = activeCard?.offsetHeight || (currentTab === 'participacion' ? 1200 : (currentTab === 'bienvenida' ? 880 : (currentInicioFormat === '4:5' ? 1350 : 1080)));
         const wrapperOuter = document.getElementById('bannerWrapperOuter');
         if (wrapperOuter) {
           wrapperOuter.style.width = `${Math.round(cardW * currentScale)}px`;
@@ -2590,6 +3518,70 @@
         return;
       }
 
+      // ==========================================
+      // CASO 3: POST DE INICIO DE CLASES (FB / IG)
+      // ==========================================
+      if (currentTab === 'inicio-curso') {
+        const curso = inputInicioCurso ? inputInicioCurso.value.trim() : 'AutoCAD 2D';
+        const pead = inputInicioPead ? inputInicioPead.value.trim() : 'a';
+        const formatStr = currentInicioFormat === '4:5' ? '4x5_IG' : '1x1_FB_IG';
+        const card = document.getElementById('flyerInicioCursoCard');
+        if (!card) return;
+
+        if (overlay) overlay.style.display = 'flex';
+        if (statusText) statusText.textContent = 'Renderizando Post de Inicio de Clases en Ultra-HD...';
+
+        await new Promise(r => setTimeout(r, 140));
+
+        try {
+          if (document.fonts) await document.fonts.ready;
+          const prevTransform = bannerWrapper ? bannerWrapper.style.transform : '';
+          if (bannerWrapper) bannerWrapper.style.transform = 'none';
+
+          let imgData = '';
+          try {
+            if (window.htmlToImage && window.htmlToImage.toPng) {
+              imgData = await window.htmlToImage.toPng(card, {
+                pixelRatio: 2.0,
+                backgroundColor: '#ffffff',
+                cacheBust: true,
+                style: { transform: 'none', margin: '0' }
+              });
+            } else {
+              throw new Error('htmlToImage no disponible');
+            }
+          } catch (e) {
+            const canvas = await html2canvas(card, {
+              scale: 2.0,
+              useCORS: true,
+              allowTaint: true,
+              backgroundColor: '#ffffff',
+              logging: false
+            });
+            imgData = canvas.toDataURL('image/png', 1.0);
+          } finally {
+            if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
+          }
+
+          const link = document.createElement('a');
+          const cursoSanitized = (curso || 'Curso').replace(/[^a-zA-Z0-9_-]/g, '_');
+          const peadSanitized = (pead || 'a').replace(/[^a-zA-Z0-9_-]/g, '_');
+          link.download = `Post_Inicio_Clases_USS_${cursoSanitized}_PEAD_${peadSanitized}_${formatStr}.png`;
+          link.href = imgData;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          if (statusText) statusText.textContent = '¡Completado!';
+          setTimeout(() => { if (overlay) overlay.style.display = 'none'; }, 400);
+        } catch (err) {
+          console.error('Error al exportar:', err);
+          alert('Error al generar la imagen: ' + err.message);
+          if (overlay) overlay.style.display = 'none';
+        }
+        return;
+      }
+
       // Tab Bienvenida Docente
       const docenteNombre = inputDocenteNombre ? inputDocenteNombre.value.trim() : '';
       if (!docenteNombre) {
@@ -2711,6 +3703,8 @@
       updatePartFlyer();
       updateFlyer();
       updatePhotoTransform();
+      updateInicioFlyer();
+      updateInicioPhotoTransform();
       autoFitToScreen();
       setTimeout(autoFitToScreen, 120);
     });

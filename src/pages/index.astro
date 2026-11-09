@@ -3,6 +3,7 @@
 import Sidebar from "../components/Sidebar.astro";
 import FlyerCard from "../components/FlyerCard.astro";
 import FlyerParticipacionCard from "../components/FlyerParticipacionCard.astro";
+import FlyerInicioCursoCard from "../components/FlyerInicioCursoCard.astro";
 import "../styles/global.css";
 ---
 
@@ -113,6 +114,11 @@ import "../styles/global.css";
             <div id="flyerDocenteContainer" style="display: none;">
               <FlyerCard />
             </div>
+
+            <!-- 3. Post Inicio de Clases con Estudiantes (En Pestaña 3 - FB / IG) -->
+            <div id="flyerInicioCursoContainer" style="display: none;">
+              <FlyerInicioCursoCard />
+            </div>
           </div>
         </div>
       </main>
@@ -158,15 +164,23 @@ import "../styles/global.css";
         "tabBtnParticipacion",
       );
       const tabBtnBienvenida = document.getElementById("tabBtnBienvenida");
+      const tabBtnInicioCurso = document.getElementById("tabBtnInicioCurso");
       const tabPaneParticipacion = document.getElementById(
         "tabPaneParticipacion",
       );
       const tabPaneBienvenida = document.getElementById("tabPaneBienvenida");
+      const tabPaneInicioCurso = document.getElementById("tabPaneInicioCurso");
       const flyerParticipacionCard = document.getElementById(
         "flyerParticipacionCard",
       );
       const flyerDocenteContainer = document.getElementById(
         "flyerDocenteContainer",
+      );
+      const flyerInicioCursoContainer = document.getElementById(
+        "flyerInicioCursoContainer",
+      );
+      const flyerInicioCursoCard = document.getElementById(
+        "flyerInicioCursoCard",
       );
       const btnDownloadLabel = document.getElementById("btnDownloadLabel");
 
@@ -186,6 +200,107 @@ import "../styles/global.css";
       let currentZoom = 100;
       let currentPosY = 0;
       let currentScale = 1.0;
+
+      // Variables de Estado de Inicio de Curso (Post FB / IG)
+      let currentInicioFormat: "1:1" | "4:5" = "1:1";
+      const defaultInicioPhotoUrl = "/laptop-zoom.jpg";
+      let currentInicioPhotoSrc = defaultInicioPhotoUrl;
+      let currentInicioZoom = 100;
+      let currentInicioPosY = 0;
+      let currentInicioPosX = 0;
+
+      // Inputs Tab 3: Inicio de Curso
+      const sidebarInicioPhotoThumb = document.getElementById(
+        "sidebarInicioPhotoThumb",
+      ) as HTMLImageElement | null;
+      const inicioPhotoInput = document.getElementById(
+        "inicioPhotoInput",
+      ) as HTMLInputElement | null;
+      const btnTriggerUploadInicio = document.getElementById(
+        "btnTriggerUploadInicio",
+      );
+      const btnResetInicioPhoto = document.getElementById(
+        "btnResetInicioPhoto",
+      );
+      const sliderInicioZoom = document.getElementById(
+        "sliderInicioZoom",
+      ) as HTMLInputElement | null;
+      const sliderInicioPosY = document.getElementById(
+        "sliderInicioPosY",
+      ) as HTMLInputElement | null;
+      const sliderInicioPosX = document.getElementById(
+        "sliderInicioPosX",
+      ) as HTMLInputElement | null;
+      const zoomInicioVal = document.getElementById("zoomInicioVal");
+      const posInicioYVal = document.getElementById("posInicioYVal");
+      const posInicioXVal = document.getElementById("posInicioXVal");
+      const inputInicioDocenteNombre = document.getElementById(
+        "inputInicioDocenteNombre",
+      ) as HTMLInputElement | null;
+      const checkShowInicioTeacher = document.getElementById(
+        "checkShowInicioTeacher",
+      ) as HTMLInputElement | null;
+
+      const btnFormatSquare = document.getElementById("btnFormatSquare");
+      const btnFormatPortrait = document.getElementById("btnFormatPortrait");
+
+      const inputInicioCurso = document.getElementById(
+        "inputInicioCurso",
+      ) as HTMLInputElement | null;
+      const inputInicioPead = document.getElementById(
+        "inputInicioPead",
+      ) as HTMLInputElement | null;
+      const inputInicioCiclo = document.getElementById(
+        "inputInicioCiclo",
+      ) as HTMLInputElement | null;
+      const inputInicioModalidad = document.getElementById(
+        "inputInicioModalidad",
+      ) as HTMLSelectElement | null;
+      const inputInicioTurno = document.getElementById(
+        "inputInicioTurno",
+      ) as HTMLInputElement | null;
+      const inputInicioFecha = document.getElementById(
+        "inputInicioFecha",
+      ) as HTMLInputElement | null;
+      const inputInicioMensaje = document.getElementById(
+        "inputInicioMensaje",
+      ) as HTMLTextAreaElement | null;
+
+      // Nodos visuales Tab 3
+      const viewInicioPhotoImg = document.getElementById(
+        "viewInicioPhotoImg",
+      ) as HTMLImageElement | null;
+      const viewInicioBadgeSesion = document.getElementById(
+        "viewInicioBadgeSesion",
+      );
+      const viewInicioCiclo = document.getElementById("viewInicioCiclo");
+      const viewInicioTitular = document.getElementById("viewInicioTitular");
+      const viewInicioCursoNombre = document.getElementById(
+        "viewInicioCursoNombre",
+      );
+      const viewInicioChipPead = document.getElementById("viewInicioChipPead");
+      const viewInicioChipModalidad = document.getElementById(
+        "viewInicioChipModalidad",
+      );
+      const viewInicioChipTurno = document.getElementById(
+        "viewInicioChipTurno",
+      );
+      const viewInicioPlataformaTag = document.getElementById(
+        "viewInicioPlataformaTag",
+      );
+      const viewInicioTeacherTag = document.getElementById(
+        "viewInicioTeacherTag",
+      );
+      const viewInicioDocenteNombre = document.getElementById(
+        "viewInicioDocenteNombre",
+      );
+      const viewInicioFechaText = document.getElementById(
+        "viewInicioFechaText",
+      );
+      const viewInicioComunidadText = document.getElementById(
+        "viewInicioComunidadText",
+      );
+      const viewInicioMensaje = document.getElementById("viewInicioMensaje");
 
       // Inputs del Formulario Bienvenida Docente
       const inputDocenteNombre = document.getElementById(
@@ -279,25 +394,48 @@ import "../styles/global.css";
         if (tab === "participacion") {
           tabBtnParticipacion?.classList.add("active");
           tabBtnBienvenida?.classList.remove("active");
+          tabBtnInicioCurso?.classList.remove("active");
           if (tabPaneParticipacion) tabPaneParticipacion.style.display = "flex";
           if (tabPaneBienvenida) tabPaneBienvenida.style.display = "none";
+          if (tabPaneInicioCurso) tabPaneInicioCurso.style.display = "none";
           if (flyerParticipacionCard)
             flyerParticipacionCard.style.display = "block";
           if (flyerDocenteContainer)
             flyerDocenteContainer.style.display = "none";
+          if (flyerInicioCursoContainer)
+            flyerInicioCursoContainer.style.display = "none";
           if (btnDownloadLabel)
             btnDownloadLabel.textContent = "Descargar Flyer Participación (HD)";
-        } else {
+        } else if (tab === "bienvenida") {
           tabBtnParticipacion?.classList.remove("active");
           tabBtnBienvenida?.classList.add("active");
+          tabBtnInicioCurso?.classList.remove("active");
           if (tabPaneParticipacion) tabPaneParticipacion.style.display = "none";
           if (tabPaneBienvenida) tabPaneBienvenida.style.display = "flex";
+          if (tabPaneInicioCurso) tabPaneInicioCurso.style.display = "none";
           if (flyerParticipacionCard)
             flyerParticipacionCard.style.display = "none";
           if (flyerDocenteContainer)
             flyerDocenteContainer.style.display = "block";
+          if (flyerInicioCursoContainer)
+            flyerInicioCursoContainer.style.display = "none";
           if (btnDownloadLabel)
             btnDownloadLabel.textContent = "Descargar Flyer Docente (HD)";
+        } else if (tab === "inicio-curso") {
+          tabBtnParticipacion?.classList.remove("active");
+          tabBtnBienvenida?.classList.remove("active");
+          tabBtnInicioCurso?.classList.add("active");
+          if (tabPaneParticipacion) tabPaneParticipacion.style.display = "none";
+          if (tabPaneBienvenida) tabPaneBienvenida.style.display = "none";
+          if (tabPaneInicioCurso) tabPaneInicioCurso.style.display = "flex";
+          if (flyerParticipacionCard)
+            flyerParticipacionCard.style.display = "none";
+          if (flyerDocenteContainer)
+            flyerDocenteContainer.style.display = "none";
+          if (flyerInicioCursoContainer)
+            flyerInicioCursoContainer.style.display = "block";
+          if (btnDownloadLabel)
+            btnDownloadLabel.textContent = "Descargar Post Inicio de Clases (HD)";
         }
 
         autoFitToScreen();
@@ -308,6 +446,9 @@ import "../styles/global.css";
       );
       tabBtnBienvenida?.addEventListener("click", () =>
         switchTab("bienvenida"),
+      );
+      tabBtnInicioCurso?.addEventListener("click", () =>
+        switchTab("inicio-curso"),
       );
 
       // ==========================================
@@ -646,25 +787,222 @@ import "../styles/global.css";
         });
       });
 
+      // ==========================================
+      // 5. SINCRONIZACIÓN Y LÓGICA: TAB 3 (INICIO DE CURSO / POST FB & IG)
+      // ==========================================
+      function updateInicioFlyer() {
+        const curso = inputInicioCurso?.value?.trim() || "AutoCAD 2D";
+        const pead = inputInicioPead?.value?.trim() || "a";
+        const ciclo = inputInicioCiclo?.value?.trim() || "(2026-II)";
+        const modalidad = inputInicioModalidad?.value?.trim() || "Virtual";
+        const turno = inputInicioTurno?.value?.trim() || "TARDE";
+        const docenteNombre =
+          inputInicioDocenteNombre?.value?.trim() || "Mgtr. Juan Pérez Gómez";
+        const fecha =
+          inputInicioFecha?.value?.trim() || "Miércoles 05 de agosto";
+        const mensaje = inputInicioMensaje?.value?.trim() || "";
+
+        if (viewInicioCursoNombre) {
+          viewInicioCursoNombre.textContent = curso.endsWith("!")
+            ? curso
+            : curso + "!";
+        }
+        if (viewInicioChipPead) {
+          viewInicioChipPead.textContent = "PEAD - " + pead.toUpperCase();
+        }
+        if (viewInicioChipModalidad) {
+          const modIcon = modalidad.toLowerCase().includes("virtual")
+            ? "💻"
+            : "🏫";
+          viewInicioChipModalidad.textContent = `${modIcon} MODALIDAD ${modalidad.toUpperCase()}`;
+        }
+        if (viewInicioChipTurno) {
+          viewInicioChipTurno.textContent = `⏰ TURNO ${turno.toUpperCase()}`;
+        }
+        if (viewInicioCiclo) {
+          viewInicioCiclo.textContent = `CICLO ${ciclo.toUpperCase()}`;
+        }
+        if (viewInicioPlataformaTag) {
+          if (modalidad.toLowerCase().includes("virtual")) {
+            viewInicioPlataformaTag.textContent = "Aula Virtual USS • Sala Zoom";
+          } else {
+            viewInicioPlataformaTag.textContent =
+              "Campus Universitario USS • Laboratorio";
+          }
+        }
+        if (viewInicioDocenteNombre) {
+          viewInicioDocenteNombre.textContent = docenteNombre;
+        }
+        if (viewInicioTeacherTag && checkShowInicioTeacher) {
+          viewInicioTeacherTag.style.display = checkShowInicioTeacher.checked
+            ? "flex"
+            : "none";
+        }
+        if (viewInicioFechaText) {
+          viewInicioFechaText.textContent = fecha;
+        }
+        if (viewInicioMensaje) {
+          viewInicioMensaje.textContent = mensaje ? `“${mensaje}”` : "";
+        }
+      }
+
+      function updateInicioPhotoTransform() {
+        if (sliderInicioZoom) {
+          currentInicioZoom = parseInt(sliderInicioZoom.value, 10);
+          if (zoomInicioVal) zoomInicioVal.textContent = currentInicioZoom + "%";
+        }
+        if (sliderInicioPosY) {
+          currentInicioPosY = parseInt(sliderInicioPosY.value, 10);
+          if (posInicioYVal) posInicioYVal.textContent = currentInicioPosY + "%";
+        }
+        if (sliderInicioPosX) {
+          currentInicioPosX = parseInt(sliderInicioPosX.value, 10);
+          if (posInicioXVal) posInicioXVal.textContent = currentInicioPosX + "%";
+        }
+        if (viewInicioPhotoImg) {
+          viewInicioPhotoImg.style.transform = `scale(${currentInicioZoom / 100}) translate(${currentInicioPosX}%, ${currentInicioPosY}%)`;
+        }
+      }
+
+      sliderInicioZoom?.addEventListener("input", updateInicioPhotoTransform);
+      sliderInicioPosY?.addEventListener("input", updateInicioPhotoTransform);
+      sliderInicioPosX?.addEventListener("input", updateInicioPhotoTransform);
+
+      function handleInicioPhotoFile(file: File) {
+        if (!file || !file.type.startsWith("image/")) {
+          showToast(
+            "Formato no válido",
+            "Por favor sube una imagen PNG, JPG o WebP.",
+            "warning",
+          );
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const res = e.target?.result;
+          if (typeof res === "string") {
+            currentInicioPhotoSrc = res;
+            if (viewInicioPhotoImg) viewInicioPhotoImg.src = res;
+            if (sidebarInicioPhotoThumb) sidebarInicioPhotoThumb.src = res;
+            if (sliderInicioZoom) sliderInicioZoom.value = "100";
+            if (sliderInicioPosY) sliderInicioPosY.value = "0";
+            if (sliderInicioPosX) sliderInicioPosX.value = "0";
+            updateInicioPhotoTransform();
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+
+      btnTriggerUploadInicio?.addEventListener("click", () =>
+        inicioPhotoInput?.click(),
+      );
+      inicioPhotoInput?.addEventListener("change", (e) => {
+        const target = e.target as HTMLInputElement | null;
+        if (target?.files && target.files.length > 0)
+          handleInicioPhotoFile(target.files[0]);
+      });
+
+      btnResetInicioPhoto?.addEventListener("click", () => {
+        currentInicioPhotoSrc = defaultInicioPhotoUrl;
+        if (viewInicioPhotoImg) viewInicioPhotoImg.src = defaultInicioPhotoUrl;
+        if (sidebarInicioPhotoThumb)
+          sidebarInicioPhotoThumb.src = defaultInicioPhotoUrl;
+        if (sliderInicioZoom) sliderInicioZoom.value = "100";
+        if (sliderInicioPosY) sliderInicioPosY.value = "0";
+        if (sliderInicioPosX) sliderInicioPosX.value = "0";
+        updateInicioPhotoTransform();
+      });
+
+      function setInicioFormat(format: "1:1" | "4:5") {
+        currentInicioFormat = format;
+        if (format === "1:1") {
+          btnFormatSquare?.classList.add("active");
+          btnFormatPortrait?.classList.remove("active");
+          flyerInicioCursoCard?.classList.add("format-square");
+          flyerInicioCursoCard?.classList.remove("format-portrait");
+        } else {
+          btnFormatSquare?.classList.remove("active");
+          btnFormatPortrait?.classList.add("active");
+          flyerInicioCursoCard?.classList.remove("format-square");
+          flyerInicioCursoCard?.classList.add("format-portrait");
+        }
+        autoFitToScreen();
+      }
+
+      btnFormatSquare?.addEventListener("click", () => setInicioFormat("1:1"));
+      btnFormatPortrait?.addEventListener("click", () =>
+        setInicioFormat("4:5"),
+      );
+
+      // Listeners reactivos para Tab 3
+      [
+        inputInicioDocenteNombre,
+        checkShowInicioTeacher,
+        inputInicioCurso,
+        inputInicioPead,
+        inputInicioCiclo,
+        inputInicioModalidad,
+        inputInicioTurno,
+        inputInicioFecha,
+        inputInicioMensaje,
+      ].forEach((el) => {
+        el?.addEventListener("input", updateInicioFlyer);
+        el?.addEventListener("change", updateInicioFlyer);
+      });
+
+      document.querySelectorAll("[data-preset-inicio]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.getAttribute("data-preset-inicio");
+          if (key === "autocad") {
+            if (inputInicioCurso) inputInicioCurso.value = "AutoCAD 2D";
+            if (inputInicioPead) inputInicioPead.value = "a";
+            if (inputInicioTurno) inputInicioTurno.value = "TARDE";
+          } else if (key === "excel") {
+            if (inputInicioCurso) inputInicioCurso.value = "Excel Financiero";
+            if (inputInicioPead) inputInicioPead.value = "b";
+            if (inputInicioTurno) inputInicioTurno.value = "NOCHE";
+          } else if (key === "powerbi") {
+            if (inputInicioCurso) inputInicioCurso.value = "Power BI";
+            if (inputInicioPead) inputInicioPead.value = "a";
+            if (inputInicioTurno) inputInicioTurno.value = "MAÑANA";
+          }
+          updateInicioFlyer();
+        });
+      });
+
       // ========================================================
       // AUTO-AJUSTE DINÁMICO A LA PANTALLA (CERO SCROLL EN ESCRITORIO,
       // ESCALADO PERFECTO Y FLUIDO EN MÓVILES)
       // ========================================================
       function autoFitToScreen() {
         if (!previewViewport || !bannerWrapper) return;
-        const activeCard =
-          currentTab === "participacion"
-            ? document.getElementById("flyerParticipacionCard")
-            : document.getElementById("flyerCard");
+        let activeCard: HTMLElement | null = null;
+        if (currentTab === "participacion") {
+          activeCard = document.getElementById("flyerParticipacionCard");
+        } else if (currentTab === "bienvenida") {
+          activeCard = document.getElementById("flyerCard");
+        } else {
+          activeCard = document.getElementById("flyerInicioCursoCard");
+        }
         if (!activeCard) return;
 
         const isMobile = window.innerWidth <= 950;
         const cardW =
           activeCard.offsetWidth ||
-          (currentTab === "participacion" ? 896 : 680);
+          (currentTab === "participacion"
+            ? 896
+            : currentTab === "bienvenida"
+              ? 680
+              : 1080);
         const cardH =
           activeCard.offsetHeight ||
-          (currentTab === "participacion" ? 1200 : 880);
+          (currentTab === "participacion"
+            ? 1200
+            : currentTab === "bienvenida"
+              ? 880
+              : currentInicioFormat === "4:5"
+                ? 1350
+                : 1080);
 
         if (isMobile) {
           // En móviles, el factor restrictivo es el ancho de pantalla
@@ -674,7 +1012,7 @@ import "../styles/global.css";
           const availW = Math.max(260, containerWidth - padX);
           const scaleX = availW / cardW;
 
-          currentScale = Math.max(0.20, Math.min(scaleX, 1.15));
+          currentScale = Math.max(0.2, Math.min(scaleX, 1.15));
           bannerWrapper.style.transformOrigin = "top center";
           bannerWrapper.style.transform = `scale(${currentScale})`;
 
@@ -714,20 +1052,34 @@ import "../styles/global.css";
       function manualZoom(delta: number) {
         if (!bannerWrapper) return;
         const isMobile = window.innerWidth <= 950;
-        currentScale = Math.max(0.20, Math.min(currentScale + delta, 1.6));
+        currentScale = Math.max(0.2, Math.min(currentScale + delta, 1.6));
         bannerWrapper.style.transform = `scale(${currentScale})`;
 
         if (isMobile) {
-          const activeCard =
-            currentTab === "participacion"
-              ? document.getElementById("flyerParticipacionCard")
-              : document.getElementById("flyerCard");
+          let activeCard: HTMLElement | null = null;
+          if (currentTab === "participacion") {
+            activeCard = document.getElementById("flyerParticipacionCard");
+          } else if (currentTab === "bienvenida") {
+            activeCard = document.getElementById("flyerCard");
+          } else {
+            activeCard = document.getElementById("flyerInicioCursoCard");
+          }
           const cardW =
             activeCard?.offsetWidth ||
-            (currentTab === "participacion" ? 896 : 680);
+            (currentTab === "participacion"
+              ? 896
+              : currentTab === "bienvenida"
+                ? 680
+                : 1080);
           const cardH =
             activeCard?.offsetHeight ||
-            (currentTab === "participacion" ? 1200 : 880);
+            (currentTab === "participacion"
+              ? 1200
+              : currentTab === "bienvenida"
+                ? 880
+                : currentInicioFormat === "4:5"
+                  ? 1350
+                  : 1080);
           const wrapperOuter = document.getElementById("bannerWrapperOuter");
           if (wrapperOuter) {
             wrapperOuter.style.width = `${Math.round(cardW * currentScale)}px`;
@@ -922,6 +1274,106 @@ import "../styles/global.css";
         }
 
         // ----------------------------------------------------
+        // CASO 3: POST DE INICIO DE CLASES CON ESTUDIANTES (FB / IG)
+        // ----------------------------------------------------
+        if (currentTab === "inicio-curso") {
+          const curso = inputInicioCurso?.value?.trim() || "AutoCAD 2D";
+          const pead = inputInicioPead?.value?.trim() || "a";
+          const formatStr =
+            currentInicioFormat === "4:5" ? "4x5_IG" : "1x1_FB_IG";
+          const card = document.getElementById("flyerInicioCursoCard");
+          if (!card) return;
+
+          if (overlay) overlay.style.display = "flex";
+          if (statusText)
+            statusText.textContent =
+              "Renderizando Post de Inicio de Clases en Ultra-HD...";
+
+          await new Promise((r) => setTimeout(r, 150));
+
+          try {
+            if (document.fonts) await document.fonts.ready;
+
+            const prevTransform = bannerWrapper
+              ? bannerWrapper.style.transform
+              : "";
+            if (bannerWrapper) bannerWrapper.style.transform = "none";
+
+            let imgData = "";
+            try {
+              imgData = await htmlToImage.toPng(card, {
+                pixelRatio: 2.0,
+                backgroundColor: "#ffffff",
+                cacheBust: true,
+                style: {
+                  transform: "none",
+                  margin: "0",
+                },
+              });
+            } catch (engineErr) {
+              console.warn(
+                "[html-to-image fallback a html2canvas]:",
+                engineErr,
+              );
+              const canvas = await html2canvas(card, {
+                scale: 2.0,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: "#ffffff",
+                logging: false,
+              });
+              imgData = canvas.toDataURL("image/png", 1.0);
+            } finally {
+              if (bannerWrapper) bannerWrapper.style.transform = prevTransform;
+            }
+
+            if (statusText)
+              statusText.textContent = "Descargando imagen PNG oficial...";
+            const link = document.createElement("a");
+            const cursoSanitized = curso.replace(/[^a-zA-Z0-9_-]/g, "_");
+            const peadSanitized = pead.replace(/[^a-zA-Z0-9_-]/g, "_");
+            link.download = `Post_Inicio_Clases_USS_${cursoSanitized}_PEAD_${peadSanitized}_${formatStr}.png`;
+            link.href = imgData;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Registro en Supabase
+            try {
+              await registrarGeneracionFlyer({
+                nombreDocente:
+                  inputInicioDocenteNombre?.value?.trim() ||
+                  "Docente CINF",
+                curso: curso,
+                pead: pead,
+                ciclo: inputInicioCiclo?.value?.trim() || "(2026-II)",
+                turno: inputInicioTurno?.value?.trim() || "TARDE",
+                modalidad: inputInicioModalidad?.value?.trim() || "Virtual",
+                fechaInicio: inputInicioFecha?.value?.trim() || "",
+              });
+            } catch (dbErr) {
+              console.warn("Registro en BD omitido:", dbErr);
+            }
+
+            if (statusText) statusText.textContent = "¡Completado!";
+            setTimeout(() => {
+              if (overlay) overlay.style.display = "none";
+            }, 400);
+
+            showToast(
+              "¡Post de Inicio de Clases generado!",
+              `Descargado con éxito para redes sociales en formato ${formatStr}.`,
+              "success",
+            );
+          } catch (err) {
+            console.error("Error al exportar:", err);
+            alert("Error al generar la imagen: " + (err?.message || err));
+            if (overlay) overlay.style.display = "none";
+          }
+          return;
+        }
+
+        // ----------------------------------------------------
         // CASO 2: FLYER ORIGINAL DE BIENVENIDA DOCENTE
         // ----------------------------------------------------
         const docenteNombre = inputDocenteNombre?.value?.trim() || "";
@@ -1097,6 +1549,8 @@ import "../styles/global.css";
         updatePartFlyer();
         updateFlyer();
         updatePhotoTransform();
+        updateInicioFlyer();
+        updateInicioPhotoTransform();
         autoFitToScreen();
         setTimeout(autoFitToScreen, 150);
       });
