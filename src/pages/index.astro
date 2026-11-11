@@ -6,7 +6,10 @@ import FlyerParticipacionCard from "../components/FlyerParticipacionCard.astro";
 import FlyerInicioCursoCard from "../components/FlyerInicioCursoCard.astro";
 import "../styles/global.css";
 
-const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, '');
+const base = ((import.meta as any).env?.BASE_URL ?? "/flyers").replace(
+  /\/$/,
+  "",
+);
 ---
 
 <!doctype html>
@@ -80,10 +83,30 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
             title="Cambiar Modo Oscuro / Claro"
             aria-label="Alternar tema"
           >
-            <svg class="icon-moon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              class="icon-moon"
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
-            <svg class="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              class="icon-sun"
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <circle cx="12" cy="12" r="5"></circle>
               <line x1="12" y1="1" x2="12" y2="3"></line>
               <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -98,9 +121,20 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
         </div>
 
         <!-- Botón visible en pantallas móviles para regresar al formulario -->
-        <button class="btn-mobile-jump-edit" id="btnMobileJumpToEditor" type="button">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="18 15 12 9 6 15"/>
+        <button
+          class="btn-mobile-jump-edit"
+          id="btnMobileJumpToEditor"
+          type="button"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="18 15 12 9 6 15"></polyline>
           </svg>
           <span>↑ Subir a Editar Formulario</span>
         </button>
@@ -137,14 +171,37 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
 
     <!-- Botón Flotante Rápido para Móviles (Floating Action Pill) -->
     <div class="mobile-float-pill" id="mobileFloatPill">
-      <button type="button" class="btn-float-pill" id="btnFloatPill" aria-label="Navegar entre formulario y flyer">
-        <svg id="pillIconEye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-          <circle cx="12" cy="12" r="3"/>
+      <button
+        type="button"
+        class="btn-float-pill"
+        id="btnFloatPill"
+        aria-label="Navegar entre formulario y flyer"
+      >
+        <svg
+          id="pillIconEye"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
         </svg>
-        <svg id="pillIconEdit" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-          <path d="M12 20h9"/>
-          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        <svg
+          id="pillIconEdit"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          style="display: none;"
+        >
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
+          ></path>
         </svg>
         <span id="pillText">Ver Flyer</span>
       </button>
@@ -231,7 +288,10 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
       let currentScale = 1.0;
 
       // Variables de Estado de Inicio de Curso (Post FB / IG / Story)
-      const base = ((import.meta as any).env?.BASE_URL ?? "/flyers").replace(/\/$/, "");
+      const base = ((import.meta as any).env?.BASE_URL ?? "/flyers").replace(
+        /\/$/,
+        "",
+      );
       let currentInicioFormat: "1:1" | "4:5" | "9:16" = "1:1";
       const defaultInicioPhotoUrl = `${base}/laptop-zoom.jpg`;
       let currentInicioPhotoSrc = defaultInicioPhotoUrl;
@@ -811,7 +871,8 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
 
       document.querySelectorAll("[data-preset]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const key = btn.getAttribute("data-preset") as keyof typeof presets | null;
+          const key = btn.getAttribute("data-preset") as
+            keyof typeof presets | null;
           if (key && presets[key]) {
             const p = presets[key];
             if (inputCurso) inputCurso.value = p.curso;
@@ -852,10 +913,18 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
           const len = curso.length;
           if (len > 32) {
             viewInicioCursoNombre.style.fontSize =
-              currentInicioFormat === "9:16" ? "44px" : currentInicioFormat === "4:5" ? "40px" : "36px";
+              currentInicioFormat === "9:16"
+                ? "44px"
+                : currentInicioFormat === "4:5"
+                  ? "40px"
+                  : "36px";
           } else if (len > 22) {
             viewInicioCursoNombre.style.fontSize =
-              currentInicioFormat === "9:16" ? "52px" : currentInicioFormat === "4:5" ? "48px" : "44px";
+              currentInicioFormat === "9:16"
+                ? "52px"
+                : currentInicioFormat === "4:5"
+                  ? "48px"
+                  : "44px";
           } else {
             viewInicioCursoNombre.style.fontSize = "";
           }
@@ -917,15 +986,18 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
       function updateInicioPhotoTransform() {
         if (sliderInicioZoom) {
           currentInicioZoom = parseInt(sliderInicioZoom.value, 10);
-          if (zoomInicioVal) zoomInicioVal.textContent = currentInicioZoom + "%";
+          if (zoomInicioVal)
+            zoomInicioVal.textContent = currentInicioZoom + "%";
         }
         if (sliderInicioPosY) {
           currentInicioPosY = parseInt(sliderInicioPosY.value, 10);
-          if (posInicioYVal) posInicioYVal.textContent = currentInicioPosY + "%";
+          if (posInicioYVal)
+            posInicioYVal.textContent = currentInicioPosY + "%";
         }
         if (sliderInicioPosX) {
           currentInicioPosX = parseInt(sliderInicioPosX.value, 10);
-          if (posInicioXVal) posInicioXVal.textContent = currentInicioPosX + "%";
+          if (posInicioXVal)
+            posInicioXVal.textContent = currentInicioPosX + "%";
         }
         if (viewInicioPhotoImg) {
           viewInicioPhotoImg.style.transform = `scale(${currentInicioZoom / 100}) translate(${currentInicioPosX}%, ${currentInicioPosY}%)`;
@@ -1022,9 +1094,7 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
       btnFormatPortrait?.addEventListener("click", () =>
         setInicioFormat("4:5"),
       );
-      btnFormatStory?.addEventListener("click", () =>
-        setInicioFormat("9:16"),
-      );
+      btnFormatStory?.addEventListener("click", () => setInicioFormat("9:16"));
 
       // Listeners reactivos para Tab 3
       [
@@ -1386,8 +1456,7 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
 
           if (overlay) overlay.style.display = "flex";
           if (statusText)
-            statusText.textContent =
-              `Renderizando Post ${currentInicioFormat} en Alta Definición Oficial...`;
+            statusText.textContent = `Renderizando Post ${currentInicioFormat} en Alta Definición Oficial...`;
 
           await new Promise((r) => setTimeout(r, 150));
 
@@ -1442,8 +1511,7 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
             try {
               await registrarGeneracionFlyer({
                 nombreDocente:
-                  inputInicioDocenteNombre?.value?.trim() ||
-                  "Docente CINF",
+                  inputInicioDocenteNombre?.value?.trim() || "Docente CINF",
                 curso: curso,
                 pead: pead,
                 ciclo: inputInicioCiclo?.value?.trim() || "(2026-II)",
@@ -1608,17 +1676,31 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
         document.documentElement.setAttribute("data-theme", theme);
         const themeToggleText = document.getElementById("themeToggleText");
         const themeToggleBtn = document.getElementById("themeToggleBtn");
-        const btnThemeToggleFloat = document.getElementById("btnThemeToggleFloat");
+        const btnThemeToggleFloat = document.getElementById(
+          "btnThemeToggleFloat",
+        );
 
         if (theme === "dark") {
           if (themeToggleText) themeToggleText.textContent = "Modo Claro";
           if (themeToggleBtn) {
-            themeToggleBtn.setAttribute("title", "Cambiar a Modo Claro (Blanco)");
-            themeToggleBtn.setAttribute("aria-label", "Cambiar a Modo Claro (Blanco)");
+            themeToggleBtn.setAttribute(
+              "title",
+              "Cambiar a Modo Claro (Blanco)",
+            );
+            themeToggleBtn.setAttribute(
+              "aria-label",
+              "Cambiar a Modo Claro (Blanco)",
+            );
           }
           if (btnThemeToggleFloat) {
-            btnThemeToggleFloat.setAttribute("title", "Cambiar a Modo Claro (Blanco)");
-            btnThemeToggleFloat.setAttribute("aria-label", "Cambiar a Modo Claro (Blanco)");
+            btnThemeToggleFloat.setAttribute(
+              "title",
+              "Cambiar a Modo Claro (Blanco)",
+            );
+            btnThemeToggleFloat.setAttribute(
+              "aria-label",
+              "Cambiar a Modo Claro (Blanco)",
+            );
           }
         } else {
           if (themeToggleText) themeToggleText.textContent = "Modo Oscuro";
@@ -1628,20 +1710,28 @@ const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, ''
           }
           if (btnThemeToggleFloat) {
             btnThemeToggleFloat.setAttribute("title", "Cambiar a Modo Oscuro");
-            btnThemeToggleFloat.setAttribute("aria-label", "Cambiar a Modo Oscuro");
+            btnThemeToggleFloat.setAttribute(
+              "aria-label",
+              "Cambiar a Modo Oscuro",
+            );
           }
         }
       }
 
       function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") || "light";
         const newTheme = currentTheme === "dark" ? "light" : "dark";
         localStorage.setItem("uss_theme", newTheme);
         updateThemeUI(newTheme);
       }
 
-      document.getElementById("themeToggleBtn")?.addEventListener("click", toggleTheme);
-      document.getElementById("btnThemeToggleFloat")?.addEventListener("click", toggleTheme);
+      document
+        .getElementById("themeToggleBtn")
+        ?.addEventListener("click", toggleTheme);
+      document
+        .getElementById("btnThemeToggleFloat")
+        ?.addEventListener("click", toggleTheme);
 
       // Inicialización al cargar la página
       window.addEventListener("DOMContentLoaded", () => {
