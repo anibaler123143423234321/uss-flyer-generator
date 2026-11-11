@@ -1,7 +1,7 @@
 ---
 // src/components/FlyerInicioCursoCard.astro
 // Plantilla Oficial adaptable para Redes Sociales: Cuadrado 1:1 (1080x1080), Vertical 4:5 (1080x1350) e Historia 9:16 (1080x1920)
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, '');
 ---
 <div id="flyerInicioCursoCard" class="flyer-inicio-curso-wrapper format-square">
   <!-- Acento decorativo geométrico institucional superior derecho (Verde USS, Celeste, Morado) -->

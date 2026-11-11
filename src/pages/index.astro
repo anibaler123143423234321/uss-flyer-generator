@@ -6,7 +6,7 @@ import FlyerParticipacionCard from "../components/FlyerParticipacionCard.astro";
 import FlyerInicioCursoCard from "../components/FlyerInicioCursoCard.astro";
 import "../styles/global.css";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, '');
 ---
 
 <!doctype html>
@@ -231,7 +231,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       let currentScale = 1.0;
 
       // Variables de Estado de Inicio de Curso (Post FB / IG / Story)
-      const base = (import.meta.env.BASE_URL || "").replace(/\/$/, "");
+      const base = ((import.meta as any).env?.BASE_URL ?? "/flyers").replace(/\/$/, "");
       let currentInicioFormat: "1:1" | "4:5" | "9:16" = "1:1";
       const defaultInicioPhotoUrl = `${base}/laptop-zoom.jpg`;
       let currentInicioPhotoSrc = defaultInicioPhotoUrl;

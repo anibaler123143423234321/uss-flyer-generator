@@ -1,6 +1,6 @@
 ---
 // src/components/FlyerParticipacionCard.astro
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, '');
 ---
 <div id="flyerParticipacionCard" class="flyer-card-participacion-wrapper">
   <!-- Imagen Base Oficial Procesada con Gemini (896x1200) sin logo ni COMUNICADO OFICIAL -->

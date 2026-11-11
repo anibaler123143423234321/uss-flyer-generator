@@ -1,6 +1,6 @@
 ---
 // src/components/FlyerCard.astro
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = ((import.meta as any).env?.BASE_URL ?? '/flyers').replace(/\/$/, '');
 ---
 <div id="flyerCard">
 
