@@ -1,19 +1,34 @@
 ---
 // src/components/FlyerInicioCursoCard.astro
+// Plantilla Oficial adaptable para Redes Sociales: Cuadrado 1:1 (1080x1080), Vertical 4:5 (1080x1350) e Historia 9:16 (1080x1920)
 ---
 <div id="flyerInicioCursoCard" class="flyer-inicio-curso-wrapper format-square">
-  <!-- Acento decorativo geométrico superior derecho: VERDE USS #004e35, CELESTE #11acd3, MORADO #56208f -->
-  <svg class="inicio-corner-accent" viewBox="0 0 220 110" preserveAspectRatio="none">
-    <polygon points="60,0 220,0 220,110 150,110" fill="#004e35" />
-    <polygon points="150,0 220,0 220,70" fill="#11acd3" />
-    <polygon points="185,110 220,110 220,75" fill="#56208f" />
-    <line x1="50" y1="0" x2="140" y2="110" stroke="#11acd3" stroke-width="4.5" stroke-linecap="round" />
+  <!-- Acento decorativo geométrico institucional superior derecho (Verde USS, Celeste, Morado) -->
+  <svg class="inicio-corner-accent" viewBox="0 0 280 140" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="ussAccentGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#004e35" />
+        <stop offset="100%" stop-color="#003524" />
+      </linearGradient>
+      <linearGradient id="ussAccentGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#11acd3" />
+        <stop offset="100%" stop-color="#0284c7" />
+      </linearGradient>
+      <linearGradient id="ussAccentGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#56208f" />
+        <stop offset="100%" stop-color="#3b1366" />
+      </linearGradient>
+    </defs>
+    <polygon points="70,0 280,0 280,140 190,140" fill="url(#ussAccentGrad1)" />
+    <polygon points="185,0 280,0 280,95" fill="url(#ussAccentGrad2)" />
+    <polygon points="230,140 280,140 280,98" fill="url(#ussAccentGrad3)" />
+    <line x1="58" y1="0" x2="178" y2="140" stroke="#11acd3" stroke-width="4.5" stroke-linecap="round" />
   </svg>
 
   <!-- 1. Cabecera Institucional Oficial -->
   <div class="inicio-header">
     <div class="inicio-logo-wrap">
-      <img src="/logo-uss.png" alt="USS Centro de Informática" class="inicio-logo-img" />
+      <img src="/logo-uss.png" alt="Universidad Señor de Sipán - Centro de Informática" class="inicio-logo-img" />
     </div>
     <div class="inicio-header-badges">
       <div class="inicio-badge-live">
@@ -27,6 +42,7 @@
   <!-- 2. Titular y Nombre del Curso (Tipografía de Alto Impacto) -->
   <div class="inicio-headline-section">
     <div class="inicio-overline-wrap">
+      <span class="inicio-overline-badge">USS OFICIAL</span>
       <span class="inicio-overline-text" id="viewInicioTitular">¡Iniciamos con éxito nuestras clases!</span>
       <span class="inicio-overline-line"></span>
     </div>
@@ -49,17 +65,39 @@
         alt="Fotografía con Estudiantes - Inicio de Curso USS" 
       />
     </div>
+
+    <!-- Badges flotantes editoriales dentro de la fotografía -->
+    <div class="photo-overlay-tag top-left" id="viewInicioPlataformaTag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+      <span>Aula Virtual USS • Sala Zoom</span>
+    </div>
+
+    <div class="photo-overlay-tag bottom-left teacher-tag" id="viewInicioTeacherTag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <span class="tag-teacher-name" id="viewInicioDocenteTagNombre">Mgtr. Juan Pérez Gómez</span>
+    </div>
+
+    <div class="photo-overlay-tag bottom-right brand-tag">
+      <span>CENTRO DE INFORMÁTICA USS</span>
+    </div>
   </div>
 
   <!-- 4. Barra de Datos Clave de la Sesión -->
   <div class="inicio-info-strip">
     <div class="strip-item">
       <div class="strip-icon-wrap icon-date">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-          <line x1="16" y1="2" x2="16" y2="6"></line>
-          <line x1="8" y1="2" x2="8" y2="6"></line>
-          <line x1="3" y1="10" x2="21" y2="10"></line>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
       </div>
       <div class="strip-text-wrap">
@@ -70,22 +108,22 @@
 
     <div class="strip-item">
       <div class="strip-icon-wrap icon-users">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
         </svg>
       </div>
       <div class="strip-text-wrap">
-        <span class="strip-label">Docente</span>
+        <span class="strip-label">Docente Responsable</span>
         <span class="strip-value" id="viewInicioDocenteNombre">Mgtr. Juan Pérez Gómez</span>
       </div>
     </div>
 
     <div class="strip-item">
       <div class="strip-icon-wrap icon-cert">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <polyline points="9 12 11 14 15 10" />
         </svg>
       </div>
       <div class="strip-text-wrap">
@@ -98,6 +136,9 @@
   <!-- 5. Mensaje Motivacional y Pie de Redes Sociales Oficiales -->
   <div class="inicio-footer-section">
     <div class="inicio-quote-box">
+      <svg class="inicio-quote-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+      </svg>
       <p class="inicio-quote-text" id="viewInicioMensaje">
         “¡Muchos éxitos a nuestros estudiantes y docentes en este nuevo inicio académico! Formando profesionales con excelencia tecnológica y visión de futuro.”
       </p>
@@ -111,8 +152,23 @@
         <span>#OrgulloUSS</span>
       </div>
       <div class="social-channels">
-        <span>📱 Redes Oficiales: <strong>@CINFUSS</strong></span>
-        <span>🌐 <strong>www.uss.edu.pe</strong></span>
+        <span class="social-channel-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+          <strong>@CINFUSS</strong>
+        </span>
+        <span class="social-divider">•</span>
+        <span class="social-channel-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+          <strong>www.uss.edu.pe</strong>
+        </span>
       </div>
     </div>
   </div>

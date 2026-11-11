@@ -201,8 +201,8 @@ import "../styles/global.css";
       let currentPosY = 0;
       let currentScale = 1.0;
 
-      // Variables de Estado de Inicio de Curso (Post FB / IG)
-      let currentInicioFormat: "1:1" | "4:5" = "1:1";
+      // Variables de Estado de Inicio de Curso (Post FB / IG / Story)
+      let currentInicioFormat: "1:1" | "4:5" | "9:16" = "1:1";
       const defaultInicioPhotoUrl = "/laptop-zoom.jpg";
       let currentInicioPhotoSrc = defaultInicioPhotoUrl;
       let currentInicioZoom = 100;
@@ -243,6 +243,7 @@ import "../styles/global.css";
 
       const btnFormatSquare = document.getElementById("btnFormatSquare");
       const btnFormatPortrait = document.getElementById("btnFormatPortrait");
+      const btnFormatStory = document.getElementById("btnFormatStory");
 
       const inputInicioCurso = document.getElementById(
         "inputInicioCurso",
@@ -293,6 +294,9 @@ import "../styles/global.css";
       );
       const viewInicioDocenteNombre = document.getElementById(
         "viewInicioDocenteNombre",
+      );
+      const viewInicioDocenteTagNombre = document.getElementById(
+        "viewInicioDocenteTagNombre",
       );
       const viewInicioFechaText = document.getElementById(
         "viewInicioFechaText",
@@ -434,8 +438,15 @@ import "../styles/global.css";
             flyerDocenteContainer.style.display = "none";
           if (flyerInicioCursoContainer)
             flyerInicioCursoContainer.style.display = "block";
-          if (btnDownloadLabel)
-            btnDownloadLabel.textContent = "Descargar Post Inicio de Clases (HD)";
+          if (btnDownloadLabel) {
+            const formatName =
+              currentInicioFormat === "9:16"
+                ? "Historia 9:16 (1080×1920)"
+                : currentInicioFormat === "4:5"
+                  ? "Vertical 4:5 (1080×1350)"
+                  : "Cuadrado 1:1 (1080×1080)";
+            btnDownloadLabel.textContent = `Descargar Post ${formatName} (HD)`;
+          }
         }
 
         autoFitToScreen();
@@ -806,6 +817,18 @@ import "../styles/global.css";
           viewInicioCursoNombre.textContent = curso.endsWith("!")
             ? curso
             : curso + "!";
+
+          // Adaptación tipográfica inteligente para nombres extensos
+          const len = curso.length;
+          if (len > 32) {
+            viewInicioCursoNombre.style.fontSize =
+              currentInicioFormat === "9:16" ? "44px" : currentInicioFormat === "4:5" ? "40px" : "36px";
+          } else if (len > 22) {
+            viewInicioCursoNombre.style.fontSize =
+              currentInicioFormat === "9:16" ? "52px" : currentInicioFormat === "4:5" ? "48px" : "44px";
+          } else {
+            viewInicioCursoNombre.style.fontSize = "";
+          }
         }
         if (viewInicioChipPead) {
           viewInicioChipPead.textContent = "PEAD - " + pead.toUpperCase();
@@ -824,14 +847,29 @@ import "../styles/global.css";
         }
         if (viewInicioPlataformaTag) {
           if (modalidad.toLowerCase().includes("virtual")) {
-            viewInicioPlataformaTag.textContent = "Aula Virtual USS • Sala Zoom";
+            viewInicioPlataformaTag.innerHTML = `
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              <span>Aula Virtual USS • Sala Zoom</span>
+            `;
           } else {
-            viewInicioPlataformaTag.textContent =
-              "Campus Universitario USS • Laboratorio";
+            viewInicioPlataformaTag.innerHTML = `
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              <span>Campus USS • Laboratorio</span>
+            `;
           }
         }
         if (viewInicioDocenteNombre) {
           viewInicioDocenteNombre.textContent = docenteNombre;
+        }
+        if (viewInicioDocenteTagNombre) {
+          viewInicioDocenteTagNombre.textContent = docenteNombre;
         }
         if (viewInicioTeacherTag && checkShowInicioTeacher) {
           viewInicioTeacherTag.style.display = checkShowInicioTeacher.checked
@@ -913,25 +951,49 @@ import "../styles/global.css";
         updateInicioPhotoTransform();
       });
 
-      function setInicioFormat(format: "1:1" | "4:5") {
+      function setInicioFormat(format: "1:1" | "4:5" | "9:16") {
         currentInicioFormat = format;
+
+        // Botones de selector de formato
+        btnFormatSquare?.classList.toggle("active", format === "1:1");
+        btnFormatPortrait?.classList.toggle("active", format === "4:5");
+        btnFormatStory?.classList.toggle("active", format === "9:16");
+
+        // Clases de diseño de la plantilla
+        flyerInicioCursoCard?.classList.remove(
+          "format-square",
+          "format-portrait",
+          "format-story",
+        );
         if (format === "1:1") {
-          btnFormatSquare?.classList.add("active");
-          btnFormatPortrait?.classList.remove("active");
           flyerInicioCursoCard?.classList.add("format-square");
-          flyerInicioCursoCard?.classList.remove("format-portrait");
-        } else {
-          btnFormatSquare?.classList.remove("active");
-          btnFormatPortrait?.classList.add("active");
-          flyerInicioCursoCard?.classList.remove("format-square");
+        } else if (format === "4:5") {
           flyerInicioCursoCard?.classList.add("format-portrait");
+        } else if (format === "9:16") {
+          flyerInicioCursoCard?.classList.add("format-story");
         }
+
+        // Etiqueta del botón de descarga
+        if (btnDownloadLabel && currentTab === "inicio-curso") {
+          const formatName =
+            format === "9:16"
+              ? "Historia 9:16 (1080×1920)"
+              : format === "4:5"
+                ? "Vertical 4:5 (1080×1350)"
+                : "Cuadrado 1:1 (1080×1080)";
+          btnDownloadLabel.textContent = `Descargar Post ${formatName} (HD)`;
+        }
+
+        updateInicioFlyer();
         autoFitToScreen();
       }
 
       btnFormatSquare?.addEventListener("click", () => setInicioFormat("1:1"));
       btnFormatPortrait?.addEventListener("click", () =>
         setInicioFormat("4:5"),
+      );
+      btnFormatStory?.addEventListener("click", () =>
+        setInicioFormat("9:16"),
       );
 
       // Listeners reactivos para Tab 3
@@ -1000,9 +1062,11 @@ import "../styles/global.css";
             ? 1200
             : currentTab === "bienvenida"
               ? 880
-              : currentInicioFormat === "4:5"
-                ? 1350
-                : 1080);
+              : currentInicioFormat === "9:16"
+                ? 1920
+                : currentInicioFormat === "4:5"
+                  ? 1350
+                  : 1080);
 
         if (isMobile) {
           // En móviles, el factor restrictivo es el ancho de pantalla
@@ -1077,9 +1141,11 @@ import "../styles/global.css";
               ? 1200
               : currentTab === "bienvenida"
                 ? 880
-                : currentInicioFormat === "4:5"
-                  ? 1350
-                  : 1080);
+                : currentInicioFormat === "9:16"
+                  ? 1920
+                  : currentInicioFormat === "4:5"
+                    ? 1350
+                    : 1080);
           const wrapperOuter = document.getElementById("bannerWrapperOuter");
           if (wrapperOuter) {
             wrapperOuter.style.width = `${Math.round(cardW * currentScale)}px`;
@@ -1274,20 +1340,24 @@ import "../styles/global.css";
         }
 
         // ----------------------------------------------------
-        // CASO 3: POST DE INICIO DE CLASES CON ESTUDIANTES (FB / IG)
+        // CASO 3: POST DE INICIO DE CLASES CON ESTUDIANTES (FB / IG / HISTORIA)
         // ----------------------------------------------------
         if (currentTab === "inicio-curso") {
           const curso = inputInicioCurso?.value?.trim() || "AutoCAD 2D";
           const pead = inputInicioPead?.value?.trim() || "a";
           const formatStr =
-            currentInicioFormat === "4:5" ? "4x5_IG" : "1x1_FB_IG";
+            currentInicioFormat === "9:16"
+              ? "9x16_Story_1080x1920"
+              : currentInicioFormat === "4:5"
+                ? "4x5_Vertical_1080x1350"
+                : "1x1_Cuadrado_1080x1080";
           const card = document.getElementById("flyerInicioCursoCard");
           if (!card) return;
 
           if (overlay) overlay.style.display = "flex";
           if (statusText)
             statusText.textContent =
-              "Renderizando Post de Inicio de Clases en Ultra-HD...";
+              `Renderizando Post ${currentInicioFormat} en Alta Definición Oficial...`;
 
           await new Promise((r) => setTimeout(r, 150));
 
