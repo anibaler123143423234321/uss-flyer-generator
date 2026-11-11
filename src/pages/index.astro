@@ -5,6 +5,8 @@ import FlyerCard from "../components/FlyerCard.astro";
 import FlyerParticipacionCard from "../components/FlyerParticipacionCard.astro";
 import FlyerInicioCursoCard from "../components/FlyerInicioCursoCard.astro";
 import "../styles/global.css";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
@@ -19,7 +21,7 @@ import "../styles/global.css";
     />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/logo-uss.png" />
+    <link rel="icon" type="image/png" href={`${base}/logo-uss.png`} />
 
     <!-- Fuentes Google: Inter (UI), Montserrat y Caveat (Flyer) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -155,6 +157,33 @@ import "../styles/global.css";
       import { registrarGeneracionFlyer } from "../lib/supabase.js";
 
       // ==========================================
+      // 0. AUTO-RECUPERACIÓN GLOBAL DE ASSETS 404 (/flyers vs /)
+      // ==========================================
+      window.addEventListener(
+        "error",
+        (e: Event) => {
+          const target = e.target as HTMLElement | null;
+          if (target && target.tagName === "IMG") {
+            const img = target as HTMLImageElement;
+            if (!img.dataset.autoFallback) {
+              img.dataset.autoFallback = "1";
+              if (img.src.includes("/flyers/")) {
+                img.src = img.src.replace("/flyers/", "/");
+              } else {
+                try {
+                  const url = new URL(img.src);
+                  img.src = "/flyers" + url.pathname;
+                } catch {
+                  img.src = "/flyers/" + img.src;
+                }
+              }
+            }
+          }
+        },
+        true,
+      );
+
+      // ==========================================
       // 1. ESTADO DE PESTAÑAS (TABS)
       // ==========================================
       let currentTab = "participacion"; // Por defecto: Nuevo Flyer de Participación
@@ -202,8 +231,9 @@ import "../styles/global.css";
       let currentScale = 1.0;
 
       // Variables de Estado de Inicio de Curso (Post FB / IG / Story)
+      const base = (import.meta.env.BASE_URL || "").replace(/\/$/, "");
       let currentInicioFormat: "1:1" | "4:5" | "9:16" = "1:1";
-      const defaultInicioPhotoUrl = "/laptop-zoom.jpg";
+      const defaultInicioPhotoUrl = `${base}/laptop-zoom.jpg`;
       let currentInicioPhotoSrc = defaultInicioPhotoUrl;
       let currentInicioZoom = 100;
       let currentInicioPosY = 0;

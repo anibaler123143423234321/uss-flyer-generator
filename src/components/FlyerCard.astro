@@ -1,5 +1,6 @@
 ---
 // src/components/FlyerCard.astro
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <div id="flyerCard">
 
@@ -12,7 +13,13 @@
 
   <!-- 1. Cabecera con Logo Oficial USS -->
   <div class="flyer-header">
-    <img class="flyer-logo" id="flyerLogo" src="/logo-uss.png" alt="USS Centro de Informática" />
+    <img 
+      class="flyer-logo" 
+      id="flyerLogo" 
+      src={`${base}/logo-uss.png`} 
+      alt="USS Centro de Informática" 
+      onerror="if (!this.dataset.fb) { this.dataset.fb = '1'; this.src = this.src.includes('/flyers/') ? this.src.replace('/flyers/', '/') : '/flyers' + new URL(this.src).pathname; }"
+    />
   </div>
 
   <!-- 2. Sección Superior: Título + Párrafos + Foto -->
